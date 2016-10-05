@@ -1,40 +1,85 @@
 $(document).ready(function(){
-	// Automatically update GWA value on form value changes
-	var update = function(){
-		var eng = $('#eng').val() * 1, bio = $('#bio').val() * 1,
-			chem = $('#chem').val() * 1, fil = $('#fil').val() * 1,
-			cs = $('#cs').val() * 1, pe = $('#pehm').val() * 1,
-			es = $('#es').val() * 1, ss = $('#ss').val() * 1,
-			stat = $('#stat').val() * 1, math = $('#math').val() * 1,
-			phys = $('#phys').val() * 1;
-		var grades = [eng,bio,chem,fil,cs,ss,stat,math,phys,pe,es];
-		var gwa = calc(grades);
-		if(!gwa)
-			$('#g').html('Incomplete data');
-		else
-			$('#g').html('GWA: '+gwa.toPrecision(4));
-	}, boxes = $('input');
-	for(var i = 0; i < boxes.length; i++)
-		$(boxes[i]).change(update);
+	grade.default = grade.nine;
+	$("li").each(function(el){
+		$(this).click(function(e){
+			e.preventDefault();
+			grade.default = grade[$(this).children().attr('data-item')];
+			$("#btn-text").text($(this).children().text());
+			redraw();
+		})
+	});
+	redraw();
 });
 
-function calc(g){
-	var total = 0, gwa;
+var grade = {
+	nine: [
+		{ subject: "English", units: 1 },
+		{ subject: "Biology", units: 1 },
+		{ subject: "Chemistry", units: 1 },
+		{ subject: "Filipino", units: 1 },
+		{ subject: "Computer Science", units: 1 },
+		{ subject: "Social Science", units: 1 },
+		{ subject: "Earth Science", units: 1 },
+		{ subject: "Mathematics", units: 1 },
+		{ subject: "Statistics", units: 1 },
+		{ subject: "Physics", units: 1 },
+		{ subject: "Physical Education, Music, Health", units: 0.99 }
+	],
+	ten: [
+		{ subject: "English", units: 1 },
+		{ subject: "Biology", units: 1 },
+		{ subject: "Chemistry", units: 1 },
+		{ subject: "Filipino", units: 1 },
+		{ subject: "Computer Science", units: 1 },
+		{ subject: "Social Science", units: 1 },
+		{ subject: "Mathematics", units: 1 },
+		{ subject: "Physics", units: 1 },
+		{ subject: "Physical Education, Music, Health", units: 0.99 }
+	]
+};
 
-	// Check for empty grades
-	for(var i = 0; i < g.length; i++){
-		if(!g[i])
-			return false; // Empty / zero grade
+function redraw() {
+	$("input").each(function(el){
+		$(this).detach();
+	});
+	$('#left').empty();
+	$('#right').empty();
+
+	for (var i = 0; i < 6; i++) {
+		var fg = $("<div></div>").addClass("form-group");
+		var label = $("<label></label>").addClass("control-label");
+		var box = $("<input>").addClass("form-control").attr("type", "text").attr("data-subject", i).attr("maxlength","4");
+		$(label).text(grade.default[i].subject);
+		$(fg).append(label).append(box);
+		$("#left").append(fg);
+	}
+	for (var i = 6; i < grade.default.length; i++) {
+		var fg = $("<div></div>").addClass("form-group");
+		var label = $("<label></label>").addClass("control-label");
+		var box = $("<input>").addClass("form-control").attr("type", "text").attr("data-subject", i).attr("maxlength","4");
+		$(label).text(grade.default[i].subject);
+		$(fg).append(label).append(box);
+		$("#right").append(fg);
 	}
 
-	// Add grades
-	for(var i = 0; i < 10; i++)
-		total += g[i];
+	$("#right").append($("<h1></h1>").attr("id","g"));
+	$("input").on("change paste keyup click", calculate);
+}
 
-	// Add Earth Sci grade
-	total += g[10] * 0.7;
-
-	// GWA
-	gwa = total / 10.7;
-	return gwa;
+function calculate() {
+	var total = 0, units = 0;
+	$("input").each(function(){
+		if (!$(this).val()) {
+			total = 0;
+			return false;
+		} else {
+			var identifier = $(this).attr('data-subject');
+			total += parseFloat($(this).val()) * grade.default[identifier].units;
+			units += grade.default[identifier].units;
+		}
+	});
+	if (total == 0)
+		$("#g").text("Incomplete data");
+	else
+		$("#g").text((total / units).toPrecision(5));
 }
