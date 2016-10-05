@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	grade.default = grade.nine;
+	grade.default = grade.seven;
 	$("li").each(function(el){
 		$(this).click(function(e){
 			e.preventDefault();
