@@ -12,29 +12,71 @@ $(document).ready(function(){
 });
 
 var grade = {
+	seven: [
+		{ subject: "Integrated Science", units: 1.7 },
+		{ subject: "Mathematics", units: 1.7 },
+		{ subject: "English", units: 1.3 },
+		{ subject: "Filipino", units: 1 },
+		{ subject: "Social Science", units: 1 },
+		{ subject: "PEHM", units: 1 },
+		{ subject: "Values Education", units: 0.7 },
+		{ subject: "AdTech", units: 1 },
+		{ subject: "Computer Science", units: 1 }
+	],
+	eight: [
+		{ subject: "Integrated Science", units: 2 },
+		{ subject: "Mathematics", units: 1.7 },
+		{ subject: "English", units: 1.3 },
+		{ subject: "Filipino", units: 1 },
+		{ subject: "Social Science", units: 1 },
+		{ subject: "PEHM", units: 1 },
+		{ subject: "Values Education", units: 0.7 },
+		{ subject: "AdTech", units: 1 },
+		{ subject: "Computer Science", units: 1 }
+	],
 	nine: [
-		{ subject: "English", units: 1 },
 		{ subject: "Biology", units: 1 },
 		{ subject: "Chemistry", units: 1 },
-		{ subject: "Filipino", units: 1 },
-		{ subject: "Computer Science", units: 1 },
-		{ subject: "Social Science", units: 1 },
-		{ subject: "Earth Science", units: 0.7 },
-		{ subject: "Mathematics", units: 1 },
-		{ subject: "Statistics", units: 1 },
 		{ subject: "Physics", units: 1 },
-		{ subject: "Physical Education, Music, Health", units: 0.99 }
+		{ subject: "Mathematics", units: 1 },
+		{ subject: "English", units: 1 },
+		{ subject: "Filipino", units: 1 },
+		{ subject: "Social Science", units: 1 },
+		{ subject: "PEHM", units: 1 },
+		{ subject: "Statistics", units: 1 },
+		{ subject: "Computer Science", units: 1 },
+		{ subject: "Earth Science", units: 0.7 },
 	],
 	ten: [
-		{ subject: "English", units: 1 },
 		{ subject: "Biology", units: 1 },
 		{ subject: "Chemistry", units: 1 },
-		{ subject: "Filipino", units: 1 },
-		{ subject: "Computer Science", units: 1 },
-		{ subject: "Social Science", units: 1 },
-		{ subject: "Mathematics", units: 1 },
 		{ subject: "Physics", units: 1 },
-		{ subject: "Physical Education, Music, Health", units: 0.99 }
+		{ subject: "Mathematics", units: 1.3 },
+		{ subject: "English", units: 1 },
+		{ subject: "Filipino", units: 1 },
+		{ subject: "Social Science", units: 1 },
+		{ subject: "PEHM", units: 1 },
+		{ subject: "STR", units: 1 },
+		{ subject: "Computer Science", units: 1 },
+		{ subject: "Elective", units: 1 }
+	],
+	eleven: [
+		{ subject: "Science", units: 1.7 },
+		{ subject: "Mathematics", units: 1 },
+		{ subject: "English", units: 1 },
+		{ subject: "Filipino", units: 1 },
+		{ subject: "Social Science", units: 1 },
+		{ subject: "STR", units: 2 },
+		{ subject: "Additional Science", units: 1.7 }
+	],
+	tweleven: [
+		{ subject: "Science", units: 1.7 },
+		{ subject: "Mathematics", units: 1 },
+		{ subject: "English", units: 1 },
+		{ subject: "Filipino", units: 1 },
+		{ subject: "Social Science", units: 1 },
+		{ subject: "STR", units: 2 },
+		{ subject: "Additional Science", units: 1.7 }
 	]
 };
 
