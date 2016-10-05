@@ -32,7 +32,8 @@ var grade = {
 		{ subject: "PEHM", units: 1 },
 		{ subject: "Values Education", units: 0.7 },
 		{ subject: "AdTech", units: 1 },
-		{ subject: "Computer Science", units: 1 }
+		{ subject: "Computer Science", units: 1 },
+		{ subject: "Earth Science", units: 0.7 }
 	],
 	nine: [
 		{ subject: "Biology", units: 1 },
@@ -59,15 +60,6 @@ var grade = {
 		{ subject: "STR", units: 1 },
 		{ subject: "Computer Science", units: 1 },
 		{ subject: "Elective", units: 1 }
-	],
-	eleven: [
-		{ subject: "Science", units: 1.7 },
-		{ subject: "Mathematics", units: 1 },
-		{ subject: "English", units: 1 },
-		{ subject: "Filipino", units: 1 },
-		{ subject: "Social Science", units: 1 },
-		{ subject: "STR", units: 2 },
-		{ subject: "Additional Science", units: 1.7 }
 	],
 	tweleven: [
 		{ subject: "Science", units: 1.7 },
