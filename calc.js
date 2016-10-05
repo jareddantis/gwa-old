@@ -19,7 +19,7 @@ var grade = {
 		{ subject: "Filipino", units: 1 },
 		{ subject: "Computer Science", units: 1 },
 		{ subject: "Social Science", units: 1 },
-		{ subject: "Earth Science", units: 1 },
+		{ subject: "Earth Science", units: 0.7 },
 		{ subject: "Mathematics", units: 1 },
 		{ subject: "Statistics", units: 1 },
 		{ subject: "Physics", units: 1 },
