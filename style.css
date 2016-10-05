@@ -2,3 +2,5 @@ body { padding: 2em 0 }
 .dropdown { display: inline-block; }
 h1 { margin: 0; }
 .row:first-child { padding: 2em 0 2em 0 }
+.dl { color: #00790a }
+.err { color: #e33e07 }

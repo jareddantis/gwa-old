@@ -45,7 +45,7 @@ var grade = {
 		{ subject: "PEHM", units: 1 },
 		{ subject: "Statistics", units: 1 },
 		{ subject: "Computer Science", units: 1 },
-		{ subject: "Earth Science", units: 0.7 },
+		{ subject: "Earth Science", units: 0.7 }
 	],
 	ten: [
 		{ subject: "Biology", units: 1 },
@@ -104,24 +104,37 @@ function redraw() {
 		$("#right").append(fg);
 	}
 
-	$("#right").append($("<h1></h1>").attr("id","g"));
+	calculate();       // Reset H1
 	$("input").on("change paste keyup click", calculate);
 }
 
 function calculate() {
-	var total = 0, units = 0;
+	var total = 0, units = 0, gwa;
 	$("input").each(function(){
-		if (!$(this).val()) {
+		var value = $(this).val();
+		// Don't accept null values, values with chars other than 0-9 and period, and values below 1.0 or above 5.0
+		if (!value) {
 			total = 0;
+			return false;
+		} else if (/[^0-9\.]+/.test(value) || parseFloat(value) < 1.0 || parseFloat(value) > 5.0) {
+			total = -1;
 			return false;
 		} else {
 			var identifier = $(this).attr('data-subject');
-			total += parseFloat($(this).val()) * grade.default[identifier].units;
+			total += parseFloat(value) * grade.default[identifier].units;
 			units += grade.default[identifier].units;
 		}
 	});
+
+	gwa = total / units;
 	if (total == 0)
-		$("#g").text("Incomplete data");
-	else
-		$("#g").text((total / units).toPrecision(5));
+		$("#g").attr("class","").text("Pisay GWA Calculator");
+	else if (total == -1)
+		$("#g").attr("class","err").text("Invalid data.");
+	else {
+		if (gwa <= 1.500 && gwa != 0)
+			$("#g").attr("class","dl").text("GWA: " + gwa.toPrecision(4) + ", congrats!");
+		else
+			$("#g").attr("class","").text("GWA: " + gwa.toPrecision(4));
+	}
 }
