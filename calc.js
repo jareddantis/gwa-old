@@ -45,17 +45,21 @@ var state = {
 	},
 	load: function() {
 		if (typeof(Storage) !== undefined) {
-			var savedState = JSON.parse(localStorage.getItem("gwadata")),
-				savedSet = savedState.set, savedName, savedGrades = savedState.grades;
-			this.current = savedState;
-			switch (savedSet) {
-				case "seven": savedName = "Grade 7"; break;
-				case "eight": savedName = "Grade 8"; break;
-				case "nine": savedName = "Grade 9"; break;
-				case "ten": savedName = "Grade 10"; break;
-				case "tweleven": savedName = "Grade 11 & 12"; break;
-			}
-			this.update(savedSet, savedName, savedGrades);
+			var savedJson = localStorage.getItem("gwadata");
+			if (savedJson != null) {
+				var savedState = JSON.parse(savedJson),
+					savedSet = savedState.set, savedName, savedGrades = savedState.grades;
+				this.current = savedState;
+				switch (savedSet) {
+					case "seven": savedName = "Grade 7"; break;
+					case "eight": savedName = "Grade 8"; break;
+					case "nine": savedName = "Grade 9"; break;
+					case "ten": savedName = "Grade 10"; break;
+					case "tweleven": savedName = "Grade 11 & 12"; break;
+				}
+				this.update(savedSet, savedName, savedGrades);
+			} else
+				redraw();
 		}
 	},
 	save: function() {
@@ -133,7 +137,7 @@ function redraw(values) {
 	$("input").each(function(){ $(this).detach() });
 	$('#left').empty();
 	$('#right').empty();
-	$("#g").attr("class","").text("Pisay GWA Calculator");
+	$("#g").attr("class","").text("GWA: (incomplete data)");
 
 	for (var i = 0; i < 6; i++) {
 		var fg = $("<div></div>").addClass("form-group");
