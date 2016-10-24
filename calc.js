@@ -1,15 +1,72 @@
 $(document).ready(function(){
 	grade.default = grade.seven;
+	state.load();
 	$("li").each(function(el){
 		$(this).click(function(e){
+			var that = $(this).children();
 			e.preventDefault();
-			grade.default = grade[$(this).children().attr('data-item')];
-			$("#btn-text").text($(this).children().text());
-			redraw();
+			state.update($(that).attr('data-item'), $(that).text(), null);
 		})
 	});
-	redraw();
 });
+
+var state = {
+	current: {
+		set: null,
+		grades: []
+	},
+	update: function(newSet, newName, redrawValues) {
+		if (grade[newSet]) {
+			$("#btn-text").text(newName);
+			grade.default = grade[newSet];
+			grade.set = newSet;
+			this.current.set = newSet;
+
+			if (redrawValues == null) {
+				// Fill current set of grades with empty strings
+				// so we can just update the values later
+				// and not worry about missing values in between
+				this.current.grades = [];
+				for (var i = 0; i < grade.default.length; i++)
+					this.current.grades.push("");
+				this.save();
+				redraw(this.current.grades);
+			} else
+				redraw(redrawValues);
+		} else
+			console.log("Invalid gradeset \"" + newSet + "\"");
+	},
+	change: function(el) {
+		var index = $(el).attr("data-subject"),
+			value = $(el).val();
+		this.current.grades[index] = value;
+		this.save();
+		calculate();
+	},
+	load: function() {
+		if (typeof(Storage) !== undefined) {
+			var savedState = JSON.parse(localStorage.getItem("gwadata")),
+				savedSet = savedState.set, savedName, savedGrades = savedState.grades;
+			this.current = savedState;
+			switch (savedSet) {
+				case "seven": savedName = "Grade 7"; break;
+				case "eight": savedName = "Grade 8"; break;
+				case "nine": savedName = "Grade 9"; break;
+				case "ten": savedName = "Grade 10"; break;
+				case "tweleven": savedName = "Grade 11 & 12"; break;
+			}
+			this.update(savedSet, savedName, savedGrades);
+		}
+	},
+	save: function() {
+		if (typeof(Storage) !== undefined) {
+			var currentState = this.current,
+				currentJson = JSON.stringify(currentState);
+			localStorage.setItem("gwadata", currentJson);
+			console.log("saved " + currentJson);
+		}
+	}
+}
 
 var grade = {
 	seven: [
@@ -72,17 +129,19 @@ var grade = {
 	]
 };
 
-function redraw() {
-	$("input").each(function(el){
-		$(this).detach();
-	});
+function redraw(values) {
+	$("input").each(function(){ $(this).detach() });
 	$('#left').empty();
 	$('#right').empty();
+	$("#g").attr("class","").text("Pisay GWA Calculator");
 
 	for (var i = 0; i < 6; i++) {
 		var fg = $("<div></div>").addClass("form-group");
 		var label = $("<label></label>").addClass("control-label");
-		var box = $("<input>").addClass("form-control").attr("type", "text").attr("data-subject", i).attr("maxlength","4");
+		var box = $("<input>").addClass("form-control")
+		            .attr("type", "text").attr("data-subject", i)
+		            .attr("maxlength","4");
+		if (values != null) { $(box).val(values[i]) }
 		$(label).text(grade.default[i].subject);
 		$(fg).append(label).append(box);
 		$("#left").append(fg);
@@ -90,25 +149,49 @@ function redraw() {
 	for (var i = 6; i < grade.default.length; i++) {
 		var fg = $("<div></div>").addClass("form-group");
 		var label = $("<label></label>").addClass("control-label");
-		var box = $("<input>").addClass("form-control").attr("type", "text").attr("data-subject", i).attr("maxlength","4");
+		var box = $("<input>").addClass("form-control")
+		            .attr("type", "text").attr("data-subject", i)
+		            .attr("maxlength","4");
+		if (values != null) { $(box).val(values[i]) }
 		$(label).text(grade.default[i].subject);
 		$(fg).append(label).append(box);
 		$("#right").append(fg);
 	}
 
-	calculate();       // Reset H1
-	$("input").on("change paste keyup click", calculate);
+	$("input").on("change paste keyup", function(){ state.change(this) });
+	if (values != null) { calculate() }
 }
 
 function calculate() {
+	var isInvalidGrade = function(value) {
+		var grade = parseFloat(value), invalid = false;
+
+		// Contains characters other than numbers and period
+		if (/[^0-9\.]+/.test(value))
+			invalid = true;
+		// Out of range
+		else if (grade < 1 || grade > 5)
+			invalid = true;
+		// Indivisible by 0.25 for grades greater than 3.00
+		else if (grade < 3 && (grade % 0.25 != 0))
+			invalid = true;
+		// Between 3, 4, and 5
+		else if ((grade > 3 && grade < 4) || (grade > 4 && grade < 5))
+			invalid = true;
+
+		return invalid;
+	};
+	
 	var total = 0, units = 0, gwa;
+
 	$("input").each(function(){
 		var value = $(this).val();
+
 		// Don't accept null values, values with chars other than 0-9 and period, and values below 1.0 or above 5.0
 		if (!value) {
 			total = 0;
 			return false;
-		} else if (/[^0-9\.]+/.test(value) || parseFloat(value) < 1.0 || parseFloat(value) > 5.0) {
+		} else if (isInvalidGrade(value)) {
 			total = -1;
 			return false;
 		} else {
@@ -120,7 +203,7 @@ function calculate() {
 
 	gwa = total / units;
 	if (total == 0)
-		$("#g").attr("class","").text("Pisay GWA Calculator");
+		$("#g").attr("class","").text("GWA: (incomplete data)");
 	else if (total == -1)
 		$("#g").attr("class","err").text("Invalid data.");
 	else {
