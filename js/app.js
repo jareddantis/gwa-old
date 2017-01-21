@@ -63,7 +63,7 @@ var state = {
 			} else
 				redraw(redrawValues);
 		} else
-			console.log("Invalid gradeset \"" + newSet + "\"");
+			console.error("Invalid gradeset \"" + newSet + "\"");
 	},
 	change: function(el) {
 		var index = $(el).attr("data-subject"),
@@ -90,7 +90,6 @@ var state = {
 			var currentState = this.current,
 				currentJson = JSON.stringify(currentState);
 			localStorage.setItem("gwadata", currentJson);
-			console.log("saved " + currentJson);
 		}
 	}
 }
@@ -275,7 +274,8 @@ function calculate() {
 	else if (total == -1)
 		$("#g").attr("class","err").text("Error");
 	else {
-		$('#g').removeAttr("class").text(gwa.toPrecision(4));
+		var str = gwa.toPrecision(4) + "";
+		$('#g').removeAttr("class").text(str.slice(0,5));
 		if (gwa <= 1.500 && gwa != 0)
 			$("#g").addClass('dl');
 	}
