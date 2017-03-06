@@ -339,7 +339,7 @@ function calculate() {
 	else if (err == 2)
 		$("#g").attr("class","err").text("Error");
 	else {
-		var str = result.toPrecision(4) + "";
+		var str = result.toPrecision(10) + "";
 		$('#g').removeAttr("class").text(str.slice(0,5));
 		if (result <= 1.500 && result != 0)
 			$("#g").addClass('dl');
