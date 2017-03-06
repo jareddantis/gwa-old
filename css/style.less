@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0 }
 @teal:  #80cbc4;
 @dteal: #00897b;
 @blue:  #90caf9;
-@dblue: #039be5;
+@dblue: #026b9e;
 @red:   #ef9a9a;
 @dred:  #e53935;
 @litr:  #eeeeee;
@@ -47,14 +47,19 @@ h1, h2, h3, h4, h5, h6 { margin: 0 }
 		margin: 0;
 
 		&.invis { margin-top: -12rem }
-		#c_nm {
+		.toggles { text-align: center }
+		.toggle {
+			display: inline-block;
+			background: @litr;
+			padding: 2px 6px;
+			border-radius: 3px;
+			margin: 0 .5rem;
+			transition: background 750ms ease;
 			cursor: pointer;
-			margin: 0 auto;
-			width: 55px;
-			height: 40px;
-			svg {
-				fill: @dark;
-				transition: fill 750ms ease;
+
+			span {
+				text-transform: uppercase;
+				font-weight: bold;
 			}
 		}
 		p { text-align: center }
@@ -89,10 +94,7 @@ h1, h2, h3, h4, h5, h6 { margin: 0 }
 	.center {
 		justify-content: center;
 
-		#g {
-			font-size: 5rem
-			transition: color 1s ease;
-		}
+		#g { font-size: 4.5rem }
 		#g.dl { color: @dteal }
 		#g.err { color: @dred }
 	}
@@ -211,10 +213,11 @@ html.night {
 	svg { fill: @litr !important }
 	svg:hover { fill: @red }
 	input { border-color: @litr !important }
+	.toggle { background: @dblue !important }
 }
 
 // Mobile
-@media screen and (max-width: 720px) {
+@media screen and (max-width: 1199px) {
 	#g {
 		font-size: 3rem !important;
 		font-weight: 500 !important;

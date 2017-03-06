@@ -14,12 +14,30 @@ $(document).ready(function(){
 		$(this).children().text("Batch " + di);
 	});
 
-	// Night mode
+	// Night mode and calc GPA
 	$('#c_nm').click(function(){
-		var isNight = $('html').hasClass('night');
-		state.current.isNightMode = !isNight;
+		var isNight = !$('html').hasClass('night');
+		state.current.isNightMode = isNight;
 		state.save();
-		return isNight ? $('html').removeAttr('class') : $('html').addClass('night');
+
+		if (isNight)
+			$('#c_nm span').text('day mode');
+		else
+			$('#c_nm span').text('night mode');
+
+		return isNight ? $('html').addClass('night') : $('html').removeAttr('class');
+	});
+	$('#c_cm').click(function(){
+		var isGpa = !state.current.isGpa;
+		state.current.isGpa = isGpa;
+		state.save();
+
+		if (isGpa)
+			$('#c_cm span').text('gwa mode');
+		else
+			$('#c_cm span').text('cgpa mode (beta)');
+
+		return calculate();
 	});
 
 	// Menu button animation
@@ -41,7 +59,8 @@ var state = {
 	current: {
 		set: null,
 		grades: [],
-		isNightMode: false
+		isNightMode: false,
+		isGpa: false
 	},
 	update: function(newSet, redrawValues) {
 		if (grade[newSet]) {
@@ -76,11 +95,20 @@ var state = {
 		if (typeof(Storage) !== undefined) {
 			var savedJson = localStorage.getItem("gwadata");
 			if (savedJson != null) {
-				var savedState = JSON.parse(savedJson), nightMode = savedState.isNightMode,
-					savedSet = savedState.set, savedGrades = savedState.grades;
+				var savedState = JSON.parse(savedJson),
+					nightMode = savedState.isNightMode,
+					cgpaMode = savedState.isGpa,
+					savedSet = savedState.set,
+					savedGrades = savedState.grades;
 				this.current = savedState;
 				this.update(savedSet, savedGrades);
-				if (nightMode) { $('html').addClass('night') }
+
+				if (nightMode) {
+					$('html').addClass('night');
+					$('#c_nm span').text('day mode');
+				}
+				if (cgpaMode)
+					$('#c_cm span').text('gwa mode');
 			} else
 				redraw();
 		}
@@ -172,7 +200,6 @@ var grade = {
 };
 
 function redraw(values) {
-	//return;
 	$("input").each(function(){ $(this).detach() });
 	$("#g").attr("class","").text("Welcome");
 	for (var h = 1; h < 4; h++) {
@@ -248,35 +275,73 @@ function isInvalidGrade(value) {
 
 	return invalid;
 }
+
+function convertToGpa(grade, units) {
+	var gpa;
+
+	if (grade == 1.0) gpa = 4.0;
+	else if (grade == 1.25) gpa = 3.7;
+	else if (grade == 1.5) gpa = 3.3;
+	else if (grade == 1.75) gpa = 3.0;
+	else if (grade == 2.0) gpa = 2.7;
+	else if (grade == 2.25) gpa = 2.3;
+	else if (grade == 2.5) gpa = 2.0;
+	else if (grade == 2.75) gpa = 1.7;
+	else if (grade == 3.0) gpa = 1.3;
+	else if (grade == 4.0) gpa = 1.0;
+	else gpa = 0.0;
+
+	return gpa * units; 
+}
+
 function calculate() {
-	var total = 0, units = 0, gwa;
+	var result, err = 0,
+		total = 0, units = 0;
 
-	$("input").each(function(){
-		var value = $(this).val();
+	if (state.current.isGpa) {
+		$("input").each(function(){
+			var value = $(this).val();
 
-		// Don't accept null values, values with chars other than 0-9 and period, and values below 1.0 or above 5.0
-		if (!value) {
-			total = 0;
-			return false;
-		} else if (isInvalidGrade(value)) {
-			total = -1;
-			return false;
-		} else {
-			var identifier = $(this).attr('data-subject');
-			total += parseFloat(value) * grade.default[identifier].units;
-			units += grade.default[identifier].units;
-		}
-	});
+			if (!value) {
+				err = 1;
+				return false;
+			} else if (isInvalidGrade(value)) {
+				err = 2;
+				return false;
+			} else {
+				var identifier = $(this).attr('data-subject');
+				var credits = grade.default[identifier].units;
+				units += credits;
+				total += convertToGpa(value, credits);
+			}
+		});
+	} else {
+		$("input").each(function(){
+			var value = $(this).val();
 
-	gwa = total / units;
-	if (total == 0)
+			if (!value) {
+				err = 1;
+				return false;
+			} else if (isInvalidGrade(value)) {
+				err = 2;
+				return false;
+			} else {
+				var identifier = $(this).attr('data-subject');
+				total += parseFloat(value) * grade.default[identifier].units;
+				units += grade.default[identifier].units;
+			}
+		});
+	}
+
+	result = total / units;
+	if (err == 1)
 		$("#g").attr("class","").text("Welcome");
-	else if (total == -1)
+	else if (err == 2)
 		$("#g").attr("class","err").text("Error");
 	else {
-		var str = gwa.toPrecision(4) + "";
+		var str = result.toPrecision(4) + "";
 		$('#g').removeAttr("class").text(str.slice(0,5));
-		if (gwa <= 1.500 && gwa != 0)
+		if (result <= 1.500 && result != 0)
 			$("#g").addClass('dl');
 	}
 }
