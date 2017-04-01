@@ -142,24 +142,24 @@ var grade = {
 	seven: [
 		{ subject: "Integrated Science", units: 1.7 },
 		{ subject: "Mathematics", units: 1.7 },
+		{ subject: "Computer Science", units: 1 },
 		{ subject: "English", units: 1.3 },
 		{ subject: "Filipino", units: 1 },
 		{ subject: "Social Science", units: 1 },
 		{ subject: "PEHM", units: 1 },
 		{ subject: "Values Education", units: 0.7 },
-		{ subject: "AdTech", units: 1 },
-		{ subject: "Computer Science", units: 1 }
+		{ subject: "AdTech", units: 1 }
 	],
 	eight: [
 		{ subject: "Integrated Science", units: 2 },
 		{ subject: "Mathematics", units: 1.7 },
+		{ subject: "Computer Science", units: 1 },
 		{ subject: "English", units: 1.3 },
 		{ subject: "Filipino", units: 1 },
 		{ subject: "Social Science", units: 1 },
 		{ subject: "PEHM", units: 1 },
 		{ subject: "Values Education", units: 0.7 },
 		{ subject: "AdTech", units: 1 },
-		{ subject: "Computer Science", units: 1 },
 		{ subject: "Earth Science", units: 0.7 }
 	],
 	nine: [
