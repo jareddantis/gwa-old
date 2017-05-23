@@ -276,7 +276,7 @@ function redraw(values) {
 		var lock = $("<img>").addClass("lock").attr("src", lockunlock);
 		var modify = $("<img>").attr("src", "img/settings.min.svg");
 		var gradecontrols = $("<div></div>").addClass("grade-control").append(lock);
-		var box = $("<input>").attr("type", "number").attr("data-subject", i);
+		var box = $("<input>").attr("type", "number").attr("step", "0.25").attr("data-subject", i);
 		if (isLocked === true)
 			$(box).attr("disabled", "disabled");
 
