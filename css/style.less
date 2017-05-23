@@ -172,8 +172,19 @@ h1, h2, h3, h4, h5, h6 { margin: 0 }
 		width: 100%;
 		margin-bottom: 2rem;
 		span {
+			font-size: 1.7rem;
 			font-weight: 500;
 			text-transform: uppercase;
+		}
+		div.grade-control {
+			display: inline;
+			float: right;
+			img {
+				width: 1.5rem;
+				height: auto;
+				cursor: pointer;
+				transition: 750ms ease;
+			}
 		}
 		input {
 			display: block;
@@ -186,6 +197,10 @@ h1, h2, h3, h4, h5, h6 { margin: 0 }
 			margin: .25rem 0;
 			width: 100%;
 			text-align: center;
+		}
+		input:disabled {
+			font-weight: 700;
+			border-bottom-color: #545454;
 		}
 		input[type="number"]::-webkit-outer-spin-button,
 		input[type="number"]::-webkit-inner-spin-button {
@@ -214,6 +229,10 @@ html.night {
 	svg:hover { fill: @red }
 	input { border-color: @litr !important }
 	.toggle { background: @dblue !important }
+	.grade-control img {
+		-webkit-filter: invert(100%);
+		filter: invert(100%);
+	}
 }
 
 // Mobile

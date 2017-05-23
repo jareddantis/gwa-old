@@ -16,6 +16,8 @@ $(document).ready(function(){
 
 	// Night mode and calc GPA
 	$('#c_nm').click(function(){
+		$('#hamburger').removeAttr('class');
+		$('#menu .menu-content').addClass('invis');
 		var isNight = !$('html').hasClass('night');
 		state.current.isNightMode = isNight;
 		state.save();
@@ -28,6 +30,8 @@ $(document).ready(function(){
 		return isNight ? $('html').addClass('night') : $('html').removeAttr('class');
 	});
 	$('#c_cm').click(function(){
+		$('#hamburger').removeAttr('class');
+		$('#menu .menu-content').addClass('invis');
 		var isGpa = !state.current.isGpa;
 		state.current.isGpa = isGpa;
 		state.save();
@@ -48,20 +52,40 @@ $(document).ready(function(){
 		} else {
 			$(this).addClass('active');
 			$('#menu .menu-content').removeClass('invis');
+
+			// Hide menu on click outside
+			// but only listen for clicks after menu slide out (500ms)
+			window.setTimeout(function() {
+				$(document).one('click', function(e){
+					if (! $(e.target).closest('.menu-content').length) {
+						$('#hamburger').removeAttr('class');
+						$('#menu .menu-content').addClass('invis');
+					}
+				})
+			}, 500);
 		}
 	})
 
 	// Clear button
-	$('#refresh').click(redraw);
+	$('#refresh').click(function(){
+		state.current.grades = [];
+		state.current.lock = [];
+		state.save();
+		redraw();
+	});
 });
 
 var state = {
+	// Saved state object
 	current: {
 		set: null,
 		grades: [],
+		lock: [],
 		isNightMode: false,
 		isGpa: false
 	},
+
+	// Change current batch
 	update: function(newSet, redrawValues) {
 		if (grade[newSet]) {
 			var newName = levelToBatch(newSet);
@@ -84,13 +108,37 @@ var state = {
 		} else
 			console.error("Invalid gradeset \"" + newSet + "\"");
 	},
+
+	// Change a grade
 	change: function(el) {
-		var index = $(el).attr("data-subject"),
+		var index = parseInt($(el).attr("data-subject")),
 			value = $(el).val();
-		this.current.grades[index] = value;
+		for (var i = 0; i < grade.default.length; i++) {
+			if (i != index) {
+				if (typeof this.current.grades[i] === "undefined")
+					this.current.lock.push("");
+			} else
+				this.current.grades[index] = value;
+		}
 		this.save();
 		calculate();
 	},
+
+	// Lock or unlock a grade
+	toggle: function(el, status) {
+		var index = parseInt($(el).attr("data-subject"));
+		for (var i = 0; i < grade.default.length; i++) {
+			if (i != index) {
+				if (typeof this.current.lock[i] === "undefined")
+					this.current.lock.push(false);
+			} else {
+				this.current.lock[i] = status;
+			}
+		}
+		this.save();
+	},
+
+	// Load saved state
 	load: function() {
 		if (typeof(Storage) !== undefined) {
 			var savedJson = localStorage.getItem("gwadata");
@@ -109,10 +157,18 @@ var state = {
 				}
 				if (cgpaMode)
 					$('#c_cm span').text('gwa mode');
+
+				// Upgrade
+				if (typeof this.current.lock === "undefined") {
+					this.current.lock = [];
+					this.save();
+				}
 			} else
 				redraw();
 		}
 	},
+
+	// Save state
 	save: function() {
 		if (typeof(Storage) !== undefined) {
 			var currentState = this.current,
@@ -200,7 +256,7 @@ var grade = {
 };
 
 function redraw(values) {
-	$("input").each(function(){ $(this).detach() });
+	$("input, .lock").each(function(){ $(this).remove() });
 	$("#g").attr("class","").text("Welcome");
 	for (var h = 1; h < 4; h++) {
 		$('#pane-'+h).remove();
@@ -209,17 +265,33 @@ function redraw(values) {
 
 	var boxes = 0;
 	var drawInput = function(i){
+		// Determine if grade is locked
+		var isLocked = typeof state.current.lock === "undefined" ? false : state.current.lock[i];
+		var lockunlock = (isLocked === true) ? "img/locked.min.svg" : "img/unlocked.min.svg";
+
+		// Construct subject input group
 		var pane = (i < 4) ? 1 : (i < 8) ? 2 : 3;
 		var group = $("<div></div>").addClass("subject");
 		var label = $("<span></span>")
+		var lock = $("<img>").addClass("lock").attr("src", lockunlock);
+		var modify = $("<img>").attr("src", "img/settings.min.svg");
+		var gradecontrols = $("<div></div>").addClass("grade-control").append(lock);
 		var box = $("<input>").attr("type", "number").attr("data-subject", i);
-		if (values != null) { $(box).val(values[i]) }
+		if (isLocked === true)
+			$(box).attr("disabled", "disabled");
+
+		// Populate input box with saved grade
+		if (values != null)
+			$(box).val(values[i]);
+
+		// Append input group to page
 		$(label).text(grade.default[i].subject);
-		$(group).append(label).append(box);
+		$(group).append(label).append(gradecontrols).append(box);
 		$("#pane-"+pane).append(group);
 		boxes++;
 	}
 
+	// Populate each column by 4s
 	for (var i = 0; i < 4; i++)
 		drawInput(i);
 	for (var i = 4; i < grade.default.length; i++)
@@ -232,15 +304,37 @@ function redraw(values) {
 		$('#pane-1').addClass('col-lg-offset-2');
 	}
 
-	$("input").on("change paste keyup input", function(e){
-		if ($(this).val().length > 4) {
-			var trimmed = $(this).val().slice(0,4);
-			$(this).val(trimmed);
-		}
-		state.change(this);
-		//hopToNext(this);
+	// Handle value changes
+	var inputs = $("input");
+	$(inputs).each(function(){
+		$(this).on("change paste keyup input", function(e){
+			if ($(this).val().length > 4) {
+				var trimmed = $(this).val().slice(0,4);
+				$(this).val(trimmed);
+			}
+			state.change(this);
+		});
 	});
 	if (values != null) { calculate() }
+
+	// Lock button
+	$('.lock').each(function() {
+		$(this).click(function() {
+			// Disable input box...
+			var input = $(this).closest(".subject").children("input");
+			var newState = !$(input)[0].hasAttribute("disabled");
+			if (newState) {
+				$(input).attr("disabled", "disabled");
+				$(this).attr("src", "img/locked.min.svg");
+			} else {
+				$(input).removeAttr("disabled");
+				$(this).attr("src", "img/unlocked.min.svg");
+			}
+
+			// ...then update state object
+			state.toggle(input, newState);
+		});
+	});
 }
 
 function hopToNext(from){
@@ -295,20 +389,19 @@ function convertToGpa(grade, units) {
 }
 
 function calculate() {
-	var result, err = 0,
-		total = 0, units = 0;
+	var result, err = 0, total = 0, units = 0;
 
 	if (state.current.isGpa) {
 		$("input").each(function(){
 			var value = $(this).val();
-
 			if (!value) {
+				err = 0;
+				return true;
+			} else if (isInvalidGrade(value)) {
 				err = 1;
 				return false;
-			} else if (isInvalidGrade(value)) {
-				err = 2;
-				return false;
 			} else {
+				err = 2;
 				var identifier = $(this).attr('data-subject');
 				var credits = grade.default[identifier].units;
 				units += credits;
@@ -318,14 +411,14 @@ function calculate() {
 	} else {
 		$("input").each(function(){
 			var value = $(this).val();
-
 			if (!value) {
+				err = 0;
+				return true;
+			} else if (isInvalidGrade(value)) {
 				err = 1;
 				return false;
-			} else if (isInvalidGrade(value)) {
-				err = 2;
-				return false;
 			} else {
+				err = 2;
 				var identifier = $(this).attr('data-subject');
 				total += parseFloat(value) * grade.default[identifier].units;
 				units += grade.default[identifier].units;
@@ -334,9 +427,9 @@ function calculate() {
 	}
 
 	result = total / units;
-	if (err == 1)
+	if (err == 0)
 		$("#g").attr("class","").text("Welcome");
-	else if (err == 2)
+	else if (err == 1)
 		$("#g").attr("class","err").text("Error");
 	else {
 		var str = result.toPrecision(10) + "";
