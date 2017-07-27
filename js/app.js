@@ -1,5 +1,9 @@
 $(document).ready(function(){
+	// Release version
+	$('#vc').text(6);
+
 	// Restore state
+	calculateBatches();
 	grade.default = grade.seven;
 	state.load();
 
@@ -10,38 +14,44 @@ $(document).ready(function(){
 			e.preventDefault();
 			state.update($(that).attr('data-item'), null);
 		})
-		var di = levelToBatch($(this).children().attr("data-item"));
+		var di = batches[$(this).children().attr("data-item")];
 		$(this).children().text("Batch " + di);
 	});
 
-	// Night mode and calc GPA
+	// Units and night mode
 	$('#c_nm').click(function(){
+		var mode = $('#c_nm span').text(), newMode;
+		switch(mode) {
+			case "off":
+				newMode = "night";
+				break;
+			case "on":
+				newMode = "auto";
+				break;
+			case "auto":
+				newMode = "day";
+				break;
+		}
+		console.log(mode, newMode);
+		state.current.dispMode = newMode;
+		state.save();
+		displayMode(newMode);
 		$('#hamburger').removeAttr('class');
 		$('#menu .menu-content').addClass('invis');
-		var isNight = !$('html').hasClass('night');
-		state.current.isNightMode = isNight;
-		state.save();
-
-		if (isNight)
-			$('#c_nm span').text('day mode');
-		else
-			$('#c_nm span').text('night mode');
-
-		return isNight ? $('html').addClass('night') : $('html').removeAttr('class');
 	});
-	$('#c_cm').click(function(){
+	$('#c_units').click(function(){
 		$('#hamburger').removeAttr('class');
 		$('#menu .menu-content').addClass('invis');
-		var isGpa = !state.current.isGpa;
-		state.current.isGpa = isGpa;
+		var showUnits = !state.current.showUnits;
+		state.current.showUnits = showUnits;
 		state.save();
 
-		if (isGpa)
-			$('#c_cm span').text('gwa mode');
+		if (showUnits)
+			$('#c_units span').text('on');
 		else
-			$('#c_cm span').text('cgpa mode (beta)');
+			$('#c_units span').text('off');
 
-		return calculate();
+		return unitsHandler(showUnits);
 	});
 
 	// Menu button animation
@@ -75,20 +85,41 @@ $(document).ready(function(){
 	});
 });
 
+function displayMode(mode) {
+	switch(mode) {
+		case "day":
+			$('html').removeClass('night');
+			$('#c_nm span').text('off');
+			break;
+		case "night":
+			$('html').addClass('night');
+			$('#c_nm span').text('on');
+			break;
+		case "auto":
+			$('#c_nm span').text('auto');
+			var hour = (new Date()).getHours();
+			if (hour > 16 || hour < 5)
+				$('html').addClass('night');
+			else
+				$('html').removeClass('night');
+			break;
+	}
+}
+
 var state = {
 	// Saved state object
 	current: {
 		set: null,
 		grades: [],
 		lock: [],
-		isNightMode: false,
-		isGpa: false
+		dispMode: "auto",
+		showUnits: false
 	},
 
 	// Change current batch
 	update: function(newSet, redrawValues) {
 		if (grade[newSet]) {
-			var newName = levelToBatch(newSet);
+			var newName = batches[newSet];
 			$("#btn-text").text(newName);
 			grade.default = grade[newSet];
 			grade.set = newSet;
@@ -144,19 +175,17 @@ var state = {
 			var savedJson = localStorage.getItem("gwadata");
 			if (savedJson != null) {
 				var savedState = JSON.parse(savedJson),
-					nightMode = savedState.isNightMode,
-					cgpaMode = savedState.isGpa,
+					dispMode = savedState.dispMode,
+					showUnits = savedState.showUnits,
 					savedSet = savedState.set,
 					savedGrades = savedState.grades;
 				this.current = savedState;
 				this.update(savedSet, savedGrades);
 
-				if (nightMode) {
-					$('html').addClass('night');
-					$('#c_nm span').text('day mode');
-				}
-				if (cgpaMode)
-					$('#c_cm span').text('gwa mode');
+				displayMode(dispMode);
+				$('#c_nm span').text(dispMode);
+				unitsHandler(showUnits);
+				$('#c_units span').text(showUnits ? "on" : "off");
 
 				// Upgrade
 				if (typeof this.current.lock === "undefined") {
@@ -178,21 +207,35 @@ var state = {
 	}
 }
 
-function levelToBatch(level) {
-	var currYear = (new Date()).getFullYear(), batch, tweleven;
-	if (currYear == 2017) {
-		tweleven = currYear + 1;
-	} else
-		tweleven = (currYear + 1) + " & " + currYear;
-	switch (level) {
-		case "seven": batch = currYear + 5; break;
-		case "eight": batch = currYear + 4; break;
-		case "nine": batch = currYear + 3; break;
-		case "ten": batch = currYear + 2; break;
-		case "tweleven": batch = tweleven; break;
+function calculateBatches() {
+	var current = new Date(),
+		currYear = current.getFullYear(),
+		currMonth = current.getMonth();
+
+	// Account for 2-year lapse during K+12 transition
+	if (currYear == 2017)
+		oldestBatch = 2018;
+	else {
+		if (currMonth < 6)
+			oldestBatch = currYear;
+		else
+			oldestBatch = ++currYear;
 	}
-	return batch;
+
+	batches.tweleven = oldestBatch + " & " + ++oldestBatch;
+	batches.ten = ++oldestBatch;
+	batches.nine = ++oldestBatch;
+	batches.eight = ++oldestBatch;
+	batches.seven = ++oldestBatch;
 }
+
+var batches = {
+	"seven": "Grade 7",
+	"eight": "Grade 8",
+	"nine": "Grade 9",
+	"ten": "Grade 10",
+	"tweleven": "Grade 10 & 11"
+};
 
 var grade = {
 	seven: [
@@ -245,15 +288,30 @@ var grade = {
 		{ subject: "Elective", units: 1 }
 	],
 	tweleven: [
-		{ subject: "Science", units: 1.7 },
+		{ subject: "STR", units: 2 },
+		{ subject: "Core", units: 1.7 },
+		{ subject: "Elective", units: 1.7 },
 		{ subject: "Mathematics", units: 1 },
 		{ subject: "English", units: 1 },
 		{ subject: "Filipino", units: 1 },
-		{ subject: "Social Science", units: 1 },
-		{ subject: "STR", units: 2 },
-		{ subject: "Additional Science", units: 1.7 }
+		{ subject: "Social Science", units: 1 }
 	]
 };
+
+function unitsHandler(enabled) {
+	if (enabled) {
+		$('input').each(function(){
+			var subjId = parseInt($(this).attr('data-subject')),
+				units = grade.default[subjId].units.toFixed(1);
+			$(this).attr('placeholder', units + ' units');
+		})
+	} else {
+		$('input').each(function(){
+			$(this).removeAttr('placeholder');
+		})
+	}
+	calculate();
+}
 
 function redraw(values) {
 	$("input, .lock").each(function(){ $(this).remove() });
@@ -335,6 +393,7 @@ function redraw(values) {
 			state.toggle(input, newState);
 		});
 	});
+	unitsHandler(state.current.showUnits);
 }
 
 function hopToNext(from){
@@ -370,65 +429,29 @@ function isInvalidGrade(value) {
 	return invalid;
 }
 
-function convertToGpa(grade, units) {
-	var gpa;
-
-	if (grade == 1.0) gpa = 4.0;
-	else if (grade == 1.25) gpa = 3.7;
-	else if (grade == 1.5) gpa = 3.3;
-	else if (grade == 1.75) gpa = 3.0;
-	else if (grade == 2.0) gpa = 2.7;
-	else if (grade == 2.25) gpa = 2.3;
-	else if (grade == 2.5) gpa = 2.0;
-	else if (grade == 2.75) gpa = 1.7;
-	else if (grade == 3.0) gpa = 1.3;
-	else if (grade == 4.0) gpa = 1.0;
-	else gpa = 0.0;
-
-	return gpa * units; 
-}
-
 function calculate() {
 	var result, err = 0, total = 0, units = 0;
 
-	if (state.current.isGpa) {
-		$("input").each(function(){
-			var value = $(this).val();
-			if (!value) {
-				err = 0;
-				return true;
-			} else if (isInvalidGrade(value)) {
-				err = 1;
-				return false;
-			} else {
-				err = 2;
-				var identifier = $(this).attr('data-subject');
-				var credits = grade.default[identifier].units;
-				units += credits;
-				total += convertToGpa(value, credits);
-			}
-		});
-	} else {
-		$("input").each(function(){
-			var value = $(this).val();
-			if (!value) {
-				err = 0;
-				return true;
-			} else if (isInvalidGrade(value)) {
-				err = 1;
-				return false;
-			} else {
-				err = 2;
-				var identifier = $(this).attr('data-subject');
-				total += parseFloat(value) * grade.default[identifier].units;
-				units += grade.default[identifier].units;
-			}
-		});
-	}
+	$("input").each(function(){
+		var value = $(this).val(),
+			identifier = $(this).attr('data-subject');
+		units += grade.default[identifier].units;
+		if (!value) {
+			err = 0;
+			return true;
+		} else if (isInvalidGrade(value)) {
+			err = 1;
+			return false;
+		} else {
+			err = 2;
+			total += parseFloat(value) * grade.default[identifier].units;
+		}
+	});
 
 	result = total / units;
+	welcomeText = state.current.showUnits ? units.toFixed(1) + " units" : "Welcome";
 	if (err == 0)
-		$("#g").attr("class","").text("Welcome");
+		$("#g").attr("class","").text(welcomeText);
 	else if (err == 1)
 		$("#g").attr("class","err").text("Error");
 	else {
