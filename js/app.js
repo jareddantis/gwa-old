@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	// Release version
-	$('#vc').text(6);
+	$('#vc').text(7);
 
 	// Restore state
 	calculateBatches();
@@ -271,8 +271,7 @@ var grade = {
 		{ subject: "Social Science", units: 1 },
 		{ subject: "PEHM", units: 1 },
 		{ subject: "Statistics", units: 1 },
-		{ subject: "Computer Science", units: 1 },
-		{ subject: "Earth Science", units: 0.7 }
+		{ subject: "Computer Science", units: 1 }
 	],
 	ten: [
 		{ subject: "Biology", units: 1 },
