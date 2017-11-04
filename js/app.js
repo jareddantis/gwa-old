@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	// Release version
-	$('#vc').text(7);
+	$('#vc').text(8);
 
 	// Restore state
 	calculateBatches();
@@ -15,7 +15,7 @@ $(document).ready(function(){
 			state.update($(that).attr('data-item'), null);
 		})
 		var di = batches[$(this).children().attr("data-item")];
-		$(this).children().text("Batch " + di);
+		$(this).children().text(di);
 	});
 
 	// Units and night mode
@@ -210,23 +210,22 @@ var state = {
 function calculateBatches() {
 	var current = new Date(),
 		currYear = current.getFullYear(),
-		currMonth = current.getMonth();
+		currMonth = current.getMonth(), syp;
 
 	// Account for 2-year lapse during K+12 transition
 	if (currYear == 2017)
-		oldestBatch = 2018;
+		syp = 2019;
 	else {
 		if (currMonth < 6)
-			oldestBatch = currYear;
+			syp = currYear + 2;
 		else
-			oldestBatch = ++currYear;
+			syp = currYear + 3;
 	}
 
-	batches.tweleven = oldestBatch + " & " + ++oldestBatch;
-	batches.ten = ++oldestBatch;
-	batches.nine = ++oldestBatch;
-	batches.eight = ++oldestBatch;
-	batches.seven = ++oldestBatch;
+	batches.ten = ++syp;
+	batches.nine = ++syp;
+	batches.eight = ++syp;
+	batches.seven = ++syp;
 }
 
 var batches = {
@@ -234,7 +233,7 @@ var batches = {
 	"eight": "Grade 8",
 	"nine": "Grade 9",
 	"ten": "Grade 10",
-	"tweleven": "Grade 10 & 11"
+	"tweleven": "SYP"
 };
 
 var grade = {
@@ -333,7 +332,7 @@ function redraw(values) {
 		var lock = $("<img>").addClass("lock").attr("src", lockunlock);
 		var modify = $("<img>").attr("src", "img/settings.min.svg");
 		var gradecontrols = $("<div></div>").addClass("grade-control").append(lock);
-		var box = $("<input>").attr("type", "number").attr("step", "0.25").attr("data-subject", i);
+		var box = $("<input>").attr("type", "number").attr("step", "0.25").attr("min", "1").attr("max", "5").attr("data-subject", i);
 		if (isLocked === true)
 			$(box).attr("disabled", "disabled");
 
@@ -430,14 +429,15 @@ function isInvalidGrade(value) {
 
 function calculate() {
 	var result, err = 0, total = 0, units = 0;
+	for (var i = 0; i < grade.default.length; i++)
+		units += grade.default[i].units;
 
 	$("input").each(function(){
 		var value = $(this).val(),
 			identifier = $(this).attr('data-subject');
-		units += grade.default[identifier].units;
 		if (!value) {
 			err = 0;
-			return true;
+			return false;
 		} else if (isInvalidGrade(value)) {
 			err = 1;
 			return false;
