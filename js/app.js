@@ -213,19 +213,21 @@ function calculateBatches() {
 		currMonth = current.getMonth(), syp;
 
 	// Account for 2-year lapse during K+12 transition
-	if (currYear == 2017)
+	if (currYear == 2017 || currYear == 2018)
 		syp = 2019;
 	else {
-		if (currMonth < 6)
-			syp = currYear + 2;
-		else
-			syp = currYear + 3;
+        syp = currYear;
+		if (currMonth > 4)
+			++syp;
 	}
+    //console.log("youngest syp = "+syp);
 
 	batches.ten = ++syp;
 	batches.nine = ++syp;
 	batches.eight = ++syp;
 	batches.seven = ++syp;
+
+    //console.log(batches);
 }
 
 var batches = {
