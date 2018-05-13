@@ -1,0 +1,186 @@
+/**
+    app.less:
+      Main page styles.
+
+    NOTE:
+      Do not include this file in index.html.
+      Compile main.less and include the resulting main.css.
+
+    Part of the illustra/gwa project by @aureljared.
+    Licensed under GPLv2.
+*/
+
+// Fonts
+html.wf-active {
+	h1, h2, h3, p, td, span, input, select, option {
+		font-family: "Roboto" !important;
+	}
+	.num { font-family: "Roboto Mono" !important; }
+}
+
+// Sidebar
+#menu {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 20rem;
+
+	& > div {
+		margin: 2rem;
+
+		h2 {
+			font-weight: 500;
+			font-size: 1.5rem;
+		}
+		#levels {
+			margin: 3rem 0 1rem;
+
+			select {
+				-webkit-appearance: none;
+				   -moz-appearance: none;
+				        appearance: none;
+				background: url("../img/dropdown.svg") no-repeat right @gry-300;
+				background-size: 10px;
+				background-position-x: ~"calc(100% - 1rem)";
+				border: 0;
+				border-radius: 3px;
+				width: 100%;
+				padding: 1rem;
+				font-size: 1rem;
+				font-weight: 500;
+				cursor: pointer;
+				transition: background-color 300ms linear;
+			}
+		}
+
+		.button {
+			padding: 1rem;
+			cursor: pointer;
+			transition: background-color 100ms linear;
+			border-radius: 3px;
+
+			img {
+				width: 1rem;
+				max-height: 1rem;
+				vertical-align: middle;
+				margin-right: 1.5rem;
+			}
+			span {
+				font-weight: 500;
+				vertical-align: middle;
+				transition: color 300ms linear;
+			}
+			&:hover { background-color: @gry-300; }
+			&.focus { background-color: @gry-400; }
+		}
+
+		#info {
+			position: absolute;
+			bottom: 2rem;
+			left: 2rem;
+			opacity: .6;
+
+			img { width: 150px }
+			p {
+				font-size: .8rem;
+				margin-top: .75rem;
+			}
+		}
+	}
+}
+
+// Main content (subject list)
+#app {
+	position: absolute;
+	top: 0;
+	left: 20rem;
+	width: ~"calc(100vw - 20rem)";
+
+	.top {
+		position: fixed;
+		height: 10rem;
+		width: ~"calc(100vw - 20rem)";
+		background: @gry-200;
+		transition: background 300ms linear;
+
+		#top {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 2rem auto 0;
+			min-height: 8rem;
+			background: @blue-700;
+			border-top-left-radius: 3px;
+			border-top-right-radius: 3px;
+			max-width: 768px;
+			width: 100%;
+
+			#gwa {
+				font-size: 4rem;
+				text-align: center;
+				color: @white;
+			}
+		}
+	}
+
+	.body {
+		max-width: 768px;
+		background-color: @white;
+		border-radius: 3px;
+		margin: 10rem auto 2rem;
+		box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+		transition: background 300ms linear;
+		border-bottom-left-radius: 3px;
+		border-bottom-right-radius: 3px;
+
+		#grades {
+			width: ~"calc(100% - 3rem)";
+			padding-top: 1.5rem;
+			margin: 1.5rem;
+
+			table {
+				width: 100%;
+
+				.loader {
+					text-align: center;
+					padding: 5rem 0;
+					margin: 0 auto;
+				}
+				td {
+					padding-bottom: 2rem;
+
+					p, h2 { transition: color 300ms linear }
+					p { margin-bottom: 1rem }
+					h2 { font-size: 2.5rem }
+					&.controls {
+						width: 7rem;
+						vertical-align: middle;
+						padding: 0;
+						margin: 0;
+
+						& > div {
+							display: inline-block;
+							float: left;
+							width: 3rem;
+							height: 3rem;
+							border-radius: 50%;
+							cursor: pointer;
+						}
+						.plus {
+							background: url("../img/plus.svg") no-repeat @black;
+							background-size: 1rem;
+							background-position: center;
+							margin-left: 1rem;
+						}
+						.minus {
+							background: url("../img/minus.svg") no-repeat @black;
+							background-size: 1rem;
+							background-position: center;
+						}
+					}
+				}
+			}
+		}
+	}
+}

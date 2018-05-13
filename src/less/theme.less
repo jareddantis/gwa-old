@@ -1,0 +1,51 @@
+/**
+    theme.less:
+      CSS styles for night mode and the different
+      accent colors per grade level.
+
+    NOTE:
+      Do not include this file in index.html.
+      Compile main.less and include the resulting main.css.
+
+    Part of the illustra/gwa project by @aureljared.
+    Licensed under GPLv2.
+*/
+
+// Night/day colors
+html {
+	transition: background 300ms linear,
+	color 300ms linear;
+}
+html[data-theme=day] {
+	background: @gry-200;
+	color: @gry-900;
+}
+html[data-theme=night] {
+	background: @black;
+	color: @gry-200;
+	#app .top { background: @black }
+
+	img { filter: invert(100%) }
+	.button span, #grades p, #grades h2, #levels select {
+		color: @white !important;
+	}
+	.button:hover, #levels select { background-color: @gry-900 !important }
+	#app .body { background-color: @gry-900; }
+}
+
+// Grade level colors
+#app[data-theme=seven] {
+	#top, .plus, .minus { background-color: @ltgrn-700 !important }
+}
+#app[data-theme=eight] {
+	#top, .plus, .minus { background-color: @orng-700 !important }
+}
+#app[data-theme=nine] {
+	#top, .plus, .minus { background-color: @red-700 !important }
+}
+#app[data-theme=ten] {
+	#top, .plus, .minus { background-color: @blue-700 !important }
+}
+#app[data-theme=tweleven] {
+	#top, .plus, .minus { background-color: @bgrey-700 !important }
+}

@@ -1,0 +1,29 @@
+{
+  "name": "pisaygwa",
+  "version": "10.0.0",
+  "description": "General weighted average calculator for PSHS students",
+  "main": "Gulpfile.js",
+  "scripts": {
+    "build": "gulp Gulpfile.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/illustra/gwa.git"
+  },
+  "author": "",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/illustra/gwa/issues"
+  },
+  "homepage": "https://illustra.github.io/gwa",
+  "dependencies": {
+    "del": "^3.0.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^5.0.0",
+    "gulp-csso": "^3.0.1",
+    "gulp-less": "^3.5.0",
+    "gulp-svgmin": "^1.2.4",
+    "gulp-uglify": "^3.0.0",
+    "run-sequence": "^2.2.1"
+  }
+}

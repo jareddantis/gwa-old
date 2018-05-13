@@ -1,69 +1,116 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" data-theme="day">
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-        <title>PSHS Grade Calculator</title>
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-        <link rel="stylesheet" type="text/css" href="css/style.css">
-        <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=RyMLbMy4oM">
-        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?v=RyMLbMy4oM">
-        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png?v=RyMLbMy4oM">
-        <link rel="manifest" href="favicon/manifest.json?v=RyMLbMy4oM">
-        <link rel="mask-icon" href="favicon/safari-pinned-tab.svg?v=RyMLbMy4oM" color="#1f288f">
-        <link rel="shortcut icon" href="favicon/favicon.ico?v=RyMLbMy4oM">
-        <meta name="msapplication-config" content="favicon/browserconfig.xml?v=RyMLbMy4oM">
-        <meta name="theme-color" content="#0c1149">
+        <meta name="charset" content="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no">
+        <meta name="author" content="Jared Dantis">
+        <title>Pisay GWA</title>
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:site" content="@aureljared" />
+        <meta name="twitter:title" content="Pisay GWA" />
+        <meta name="twitter:description" content="General weighted average calculator for PSHS students" />
+        <meta name="twitter:image" content="https://illustra.github.io/gwa/favicon/android-chrome-512x512.png" />
+
+        <!-- CSS Libraries & polyfills -->
+        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.css">
+
+        <!-- Page styles -->
+        <link rel="stylesheet" type="text/css" href="dist/css/main.css?v=2213">
+
+        <!-- Favicon -->
+        <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=ngkaL6dvNN">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon/favicon-32x32.png?v=ngkaL6dvNN">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon/favicon-16x16.png?v=ngkaL6dvNN">
+        <link rel="manifest" href="favicon/site.webmanifest?v=ngkaL6dvNN">
+        <link rel="mask-icon" href="favicon/safari-pinned-tab.svg?v=ngkaL6dvNN" color="#e65100">
+        <link rel="shortcut icon" href="favicon/favicon.ico?v=ngkaL6dvNN">
+        <meta name="apple-mobile-web-app-title" content="Pisay GWA">
+        <meta name="application-name" content="Pisay GWA">
+        <meta name="msapplication-TileColor" content="#37474f">
+        <meta name="msapplication-config" content="favicon/browserconfig.xml?v=ngkaL6dvNN">
+        <meta name="theme-color" content="#37474f">
     </head>
     <body>
+        <!-- App menu -->
         <div id="menu">
-            <div class="menu-content invis">
-                <div>
-                    <div class="toggles">
-                        <div class="toggle" id="c_nm">night mode <span>off</span></div>
-                        <div class="toggle" id="c_units">units <span>off</span></div>
-                    </div>
-                    <p id="by"><strong>Release <span id="vc"></span></strong> by <strong><a href="https://aureljared.tk" title="">@aureljared</a></strong> based on the <strong><a href="http://pshs.edu.ph/curriculum/" title="">pshs subject matrix</a></strong></p>
-                    <p style="margin: 0">reload icon by <a href="http://www.flaticon.com/authors/freepik" title="" target="_blank">freepik</a>, lock icons by <a href="http://www.flaticon.com/authors/Madebyoliver" title="">Madebyoliver</a></p>
-                    <p style="margin-top: .75rem"><a href="http://contact.jared.gq/?subject=Pisay+GWA+Web" title=""><strong>Report a bug or send feedback</strong></a></p>
+            <div>
+                <h2>GWA Calculator</h2>
+
+                <!-- Grade dropdown -->
+                <div id="levels">
+                    <select>
+                        <option value="seven">Grade 7</option>
+                        <option value="eight">Grade 8</option>
+                        <option value="nine">Grade 9</option>
+                        <option value="ten">Grade 10</option>
+                        <option value="tweleven">SYP</option>
+                    </select>
                 </div>
-            </div>
-            <div id="header">
-                <div class="left">
-                    <div id="controls">
-                        <div id="hamburger">
-                            <div class="bun"></div>
-                            <div class="bun"></div>
-                        </div>
-                        <div id="refresh" class="active"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 489.935 489.935" width="26" height="26"><path d="M278.235 33.267c-116.7 0-211.6 95-211.6 211.7v.7l-41.9-63.1c-4.1-6.2-12.5-7.9-18.7-3.8-6.2 4.1-7.9 12.5-3.8 18.7l60.8 91.5c2.2 3.3 5.7 5.4 9.6 5.9.6.1 1.1.1 1.7.1 3.3 0 6.5-1.2 9-3.5l84.5-76.1c5.5-5 6-13.5 1-19.1-5-5.5-13.5-6-19.1-1l-56.1 50.7v-1c0-101.9 82.8-184.7 184.6-184.7s184.7 82.8 184.7 184.7-82.8 184.7-184.6 184.7c-49.3 0-95.7-19.2-130.5-54.1-5.3-5.3-13.8-5.3-19.1 0-5.3 5.3-5.3 13.8 0 19.1 40 40 93.1 62 149.6 62 116.6 0 211.6-94.9 211.6-211.7s-95-211.7-211.7-211.7z"/></svg></div>
-                    </div>
+
+                <!-- Buttons -->
+                <div class="button" id="btn-theme">
+                    <img src="dist/img/theme.svg">
+                    <span>Toggle night mode</span>
                 </div>
-                <div class="center">
-                    <h1 id="g">Welcome</h1>
+                <div class="button" id="btn-clr">
+                    <img src="dist/img/trash.svg">
+                    <span>Clear grades</span>
                 </div>
-                <div class="right">
-                    <div id="chooser" class="dropdown pull-right">
-                        <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span id="btn-text">2022</span> <span class="caret"></span></button>
-                        <ul class="dropdown-menu">
-                            <li><a href="#" data-item="seven"></a></li>
-                            <li><a href="#" data-item="eight"></a></li>
-                            <li><a href="#" data-item="nine"></a></li>
-                            <li><a href="#" data-item="ten"></a></li>
-                            <li><a href="#" data-item="tweleven"></a></li>
-                        </ul>
-                    </div>
+
+                <!-- Credits -->
+                <div id="info">
+                    <a href="https://jared.gq"><img src="https://jared.gq/img/name.svg"></a>
+                    <p>Release <span id="version">0</span> &bull; &copy; 2016-2018</p>
+                    <p>Licensed under GPLv2</p>
                 </div>
             </div>
         </div>
 
-        <div id="app">
-            <div class="container">
-                <div class="row"></div>
+        <!-- App body -->
+        <div id="app" data-theme="seven">
+            <div class="top">
+                <div id="top">
+                    <h1 id="gwa" class="num">1.000</h1>
+                </div>
+            </div>
+            <div class="body">
+                <div id="grades"><table>
+                    <!-- Automatically populated by app.js -->
+                    <tr class="loader">
+                        <td colspan="2">Loading<br><br>
+                        This page requires JavaScript to work</td>
+                    </tr>
+                </table></div>
             </div>
         </div>
 
-        <script type="text/javascript" src="js/jquery.min.js"></script>
-        <script type="text/javascript" src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/app.min.js?v=RyMLbMy4oM"></script>
+        <!-- JS Libraries & polyfills -->
+        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js"></script> -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <!-- Page scripts -->
+        <script type="text/javascript" src="dist/js/subjects.js"></script>
+        <script type="text/javascript" src="dist/js/state.js?v=RyMLbMy4oM"></script>
+        <script type="text/javascript" src="dist/js/calc.js?v=RyMLbMy4oM"></script>
+        <script type="text/javascript" src="dist/js/app.js?v=RyMLbMy4oM"></script>
+        <script type="text/javascript">
+            $(function(){
+                // Load fonts
+                WebFont.load({
+                    google: {
+                        families: ['Roboto:400,500', 'Roboto Mono']
+                    }
+                });
+
+                // Register dialog (for polyfill)
+                // dialogPolyfill.registerDialog(document.querySelector(''));
+
+                // Initialize app
+                app.init();
+            });
+        </script>
     </body>
 </html>

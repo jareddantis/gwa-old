@@ -1,2 +1,3 @@
 # gwa
-General Weighted Average calculator for Grade 9 students
+
+General weighted average calculator for PSHS students

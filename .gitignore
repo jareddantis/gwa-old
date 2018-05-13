@@ -1,1 +1,3 @@
-img/appicon.jpg
+*.sublime-project
+*.sublime-workspace
+node_modules/
