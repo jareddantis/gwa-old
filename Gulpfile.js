@@ -47,17 +47,33 @@ gulp.task('scripts', function() {
 });
 
 // Minify SVG files
-gulp.task('svg', function() {
+gulp.task('svg', ['clean-svg'], function() {
 	return gulp.src('./src/img/*.svg')
 		.pipe(svgmin())
 		.pipe(gulp.dest('./dist/img'));
 });
 
 // Clean output directory
-gulp.task('clean', function() { del(['dist']); });
+gulp.task('clean-css-js', function() {
+	del([
+		'dist/css',
+		'dist/js'
+	]);
+});
+gulp.task('clean-svg', function() {
+	del([
+		'dist/img/*.svg'
+	]);
+});
 
 // Gulp task to minify all files
-gulp.task('default', ['clean'], function () {
+gulp.task('default', ['clean-css-js'], function () {
+	runSequence(
+		'styles',
+		'scripts'
+	);
+});
+gulp.task('all', ['clean-css-js', 'clean-svg'], function(){
 	runSequence(
 		'styles',
 		'scripts',
