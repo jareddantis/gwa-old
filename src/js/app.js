@@ -1,12 +1,15 @@
 /**
-    app.js:
-      Responsible for handling the UI.
-
-    Part of the illustra/gwa project by @aureljared.
-    Licensed under GPLv2.
+    @file app.js
+    @description Responsible for handling the UI.
+    @author Jared Dantis (@aureljared)
+    @license GPLv2
 */
 
 var app = {
+	/**
+	    Initializes the app by creating click listeners,
+	    displaying the app version, and restoring saved state.
+	*/
 	init: function() {
 		// Restore state
 		state.load();
@@ -87,8 +90,13 @@ var app = {
 		});
 	},
 
+	/**
+	    Sets day/night mode.
+
+	    @param {String} The new selected theme
+	*/
 	setTheme: function(theme) {
-		// Update button
+		// Update button text
 		var old = theme == "day" ? "Night" : "Day";
 		$('#btn-theme span').text(old + ' mode');
 
@@ -99,8 +107,13 @@ var app = {
 		state.set("dispMode", theme);
 	},
 
+	/**
+	    Sets/unsets cGPA calculation mode.
+
+	    @param {Boolean} isGpa - Whether we are now in cGPA mode or not
+	*/
 	setGpa: function(isGpa) {
-		// Update button
+		// Update button text
 		var newText = isGpa ? "GWA mode" : "cGPA mode (alpha)";
 		$('#btn-gpa span').text(newText);
 
@@ -111,10 +124,19 @@ var app = {
 		app.calculate();
 	},
 
+	/**
+	    Sets the accent colors according to grade level.
+
+	    @param {String} level - The grade level on which to base accent colors
+	*/
 	setColors: function(level) {
 		$('#app').attr('data-theme', level);
 	},
 
+	/**
+	    Fills the subject list with the subjects and the saved
+	    grades for each.
+	*/
 	populateSubjects: function() {
 		var currGrades = state.get("grades");
 
@@ -144,6 +166,17 @@ var app = {
 		app.calculate();
 	},
 
+	/**
+	    Creates a table row element (tr) that contains a
+	    subject, along with the grade and -/+ controls.
+
+	    @param {Int} id
+	    	The subject ID, e.g. the index of the subject
+	    	in the array subjects.default.
+	    @param {String} subjName  -  Subject name
+	    @param {String} subjGrade  -  Saved subject grade
+	    @returns {jQuery} The created subject row
+	*/
 	createSubjectRow: function(id, subjName, subjGrade){
 		//  <tr> element that will contain everything
 		var row = $('<tr>').attr('data-subject', id),
@@ -211,6 +244,13 @@ var app = {
 		return row;
 	},
 
+	/**
+	    Asks user to manually input a grade for a specific subject.
+
+	    @param {String} subjId
+	    	The subject ID, e.g. the index of the subject
+	    	in the array subjects.default.
+	*/
 	promptGrade: function(subjId) {
 		var curr = state.getGrade(parseInt(subjId)),
 			name = subjects.default[subjId].name;
@@ -234,8 +274,10 @@ var app = {
 		}
 	},
 
+	/**
+	    Calculates GWA and displays result
+	*/
 	calculate: function() {
-		// Calculate and display result
 		var result = calc.ulate();
 		$('#gwa').text(result.substring(0,5));
 	}

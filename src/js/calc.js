@@ -1,14 +1,17 @@
 /**
-    calc.js:
-      Where the magic happens!
-
-    Part of the illustra/gwa project by @aureljared.
-    Licensed under GPLv2.
+    @file calc.js
+    @description Where the magic happens!
+    @author Jared Dantis (@aureljared)
+    @license GPLv2
 */
 
 var calc = {
-    // Calculate GWA
-    ulate: function(data) {
+    /**
+        Calculates grade average. Get it? calc.ulate? :-(
+
+        @returns {String} The computed average, truncated to 10 decimal places
+    */
+    ulate: function() {
         var totalUnits = 0, total = 0, isGpa = state.get("isGpa");
 
         // Get weighted sum
@@ -20,17 +23,25 @@ var calc = {
             // Get grade
             var grade = state.getGrade(i);
             if (isGpa)
-                grade = this.convertGradeToUS(grade);
+                grade = this.convertToGpa(grade);
 
             // Multiply grade by units and add to sum
             total += grade * units;
         }
 
+        // Convert to string so we can truncate later
+        // since we're not supposed to round the value
         return "" + (total / totalUnits).toFixed(10);
     },
 
-    // Convert GWA to US GPA
-    convertGradeToUS: function(grade) {
+    /**
+        Converts grade value to GPA equivalent.
+        Conversion is based on the following page:
+
+        @param {Float} grade - The grade value
+        @returns {Float} The GPA equivalent
+    */
+    convertToGpa: function(grade) {
         var equiv;
 
         switch (parseFloat(grade)) {
@@ -71,10 +82,16 @@ var calc = {
         return equiv;
     },
 
-    // Validate an entered grade value
+    /**
+        Checks if an user-entered grade value is a valid grade.
+
+        @param {String} value - The user-entered grade value
+        @returns {Object}
+            The result of the validation (.result) and the
+            reason for invalidation (.reason), if any.
+    */
     isValid: function(value) {
-        var grade = parseFloat(value),
-            reason = "";
+        var grade = parseFloat(value), reason = "";
 
         // Contains characters other than numbers and period
         if (/[^0-9\.]+/.test(value))

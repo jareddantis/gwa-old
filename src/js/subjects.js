@@ -1,10 +1,10 @@
 /**
-    subjects.js:
-      List of all the subjects per grade level, along
-      with the corresponding grade units.
+    List of all the subjects per grade level, along
+    with the corresponding grade units.
 
-    Part of the illustra/gwa project by @aureljared.
-    Licensed under GPLv2.
+    @file subjects.js
+    @author Jared Dantis (@aureljared)
+    @license GPLv2
 */
 
 var subjects = {

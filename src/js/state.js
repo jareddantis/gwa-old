@@ -1,42 +1,41 @@
 /**
-    state.js:
-      Methods responsible for keeping app state between
-      page loads, e.g. ensuring that the entered grades
-      don't get lost.
-
-    Part of the illustra/gwa project by @aureljared.
-    Licensed under GPLv2.
+    @file state.js
+    @description Responsible for saving user grades & settings.
+    @author Jared Dantis (@aureljared)
+    @license GPLv2
 */
 
 var state = {
     /**
-        current:
-          Current settings object.
+        Current settings
     */
     current: {
-        version: "10",
-        versionCode: 12,
-        set: "seven",      // Selected set of subjects
-        grades: [],        // Entered grades
-        dispMode: "day",   // Night mode
-        isGpa: false       // cGPA mode
+        version: "10",     // {String} Version name (external)
+        versionCode: 12,   // {Int} Version code (internal)
+        set: "seven",      // {String} Grade level
+        grades: [],        // {Array} Entered grades
+        dispMode: "day",   // {String} Display mode (night/day)
+        isGpa: false       // {Boolean} cGPA mode
     },
 
     /**
-        get():
-          Retrieve key from settings object.
+        Retrieves specific setting.
+
+        @param {String} key - The key for the setting
+        @returns {(String|Array|Int|Boolean)} The requested setting
     */
     get: function(key) {
         return this.current[key];
     },
 
     /**
-        set():
-          Update settings object and save settings
-          in local storage.
+        Updates specific setting and save all settings to localStorage.
+
+        @param {String} key - The key for the setting
+        @param {String} value - The new value for the setting
     */
     set: function(key, value) {
-        // Modify current settings
+        // Modify current settings object
         this.current[key] = value;
 
         // Save settings in local storage
@@ -47,18 +46,32 @@ var state = {
         }
     },
 
-    getGrade: function(id) {
-        return this.current.grades[id];
-    },
+    /**
+        Gets saved grade for a subject.
 
+        @param {String} id - Subject ID. See app.createSubjectRow().
+        @returns {(String|Array|Int|Boolean)} The requested grade
+    */
+    getGrade: function(id) { return this.current.grades[id]; },
+
+    /**
+        Sets grade for a subject.
+
+        @param {String} id - Subject ID. See app.createSubjectRow().
+        @param {String} grade - The new subject grade
+    */
     setGrade: function(id, grade) {
         this.current.grades[id] = grade;
         this.set("grades", this.current.grades);
     },
 
     /**
-        switchLevel():
-          Switch grade level and save that preference.
+        Switches grade level and save that preference.
+
+        @param {String} level - The new grade level
+        @param {Boolean} retainGrades
+            Whether to retain grades or not.
+            Useful when restoring saved state.
     */
     switchLevel: function(level, retainGrades) {
         // Reset grades
@@ -76,6 +89,11 @@ var state = {
         app.setColors(level);
     },
 
+    /**
+        Sets all grades to 1.0.
+
+        @param {String} level - The grade level for which to reset grades
+    */
     resetGrades: function(level) {
         // If no args passed, assume reset grades
         // for current grade level
@@ -91,8 +109,7 @@ var state = {
     },
 
     /**
-        load():
-          Load saved state
+        Loads saved state from localStorage
     */
     load: function() {
         // Check if browser supports local data storage
