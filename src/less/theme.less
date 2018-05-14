@@ -15,20 +15,23 @@
 html {
 	transition: background 300ms linear,
 	color 300ms linear;
+	background: @gry-200;
+	color: @gry-900;
 }
-html[data-theme=day] {
+html[data-theme=day], #menu {
 	background: @gry-200;
 	color: @gry-900;
 }
 html[data-theme=night] {
 	background: @black;
 	color: @gry-200;
-	#app .top { background: @black }
+	#app .top, #menu { background: @black }
 
-	img { filter: invert(100%) }
-	.button span, #grades p, #grades h2, #levels select {
+	.button span, #grades p,
+	#grades h2, #levels select, #menu {
 		color: @white !important;
 	}
+	img { filter: invert(100%) }
 	.button:hover, #levels select { background-color: @gry-900 !important }
 	#app .body { background-color: @gry-900; }
 }

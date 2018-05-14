@@ -14,7 +14,8 @@ var state = {
           Current settings object.
     */
     current: {
-        version: "10 beta 1",
+        version: "10",
+        versionCode: 12,
         set: "seven",      // Selected set of subjects
         grades: [],        // Entered grades
         dispMode: "day",   // Night mode
@@ -59,9 +60,10 @@ var state = {
         switchLevel():
           Switch grade level and save that preference.
     */
-    switchLevel: function(level) {
+    switchLevel: function(level, retainGrades) {
         // Reset grades
-        this.resetGrades(level);
+        if (!retainGrades)
+            this.resetGrades(level);
 
         // Save selected grade level
         this.set("set", level);
@@ -105,9 +107,29 @@ var state = {
                 // Check if saved state is valid
                 if (savedState.set != null && savedState.grades.length > 1) {
                     console.log("Restoring state for " + savedState.set);
+
+                    // Restore grades
+                    if (savedState.version === undefined ||
+                        savedState.versionCode < this.current.versionCode ||
+                        typeof savedState.grades[0] === "string") {
+                        // Grades were saved as strings in versions <10
+                        console.log("Upgrading data from v<10");
+                        var grades = [];
+                        for (var i = 0; i < savedState.grades.length; i++) {
+                            var grade = parseFloat(savedState.grades[i]);
+                            grades.push(grade);
+                        }
+
+                        // Save converted grade data
+                        this.set("grades", grades);
+                    } else {
+                        // Restore grades normally
+                        this.current.grades = savedState.grades;
+                    }
+
+                    // Restore everything else
                     $('#levels select').val(savedState.set);
-                    this.switchLevel(savedState.set);
-                    this.current.grades = savedState.grades;
+                    this.switchLevel(savedState.set, true);
                     this.current.isGpa = savedState.isGpa;
                     app.setTheme(savedState.dispMode);
                     app.populateSubjects();
@@ -121,8 +143,7 @@ var state = {
                 this.switchLevel("seven");
                 app.populateSubjects();
             }
-        } else {
+        } else
             $('tr.loader td').text("Please use a newer browser.");
-        }
     },
 };

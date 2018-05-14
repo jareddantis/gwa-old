@@ -2,9 +2,13 @@
 <html lang="en" data-theme="day">
     <head>
         <meta name="charset" content="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no, shrink-to-fit=no">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="author" content="Jared Dantis">
         <title>Pisay GWA</title>
+
+        <!-- Preload for performance -->
+        <link rel="preload" href="dist/css/main.css" as="style">
+        <link rel="preload" href="dist/js/script.js" as="script">
 
         <!-- Twitter Card -->
         <meta name="twitter:card" content="summary" />
@@ -14,10 +18,10 @@
         <meta name="twitter:image" content="https://illustra.github.io/gwa/favicon/android-chrome-512x512.png" />
 
         <!-- CSS Libraries & polyfills -->
-        <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.css">
+        <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.css"> -->
 
         <!-- Page styles -->
-        <link rel="stylesheet" type="text/css" href="dist/css/main.css?v=2213">
+        <link rel="stylesheet" type="text/css" href="dist/css/main.css">
 
         <!-- Favicon -->
         <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png?v=ngkaL6dvNN">
@@ -40,7 +44,7 @@
 
                 <!-- Grade dropdown -->
                 <div id="levels">
-                    <select>
+                    <select aria-label="Grade level">
                         <option value="seven">Grade 7</option>
                         <option value="eight">Grade 8</option>
                         <option value="nine">Grade 9</option>
@@ -51,33 +55,43 @@
 
                 <!-- Buttons -->
                 <div class="button" id="btn-theme">
-                    <img src="dist/img/theme.svg">
+                    <img alt="Toggle night mode" src="dist/img/theme.svg">
                     <span>Toggle night mode</span>
                 </div>
                 <div class="button" id="btn-clr">
-                    <img src="dist/img/trash.svg">
+                    <img alt="Clear grades" src="dist/img/trash.svg">
                     <span>Clear grades</span>
                 </div>
+                <a aria-label="Send feedback" href="http://server.jared.gq/feedback/?subject=pisaygwa-web" target="_blank" rel="noopener">
+                    <div class="button" id="btn-feedback">
+                        <img alt="Send feedback" src="dist/img/comment.svg">
+                        <span>Send feedback</span>
+                    </div>
+                </a>
 
                 <!-- Credits -->
                 <div id="info">
-                    <a href="https://jared.gq"><img src="https://jared.gq/img/name.svg"></a>
+                    <a aria-label="Jared Dantis" href="https://jared.gq"><img alt="Jared Dantis" src="https://jared.gq/img/name.svg"></a>
                     <p>Release <span id="version">0</span> &bull; &copy; 2016-2018</p>
                     <p>Licensed under GPLv2</p>
                 </div>
             </div>
         </div>
+        <div id="menu-bg"></div>
 
         <!-- App body -->
         <div id="app" data-theme="seven">
             <div class="top">
+                <div id="menu-toggle">
+                    <img alt="Open menu" src="dist/img/menu.svg">
+                </div>
                 <div id="top">
                     <h1 id="gwa" class="num">1.000</h1>
                 </div>
             </div>
             <div class="body">
                 <div id="grades"><table>
-                    <!-- Automatically populated by app.js -->
+                    <!-- Automatically populated by app.js:populateSubjects() -->
                     <tr class="loader">
                         <td colspan="2">Loading<br><br>
                         This page requires JavaScript to work</td>
@@ -89,15 +103,16 @@
         <!-- JS Libraries & polyfills -->
         <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js"></script> -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
         <!-- Page scripts -->
-        <script type="text/javascript" src="dist/js/subjects.js"></script>
-        <script type="text/javascript" src="dist/js/state.js?v=RyMLbMy4oM"></script>
-        <script type="text/javascript" src="dist/js/calc.js?v=RyMLbMy4oM"></script>
-        <script type="text/javascript" src="dist/js/app.js?v=RyMLbMy4oM"></script>
+        <script type="text/javascript" src="dist/js/script.js"></script>
         <script type="text/javascript">
             $(function(){
+                // Init FastClick
+                FastClick.attach(document.body);
+
                 // Load fonts
                 WebFont.load({
                     google: {

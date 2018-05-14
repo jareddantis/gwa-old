@@ -16,3 +16,15 @@
 @import "colors.less";
 @import "theme.less";
 @import "app.less";
+@import "media.less";
+
+/**
+	Global styles
+*/
+// Disable text selection on everything
+* { user-select: none }
+// Reduce touch latency on clickable elements (IE 10+)
+.button, .controls > div {
+	-ms-touch-action: manipulation;
+	    touch-action: manipulation;
+}

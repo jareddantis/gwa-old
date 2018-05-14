@@ -1,0 +1,79 @@
+/**
+    media.less:
+      Set of CSS rules that make the web app responsive, so
+      it looks great no matter what device it's used on.
+
+    NOTE:
+      Do not include the other LESS files in index.html.
+      Compile this file and include the resulting main.css.
+
+    Part of the illustra/gwa project by @aureljared.
+    Licensed under GPLv2.
+*/
+
+// Smaller laptops (< 1200px width)
+@media screen and (max-width: 1200px) {
+	html[data-theme=day] { background: @white !important }
+	html[data-theme=night] { background: @gry-900 !important }
+	#menu {
+		// Hide the sidebar
+		margin-left: -20rem;
+		transition: margin-left 300ms ease;
+		z-index: 5;
+
+		&.visible { margin-left: 0 }
+	}
+	#app {
+		left: 0;
+		width: 100%;
+
+		.top {
+			height: 5rem;
+			width: 100%;
+			box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+
+			#menu-toggle { display: block }
+			#top {
+				margin: 0 auto;
+				height: 100%;
+				max-width: 100%;
+				border-radius: 0px !important;
+				box-shadow: none;
+
+				#gwa { font-size: 2.5rem }
+			}
+		}
+		.body {
+			margin: 5rem auto 0;
+			max-width: 100%;
+			box-shadow: none;
+
+			#grades { margin-bottom: 0 }
+		}
+	}
+}
+
+// Phablets & smaller (< 800px width)
+@media screen and (max-width: 800px) {
+	#app {
+		.top {
+			height: 3.5rem;
+
+			#top #gwa { font-size: 1.75rem }
+		}
+		.body  {
+			margin: 3.5rem auto 0;
+
+			#grades table td {
+				h2 { font-size: 2rem }
+				&.controls {
+					width: 6rem;
+					& > div {
+						width: 2.5rem;
+						height: 2.5rem;
+					}
+				}
+			}
+		}
+	}
+}

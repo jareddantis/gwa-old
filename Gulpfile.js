@@ -20,7 +20,7 @@ var svgmin = require('gulp-svgmin');
 var uglify = require('gulp-uglify');
 
 // Build & minify LESS files
-gulp.task('styles', function() {
+gulp.task('css', ['clean-css'], function() {
 	return gulp.src('./src/less/main.less')
 	    .pipe(less())
 	    .pipe(autoprefixer({"browsers": [
@@ -39,7 +39,7 @@ gulp.task('styles', function() {
 });
 
 // Minify JS files
-gulp.task('scripts', function() {
+gulp.task('js', ['clean-js'], function() {
 	return gulp.src('./src/js/*.js')
 		.pipe(concat('script.js'))
 		.pipe(uglify())
@@ -54,29 +54,21 @@ gulp.task('svg', ['clean-svg'], function() {
 });
 
 // Clean output directory
-gulp.task('clean-css-js', function() {
-	del([
-		'dist/css',
-		'dist/js'
-	]);
-});
-gulp.task('clean-svg', function() {
-	del([
-		'dist/img/*.svg'
-	]);
-});
+gulp.task('clean-css', function(){ del(['dist/css']); });
+gulp.task('clean-js', function(){ del(['dist/js']); });
+gulp.task('clean-svg', function(){ del(['dist/img/*.svg']); });
 
 // Gulp task to minify all files
-gulp.task('default', ['clean-css-js'], function () {
+gulp.task('default', function () {
 	runSequence(
-		'styles',
-		'scripts'
+		'css',
+		'js'
 	);
 });
-gulp.task('all', ['clean-css-js', 'clean-svg'], function(){
+gulp.task('all', function(){
 	runSequence(
-		'styles',
-		'scripts',
+		'css',
+		'js',
 		'svg'
 	);
 });

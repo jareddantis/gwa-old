@@ -9,15 +9,27 @@
 var app = {
 	init: function() {
 		// Restore state
-		$('#version').text(state.get("version"));
 		state.load();
 
-		// Button styling
+		// Display version
+		var version = state.get("version");
+		$('#version').text(version);
+		var fdbkLink = $('#btn-feedback').parent().attr('href');
+		fdbkLink += '-' + version.replace(/ /g, '');
+		$('#btn-feedback').parent().attr('href', fdbkLink);
+
+		// Button styling & default action
 		$('.button').each(function(){
 			$(this).mousedown(function(){
 				$(this).addClass('focus');
 			}).mouseup(function(){
 				$(this).removeClass('focus');
+			}).click(function(){
+				// Hide sidebar on click
+				if ($('#menu').hasClass('visible')) {
+					$('#menu').removeClass('visible');
+					$('#menu-bg').fadeOut();
+				}
 			});
 		});
 
@@ -25,6 +37,12 @@ var app = {
 		$('#levels select').on('change', function(){
 			// Load new subject set
 			state.switchLevel($(this).val());
+
+			// Hide sidebar
+			if ($('#menu').hasClass('visible')) {
+				$('#menu').removeClass('visible');
+				$('#menu-bg').fadeOut();
+			}
 		});
 
 		// Night mode button action
@@ -42,6 +60,23 @@ var app = {
 		$('#btn-clr').click(function(){
 			state.resetGrades();
 			app.populateSubjects();
+		});
+
+		// Sidebar toggle action
+		$('#menu-toggle').click(function(){
+			if ($('#menu').hasClass('visible')) {
+				$('#menu').removeClass('visible');
+				$('#menu-bg').fadeOut();
+			} else {
+				$('#menu').addClass('visible');
+				$('#menu-bg').fadeIn();
+			}
+		});
+
+		// Hide sidebar on click outside
+		$('#menu-bg').click(function(){
+			$('#menu').removeClass('visible');
+			$(this).fadeOut();
 		});
 	},
 

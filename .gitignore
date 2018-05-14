@@ -1,4 +1,3 @@
-*.sublime-project
-*.sublime-workspace
+*.sublime*
 node_modules/
 package-lock.json
