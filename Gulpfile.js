@@ -10,6 +10,7 @@
 */
 
 var autoprefixer = require('gulp-autoprefixer');
+var concat = require('gulp-concat');
 var csso = require('gulp-csso');
 var del = require('del');
 var gulp = require('gulp');
@@ -40,6 +41,7 @@ gulp.task('styles', function() {
 // Minify JS files
 gulp.task('scripts', function() {
 	return gulp.src('./src/js/*.js')
+		.pipe(concat('script.js'))
 		.pipe(uglify())
 		.pipe(gulp.dest('./dist/js'));
 });

@@ -25,5 +25,8 @@
     "gulp-svgmin": "^1.2.4",
     "gulp-uglify": "^3.0.0",
     "run-sequence": "^2.2.1"
+  },
+  "devDependencies": {
+    "gulp-concat": "^2.6.1"
   }
 }
