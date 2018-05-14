@@ -17,6 +17,8 @@ html {
 	color 300ms linear;
 	background: @gry-200;
 	color: @gry-900;
+
+	a { color: @gry-900 !important }
 }
 html[data-theme=day], #menu {
 	background: @gry-200;
@@ -27,7 +29,7 @@ html[data-theme=night] {
 	color: @gry-200;
 	#app .top, #menu { background: @black }
 
-	.button span, #grades p,
+	.button span, #grades p, a,
 	#grades h2, #levels select, #menu {
 		color: @white !important;
 	}

@@ -62,6 +62,13 @@ var app = {
 			app.populateSubjects();
 		});
 
+		// cGPA toggle button action
+		$('#btn-gpa').click(function(){
+			// Flip mode
+			var curr = state.get("isGpa");
+			app.setGpa(!curr);
+		});
+
 		// Sidebar toggle action
 		$('#menu-toggle').click(function(){
 			if ($('#menu').hasClass('visible')) {
@@ -81,11 +88,27 @@ var app = {
 	},
 
 	setTheme: function(theme) {
+		// Update button
+		var old = theme == "day" ? "Night" : "Day";
+		$('#btn-theme span').text(old + ' mode');
+
 		// Apply new theme
 		$('html').attr('data-theme', theme);
 
 		// Save theme preferences
 		state.set("dispMode", theme);
+	},
+
+	setGpa: function(isGpa) {
+		// Update button
+		var newText = isGpa ? "GWA mode" : "cGPA mode (alpha)";
+		$('#btn-gpa span').text(newText);
+
+		// Save prefs
+		state.set("isGpa", isGpa);
+
+		// Recalculate
+		app.calculate();
 	},
 
 	setColors: function(level) {

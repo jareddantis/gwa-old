@@ -130,7 +130,7 @@ var state = {
                     // Restore everything else
                     $('#levels select').val(savedState.set);
                     this.switchLevel(savedState.set, true);
-                    this.current.isGpa = savedState.isGpa;
+                    app.setGpa(savedState.isGpa);
                     app.setTheme(savedState.dispMode);
                     app.populateSubjects();
                 } else {

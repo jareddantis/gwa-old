@@ -17,9 +17,6 @@
         <meta name="twitter:description" content="General weighted average calculator for PSHS students" />
         <meta name="twitter:image" content="https://illustra.github.io/gwa/favicon/android-chrome-512x512.png" />
 
-        <!-- CSS Libraries & polyfills -->
-        <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.css"> -->
-
         <!-- Page styles -->
         <link rel="stylesheet" type="text/css" href="dist/css/main.css">
 
@@ -40,7 +37,7 @@
         <!-- App menu -->
         <div id="menu">
             <div>
-                <h2>GWA Calculator</h2>
+                <a href="https://jared.gq/gwa" aria-label="Home page"><h2>GWA Calculator</h2></a>
 
                 <!-- Grade dropdown -->
                 <div id="levels">
@@ -54,18 +51,28 @@
                 </div>
 
                 <!-- Buttons -->
-                <div class="button" id="btn-theme">
-                    <img alt="Toggle night mode" src="dist/img/theme.svg">
-                    <span>Toggle night mode</span>
-                </div>
                 <div class="button" id="btn-clr">
                     <img alt="Clear grades" src="dist/img/trash.svg">
                     <span>Clear grades</span>
+                </div>
+                <div class="button" id="btn-theme">
+                    <img alt="Toggle night mode" src="dist/img/theme.svg">
+                    <span>Night mode</span>
+                </div>
+                <div class="button" id="btn-gpa">
+                    <img alt="Switch result type" src="dist/img/swap.svg">
+                    <span>cGPA mode (alpha)</span>
                 </div>
                 <a aria-label="Send feedback" href="http://server.jared.gq/feedback/?subject=pisaygwa-web" target="_blank" rel="noopener">
                     <div class="button" id="btn-feedback">
                         <img alt="Send feedback" src="dist/img/comment.svg">
                         <span>Send feedback</span>
+                    </div>
+                </a>
+                <a aria-label="Get Android app" href="http://by.jared.gq/androidgwa" target="_blank" rel="noopener">
+                    <div class="button" id="btn-android">
+                        <img alt="Get Android app" src="dist/img/android.svg">
+                        <span>Get Android app</span>
                     </div>
                 </a>
 
@@ -101,7 +108,6 @@
         </div>
 
         <!-- JS Libraries & polyfills -->
-        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/dialog-polyfill/0.4.9/dialog-polyfill.min.js"></script> -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -116,12 +122,23 @@
                 // Load fonts
                 WebFont.load({
                     google: {
-                        families: ['Roboto:400,500', 'Roboto Mono']
+                        families: ['Roboto:400,500', 'Roboto Mono:400,700']
                     }
                 });
 
-                // Register dialog (for polyfill)
-                // dialogPolyfill.registerDialog(document.querySelector(''));
+                // Remove download button if on iOS
+                // Detection from https://stackoverflow.com/a/9039885/3350320
+                var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+                if (iOS)
+                    $('#btn-android').parent().remove();
+                else {
+                    // Update APK download link
+                    var baseUri = 'https://api.github.com/repos/illustra/gwa-android/releases/latest';
+                    $.getJSON(baseUri, function(data){
+                        var apkUri = data.assets[0].browser_download_url;
+                        $('#btn-android').parent().attr('href', apkUri);
+                    });
+                }
 
                 // Initialize app
                 app.init();

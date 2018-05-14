@@ -77,3 +77,26 @@
 		}
 	}
 }
+
+// Small height displays
+@media screen and (max-height: 640px) {
+	#menu {
+		// Allow scrolling
+		overflow-y: scroll;
+
+		& > div #info {
+			position: initial;
+			margin: 3rem 0 2rem;
+
+			// Separator
+			&::before {
+				display: block;
+				content: " ";
+				width: 5rem;
+				height: 1px;
+				background: @gry-400;
+				margin-bottom: 2rem;
+			}
+		}
+	}
+}
