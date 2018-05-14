@@ -72,22 +72,26 @@ var calc = {
     },
 
     // Validate an entered grade value
-    validate: function(value) {
-        var grade = parseFloat(value), invalid = false;
+    isValid: function(value) {
+        var grade = parseFloat(value),
+            reason = "";
 
         // Contains characters other than numbers and period
         if (/[^0-9\.]+/.test(value))
-            invalid = true;
+            reason = "contains invalid characters";
         // Out of range
         else if (grade < 1 || grade > 5)
-            invalid = true;
+            reason = grade + " is out of range";
         // Indivisible by 0.25 for grades greater than 3.00
         else if (grade < 3 && (grade % 0.25 != 0))
-            invalid = true;
+            reason = "no such grade";
         // Between 3, 4, and 5
         else if ((grade > 3 && grade < 4) || (grade > 4 && grade < 5))
-            invalid = true;
+            reason = "no such grade";
 
-        return invalid;
+        return {
+            result: reason.length > 0,
+            reason: reason
+        };
     }
 };

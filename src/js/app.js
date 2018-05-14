@@ -175,11 +175,40 @@ var app = {
 			app.calculate();
 		});
 
+		// Allow manual grade entry on grade click
+		$(grade).click(function(){
+			var subjId = $(this).parent().parent().attr('data-subject');
+			app.promptGrade(subjId);
+		});
+
 		// Put everything together
 		$(lcol).append(subj).append(grade);
 		$(rcol).append(minus).append(plus);
 		$(row).append(lcol).append(rcol);
 		return row;
+	},
+
+	promptGrade: function(subjId) {
+		var curr = state.getGrade(parseInt(subjId)),
+			name = subjects.default[subjId].name;
+
+		// Prompt new grade
+		var newGrade = window.prompt("Enter grade for " + name),
+			validation = calc.isValid(newGrade);
+		if (newGrade.length > 0) {
+			if (!validation.result) {
+				// Set new grade
+				newGrade = parseFloat(newGrade);
+				$('tr[data-subject='+subjId+'] h2').text(newGrade.toFixed(2));
+				state.setGrade(subjId, newGrade);
+
+				// Recalculate
+				app.calculate();
+			} else {
+				// Display error
+				window.alert("Invalid grade entered: " + validation.reason);
+			}
+		}
 	},
 
 	calculate: function() {
