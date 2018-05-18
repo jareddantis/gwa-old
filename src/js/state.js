@@ -76,14 +76,17 @@ var state = {
             Useful when restoring saved state.
     */
     switchLevel: function(level, retainGrades) {
+        // Retain grades if no change in level
+        if (retainGrades === undefined)
+            retainGrades = level == this.get("set");
+
+        console.log("Switching to " + level + ", retain=" + retainGrades);
+
         // If "custom", show edit button
         if (level == "custom")
             app.showEditBtn();
         else
             app.hideEditBtn();
-
-        // Retain grades if no change in level
-        retainGrades = retainGrades || level == this.get("set");
 
         // Reset grades
         if (!retainGrades)
@@ -180,13 +183,15 @@ var state = {
                     app.setTheme(savedState.dispMode);
                 } else {
                     console.warn("Data is invalid, resetting");
-                    this.switchLevel("seven");
+                    app.populateChooser("seven");
+                    this.switchLevel("seven", false);
                 }
             } else {
                 console.log("Data does not exist, initializing");
-                this.switchLevel("seven");
+                app.populateChooser("seven");
+                this.switchLevel("seven", false);
             }
         } else
             $('tr.loader td').text("Please use a newer browser.");
-    },
+    }
 };
