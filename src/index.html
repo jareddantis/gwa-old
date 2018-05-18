@@ -135,7 +135,6 @@
         </div>
 
         <!-- JS Libraries & polyfills -->
-        <script async defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js" id="scWf"></script>
         <script async defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js" id="scFc"></script>
         <script async defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.6.0/Sortable.min.js" id="scSt"></script>
         <script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" id="scJq"></script>
@@ -143,10 +142,28 @@
         <!-- Main page scripts -->
         <script defer type="text/javascript" src="dist/js/script.js" id="scGw"></script>
         <script type="text/javascript">
-            // Initialize app
+            WebFontConfig = {
+                google: {
+                    families: [
+                        'Roboto:400,500',
+                        'Roboto Mono:400,700'
+                    ]
+                }
+            };
+
             window.onload = function(){
+                // Initialize app
                 console.log("Initializing");
                 app.init();
+
+                // Load webfonts
+                (function(d) {
+                    var wf = document.createElement('script'),
+                        s = d.scripts[0];
+                    wf.src = 'https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js';
+                    wf.async = true;
+                    s.parentNode.insertBefore(wf, s);
+                })(document);
             };
 
             // On jQuery load
@@ -170,19 +187,6 @@
             scFc.addEventListener('load', function(){
                 // Init FastClick
                 FastClick.attach(document.body);
-            });
-
-            // on WebFontLoader load
-            scWf.addEventListener('load', function(){
-                // Load web fonts
-                WebFont.load({
-                    google: {
-                        families: [
-                            'Roboto:400,500',
-                            'Roboto Mono:400,700'
-                        ]
-                    }
-                });
             });
         </script>
     </body>
