@@ -155,6 +155,11 @@ var app = {
         $('#app').attr('data-theme', level);
     },
 
+    /**
+        Creates the options for the grade dropdown list.
+
+        @param {String} selectedSet - The grade level to select by default
+    */
     populateChooser: function(selectedSet) {
         var sets = subjects.getSets();
         for (var i = 0; i < sets.length; i++) {
@@ -222,10 +227,10 @@ var app = {
         // Check for length mismatch
         // e.g. if grade array does not match grade level
         if (currGrades.length != subjs.length) {
-            console.error("currGrades does not match subjects.default, adjusting");
-            console.log("----- currGrades -----");
+            console.warn("currGrades does not match subjects.default, adjusting");
+            console.log("----- currGrades (len = " + currGrades.length + ") -----");
             console.log(currGrades);
-            console.log("----- subjects.default -----");
+            console.log("----- subjects.default (len = " + subjs.length + ") -----");
             console.log(subjs);
 
             // Adjust currGrades to match subjs.length
