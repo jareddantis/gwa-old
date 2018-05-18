@@ -178,18 +178,13 @@ var state = {
                     // Restore everything else
                     app.setGpa(savedState.isGpa);
                     app.setTheme(savedState.dispMode);
-
-                    // Populate subject list
-                    app.populateSubjects();
                 } else {
                     console.warn("Data is invalid, resetting");
                     this.switchLevel("seven");
-                    app.populateSubjects();
                 }
             } else {
                 console.log("Data does not exist, initializing");
                 this.switchLevel("seven");
-                app.populateSubjects();
             }
         } else
             $('tr.loader td').text("Please use a newer browser.");
