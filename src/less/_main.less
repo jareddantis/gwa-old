@@ -1,0 +1,38 @@
+/**
+    main.less:
+      Main LESS stylesheet. Imports all the others.
+
+    NOTE:
+      Do not include the other LESS files in index.html.
+      Compile this file and include the resulting main.css.
+
+    Part of the illustra/gwa project by @aureljared.
+    Licensed under GPLv2.
+*/
+
+// Do not change order.
+@import "reset";
+@import "colors";
+@import "theme";
+@import "app";
+@import "media";
+
+// Global styles
+* {
+  // Disable text selection on everything
+  user-select: none;
+
+  // Disable outline on tap and focus (WebKit)
+  outline: none;
+  &:focus { outline: none }
+}
+// Button styles
+.button, .controls > div, #menu-toggle {
+  // Reduce touch latency on clickable elements (IE 10+)
+    -ms-touch-action: manipulation;
+        touch-action: manipulation;
+
+  // Disable highlight on tap (Chrome Android)
+  -webkit-tap-highlight-color: rgba(255,255,255,0);
+}
+

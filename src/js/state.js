@@ -10,12 +10,14 @@ var state = {
         Current settings
     */
     current: {
-        version: "10",     // {String} Version name (external)
-        versionCode: 12,   // {Int} Version code (internal)
-        set: "seven",      // {String} Grade level
+        version: "11",     // {String} Version name (external)
+        versionCode: 13,   // {Int} Version code (internal)
+        set: "seven",      // {String} Selected set of subjects
+        prevSet: "seven",  // {String} Previously selected set
         grades: [],        // {Array} Entered grades
         dispMode: "day",   // {String} Display mode (night/day)
-        isGpa: false       // {Boolean} cGPA mode
+        isGpa: false,      // {Boolean} cGPA mode
+        customSet: []      // {Array} Custom subjects & units
     },
 
     /**
@@ -74,13 +76,22 @@ var state = {
             Useful when restoring saved state.
     */
     switchLevel: function(level, retainGrades) {
+        // If "custom", show edit button
+        if (level == "custom")
+            app.showEditBtn();
+        else
+            app.hideEditBtn();
+
+        // Retain grades if no change in level
+        retainGrades = retainGrades || level == this.get("set");
+
         // Reset grades
         if (!retainGrades)
             this.resetGrades(level);
 
         // Save selected grade level
         this.set("set", level);
-        subjects.default = subjects[level];
+        subjects.setDefault(level);
 
         // Repopulate subject list
         app.populateSubjects();
@@ -102,8 +113,8 @@ var state = {
         console.log("Resetting grades for " + level);
 
         // Fill current set of grades with default values
-        var grades = [];
-        for (var i = 0; i < subjects[level].length; i++)
+        var grades = [], subjs = subjects.get(level);
+        for (var i = 0; i < subjs.length; i++)
             grades.push(1.0);
         this.set("grades", grades);
     },
@@ -122,8 +133,8 @@ var state = {
                 var savedState = JSON.parse(savedJson);
 
                 // Check if saved state is valid
-                if (savedState.set != null && savedState.grades.length > 1) {
-                    console.log("Restoring state for " + savedState.set);
+                if (savedState.set != null && savedState.grades.length > 0) {
+                    console.log("Restoring state");
 
                     // Restore grades
                     if (savedState.version === undefined ||
@@ -144,11 +155,31 @@ var state = {
                         this.current.grades = savedState.grades;
                     }
 
-                    // Restore everything else
-                    $('#levels select').val(savedState.set);
+                    // Restore custom subject set
+                    if (savedState.customSet === undefined ||
+                        savedState.versionCode < this.current.versionCode) {
+                        // No custom subject set in release <11
+                        // Define it as empty array and save in localStorage
+                        this.set("customSet", []);
+                    } else {
+                        // customSet exists in localStorage
+                        subjects.setCustom(savedState.customSet);
+
+                        // Show edit button if selected set is custom
+                        if (savedState.set == "custom")
+                            app.showEditBtn();
+                    }
+
+                    // Populate grade level chooser and
+                    // restore selected level
+                    app.populateChooser(savedState.set);
                     this.switchLevel(savedState.set, true);
+
+                    // Restore everything else
                     app.setGpa(savedState.isGpa);
                     app.setTheme(savedState.dispMode);
+
+                    // Populate subject list
                     app.populateSubjects();
                 } else {
                     console.warn("Data is invalid, resetting");

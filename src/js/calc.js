@@ -12,12 +12,13 @@ var calc = {
         @returns {String} The computed average, truncated to 10 decimal places
     */
     ulate: function() {
-        var totalUnits = 0, total = 0, isGpa = state.get("isGpa");
+        var totalUnits = 0, total = 0, isGpa = state.get("isGpa"),
+            subjs = subjects.get();
 
         // Get weighted sum
-        for (var i = 0; i < subjects.default.length; i++) {
+        for (var i = 0; i < subjs.length; i++) {
             // Get units
-            var units = subjects.default[i].units;
+            var units = subjs[i].units;
             totalUnits += units;
 
             // Get grade

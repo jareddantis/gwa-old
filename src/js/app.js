@@ -6,279 +6,296 @@
 */
 
 var app = {
-	/**
-	    Initializes the app by creating click listeners,
-	    displaying the app version, and restoring saved state.
-	*/
-	init: function() {
-		// Restore state
-		state.load();
+    /**
+        Initializes the app by creating click listeners,
+        displaying the app version, and restoring saved state.
 
-		// Display version
-		var version = state.get("version");
-		$('#version').text(version);
-		var fdbkLink = $('#btn-feedback').parent().attr('href');
-		fdbkLink += '-' + version.replace(/ /g, '');
-		$('#btn-feedback').parent().attr('href', fdbkLink);
+        This function is the first function called after the
+        page has loaded and all other libraries have initialized.
+    */
+    init: function() {
+        // Restore state
+        state.load();
 
-		// Button styling & default action
-		$('.button').each(function(){
-			$(this).mousedown(function(){
-				$(this).addClass('focus');
-			}).mouseup(function(){
-				$(this).removeClass('focus');
-			}).click(function(){
-				// Hide sidebar on click
-				if ($('#menu').hasClass('visible')) {
-					$('#menu').removeClass('visible');
-					$('#menu-bg').fadeOut();
-				}
-			});
-		});
+        // Display version
+        var version = state.get("version");
+        $('#version').text(version);
+        var fdbkLink = $('#btn-feedback').parent().attr('href');
+        fdbkLink += '-' + version.replace(/ /g, '');
+        $('#btn-feedback').parent().attr('href', fdbkLink);
 
-		// Grade level chooser action
-		$('#levels select').on('change', function(){
-			// Load new subject set
-			state.switchLevel($(this).val());
+        // Button styling & default action
+        $('.button').each(function(){
+            $(this).mousedown(function(){
+                $(this).addClass('focus');
+            }).mouseup(function(){
+                $(this).removeClass('focus');
+            }).click(function(){
+                // Hide sidebar on click
+                if ($('#menu').hasClass('visible')) {
+                    $('#menu').removeClass('visible');
+                    $('#menu-bg').fadeOut();
+                }
+            });
+        });
 
-			// Hide sidebar
-			if ($('#menu').hasClass('visible')) {
-				$('#menu').removeClass('visible');
-				$('#menu-bg').fadeOut();
-			}
-		});
+        // Night mode button action
+        $('#btn-theme').click(function(){
+            // Night becomes day and vice versa
+            var theme = "day";
+            if ($('html').attr('data-theme') == "day")
+                theme = "night";
 
-		// Night mode button action
-		$('#btn-theme').click(function(){
-			// Night becomes day and vice versa
-			var theme = "day";
-			if ($('html').attr('data-theme') == "day")
-				theme = "night";
+            // Apply theme
+            app.setTheme(theme);
+        });
 
-			// Apply theme
-			app.setTheme(theme);
-		});
+        // Edit subjects button action
+        $('#btn-edit').click(function(){
+            // Show dialog
+            app.promptSubjects();
+        });
 
-		// Clear grades button action
-		$('#btn-clr').click(function(){
-			state.resetGrades();
-			app.populateSubjects();
-		});
+        // Clear grades button action
+        $('#btn-clr').click(function(){
+            state.resetGrades();
+            app.populateSubjects();
+        });
 
-		// cGPA toggle button action
-		$('#btn-gpa').click(function(){
-			// Flip mode
-			var curr = state.get("isGpa");
-			app.setGpa(!curr);
-		});
+        // cGPA toggle button action
+        $('#btn-gpa').click(function(){
+            // Flip mode
+            var curr = state.get("isGpa");
+            app.setGpa(!curr);
+        });
 
-		// Sidebar toggle action
-		$('#menu-toggle').click(function(){
-			if ($('#menu').hasClass('visible')) {
-				$('#menu').removeClass('visible');
-				$('#menu-bg').fadeOut();
-			} else {
-				$('#menu').addClass('visible');
-				$('#menu-bg').fadeIn();
-			}
-		});
+        // Sidebar toggle action
+        $('#menu-toggle').click(function(){
+            if ($('#menu').hasClass('visible')) {
+                $('#menu').removeClass('visible');
+                $('#menu-bg').fadeOut();
+            } else {
+                $('#menu').addClass('visible');
+                $('#menu-bg').fadeIn();
+            }
+        });
 
-		// Hide sidebar on click outside
-		$('#menu-bg').click(function(){
-			$('#menu').removeClass('visible');
-			$(this).fadeOut();
-		});
-	},
+        // Hide sidebar on click outside
+        $('#menu-bg').click(function(){
+            $('#menu').removeClass('visible');
+            $(this).fadeOut();
+        });
 
-	/**
-	    Sets day/night mode.
+        // Custom subject dialog buttons
+        $('#custom-subject-add').click(function(){
+            // Add empty row to custom subject table
+            var table = $('#custom-subject tbody');
+            $(table).append(widget.newCustomSubject());
 
-	    @param {String} The new selected theme
-	*/
-	setTheme: function(theme) {
-		// Update button text
-		var old = theme == "day" ? "Night" : "Day";
-		$('#btn-theme span').text(old + ' mode');
+            // Scroll to bottom of table
+            var height = $(".custom-subject-body")[0].scrollHeight;
+            $(".custom-subject-body")[0].scrollTop = height;
+        });
+        $('#custom-subject-save').click(function(){
+            // Parse new subject data
+            var subjs = $('#custom-subject tbody tr');
+            app.parseSubjects(subjs);
+        });
+        $('#custom-subject-quit').click(function(){
+            // Restore previously selected subject set
+            var prevSet = state.get("prevSet");
+            $('#levels select').val(prevSet);
+            state.switchLevel(prevSet);
 
-		// Apply new theme
-		$('html').attr('data-theme', theme);
+            // Hide dialog
+            $('#custom-subject').fadeOut(150);
+        });
+    },
 
-		// Save theme preferences
-		state.set("dispMode", theme);
-	},
+    /**
+        Sets day/night mode.
 
-	/**
-	    Sets/unsets cGPA calculation mode.
+        @param {String} The new selected theme
+    */
+    setTheme: function(theme) {
+        // Update button text
+        var old = theme == "day" ? "Night" : "Day";
+        $('#btn-theme span').text(old + ' mode');
 
-	    @param {Boolean} isGpa - Whether we are now in cGPA mode or not
-	*/
-	setGpa: function(isGpa) {
-		// Update button text
-		var newText = isGpa ? "GWA mode" : "cGPA mode (alpha)";
-		$('#btn-gpa span').text(newText);
+        // Apply new theme
+        $('html').attr('data-theme', theme);
 
-		// Save prefs
-		state.set("isGpa", isGpa);
+        // Save theme preferences
+        state.set("dispMode", theme);
+    },
 
-		// Recalculate
-		app.calculate();
-	},
+    /**
+        Sets/unsets cGPA calculation mode.
 
-	/**
-	    Sets the accent colors according to grade level.
+        @param {Boolean} isGpa - Whether we are now in cGPA mode or not
+    */
+    setGpa: function(isGpa) {
+        // Update button text
+        var newText = isGpa ? "GWA mode" : "cGPA mode (alpha)";
+        $('#btn-gpa span').text(newText);
 
-	    @param {String} level - The grade level on which to base accent colors
-	*/
-	setColors: function(level) {
-		$('#app').attr('data-theme', level);
-	},
+        // Save prefs
+        state.set("isGpa", isGpa);
 
-	/**
-	    Fills the subject list with the subjects and the saved
-	    grades for each.
-	*/
-	populateSubjects: function() {
-		var currGrades = state.get("grades");
+        // Recalculate
+        app.calculate();
+    },
 
-		// Check for length mismatch
-		// e.g. if grade set does not match grade level
-		if (currGrades.length != subjects.default.length) {
-			console.error("currGrades does not fit subjects.default");
-			return;
-		}
+    /**
+        Sets the accent colors according to grade level.
 
-		// Empty subject table
-		$('#grades table').empty();
+        @param {String} level - The grade level on which to base accent colors
+    */
+    setColors: function(level) {
+        $('#app').attr('data-theme', level);
+    },
 
-		// Create new subject rows
-		for (var i = 0; i < subjects.default.length; i++) {
-			// Create subject row
-			var subj = subjects.default[i],
-				subjName = subj.name + " (" + subj.units.toFixed(1) + " units)",
-				subjGrade = currGrades[i].toFixed(2),
-				row = this.createSubjectRow(i, subjName, subjGrade);
+    populateChooser: function(selectedSet) {
+        var sets = subjects.getSets();
+        for (var i = 0; i < sets.length; i++) {
+            var set = sets[i],
+                value = set.alias,
+                text = set.name,
+                option = $("<option>");
+            $(option).attr("value", value)
+                     .text(text);
+            $('#levels select').append(option);
+        }
 
-			// Add new row to table
-			$('#grades table').append(row);
-		}
+        // Restore selected set
+        $('#levels select').val(selectedSet);
 
-		// Calculate GWA in case of saved grades
-		app.calculate();
-	},
+        // Define onChange behavior
+        $('#levels select').on('change', function(){
+            var newSet = $(this).val();
 
-	/**
-	    Creates a table row element (tr) that contains a
-	    subject, along with the grade and -/+ controls.
+            // Hide sidebar
+            if ($('#menu').hasClass('visible')) {
+                $('#menu').removeClass('visible');
+                $('#menu-bg').fadeOut();
+            }
 
-	    @param {Int} id
-	    	The subject ID, e.g. the index of the subject
-	    	in the array subjects.default.
-	    @param {String} subjName  -  Subject name
-	    @param {String} subjGrade  -  Saved subject grade
-	    @returns {jQuery} The created subject row
-	*/
-	createSubjectRow: function(id, subjName, subjGrade){
-		//  <tr> element that will contain everything
-		var row = $('<tr>').attr('data-subject', id),
-		//  <td> element that will contain the grade & subject name
-			lcol = $('<td>'),
-			subj = $('<p>').text(subjName),
-			grade = $('<h2>').addClass('num').text(subjGrade),
-		//  <td> element that will contain the +/- buttons
-			rcol = $('<td>').addClass('controls'),
-			plus = $('<div>').addClass('plus'),
-			minus = $('<div>').addClass('minus');
+            // User selects custom subjects
+            if (newSet == "custom") {
+                // If subjects are not defined yet,
+                // don't switch level yet
+                // in case user hits Cancel
+                var customSet = subjects.get("custom");
+                if (customSet.length == 0) {
+                    // Remember currently selected set
+                    console.log("customSet is empty, deferring level switch");
+                    var currSet = state.get("set");
+                    state.set("prevSet", currSet);
+                    app.promptSubjects();
+                    return;
+                }
+            }
 
-		// Add plus/minus action
-		$(minus).click(function(){
-			// Get current grade
-			var subjId = $(this).parent().parent().attr('data-subject'),
-				grade = state.getGrade(parseInt(subjId));
+            // If user hit Cancel on custom subject input,
+            // we restore previously selected set
+            // along with the grades
+            if (state.get("set") == "custom" &&
+                newSet == state.get("prevSet")) {
+                state.switchLevel(newSet, true);
+            }
+            // Load new subject set
+            else {
+                console.log("Switching to " + newSet);
+                state.switchLevel(newSet);
+            }
+        });
+    },
 
-			// Increment if possible
-			if (grade > 1) {
-				if (grade > 3)
-					grade -= 1;
-				else
-					grade -= 0.25;
-			}
+    /**
+        Fills the subject list with the subjects and the saved
+        grades for each.
+    */
+    populateSubjects: function() {
+        var currGrades = state.get("grades"),
+            subjs = subjects.get();
 
-			// Update grade
-			state.setGrade(subjId, grade);
-			$('tr[data-subject='+subjId+'] h2').text(grade.toFixed(2));
+        // Check for length mismatch
+        // e.g. if grade array does not match grade level
+        if (currGrades.length != subjs.length) {
+            console.error("currGrades does not match subjects.default, adjusting");
+            console.log("----- currGrades -----");
+            console.log(currGrades);
+            console.log("----- subjects.default -----");
+            console.log(subjs);
 
-			// Recalculate
-			app.calculate();
-		});
-		$(plus).click(function(){
-			// Get current grade
-			var subjId = $(this).parent().parent().attr('data-subject'),
-				grade = state.getGrade(parseInt(subjId));
+            // Adjust currGrades to match subjs.length
+            if (currGrades.length > subjs.length) {
+                // Trim extra grades
+                while (currGrades.length > subjs.length)
+                    currGrades.pop(currGrades.length - 1);
+            } else {
+                // Add 1.00 grades
+                while (currGrades.length < subjs.length)
+                    currGrades.push(1.00);
+            }
+        }
 
-			// Decrement if possible
-			if (grade < 5) {
-				if (grade > 2.75)
-					grade += 1;
-				else
-					grade += 0.25;
-			}
+        // Empty subject table
+        $('#grades table').empty();
 
-			// Update grade
-			state.setGrade(subjId, grade);
-			$('tr[data-subject='+subjId+'] h2').text(grade.toFixed(2));
+        // Create new subject rows
+        for (var i = 0; i < subjs.length; i++) {
+            // Create subject row
+            var subj = subjs[i],
+                subjName = subj.name + " (" + subj.units.toFixed(1) + " units)",
+                subjGrade = currGrades[i].toFixed(2),
+                row = widget.newSubjectRow(i, subjName, subjGrade);
 
-			// Recalculate
-			app.calculate();
-		});
+            // Add new row to table
+            $('#grades table').append(row);
+        }
 
-		// Allow manual grade entry on grade click
-		$(grade).click(function(){
-			var subjId = $(this).parent().parent().attr('data-subject');
-			app.promptGrade(subjId);
-		});
+        // Calculate GWA in case of saved grades
+        app.calculate();
+    },
 
-		// Put everything together
-		$(lcol).append(subj).append(grade);
-		$(rcol).append(minus).append(plus);
-		$(row).append(lcol).append(rcol);
-		return row;
-	},
+    /**
+        Asks user to manually input a grade for a specific subject.
 
-	/**
-	    Asks user to manually input a grade for a specific subject.
+        @param {String} subjId
+            The subject ID, e.g. the index of the subject
+            in the array subjects.default.
+    */
+    promptGrade: function(subjId) {
+        var curr = state.getGrade(parseInt(subjId)),
+            name = subjects.get()[subjId].name;
 
-	    @param {String} subjId
-	    	The subject ID, e.g. the index of the subject
-	    	in the array subjects.default.
-	*/
-	promptGrade: function(subjId) {
-		var curr = state.getGrade(parseInt(subjId)),
-			name = subjects.default[subjId].name;
+        // Prompt new grade
+        var newGrade = window.prompt("Enter grade for " + name),
+            validation = calc.isValid(newGrade);
+        if (newGrade.length > 0) {
+            if (!validation.result) {
+                // Set new grade
+                newGrade = parseFloat(newGrade);
+                $('tr[data-subject='+subjId+'] h2').text(newGrade.toFixed(2));
+                state.setGrade(subjId, newGrade);
 
-		// Prompt new grade
-		var newGrade = window.prompt("Enter grade for " + name),
-			validation = calc.isValid(newGrade);
-		if (newGrade.length > 0) {
-			if (!validation.result) {
-				// Set new grade
-				newGrade = parseFloat(newGrade);
-				$('tr[data-subject='+subjId+'] h2').text(newGrade.toFixed(2));
-				state.setGrade(subjId, newGrade);
+                // Recalculate
+                app.calculate();
+            } else {
+                // Display error
+                window.alert("Invalid grade entered: " + validation.reason);
+            }
+        }
+    },
 
-				// Recalculate
-				app.calculate();
-			} else {
-				// Display error
-				window.alert("Invalid grade entered: " + validation.reason);
-			}
-		}
-	},
+    /**
+        Calculates GWA and displays result
+    */
+    calculate: function() {
+        var result = calc.ulate();
 
-	/**
-	    Calculates GWA and displays result
-	*/
-	calculate: function() {
-		var result = calc.ulate();
-		$('#gwa').text(result.substring(0,5));
-	}
+        // We truncate the grade, not round
+        $('#gwa').text(result.substring(0,5));
+    }
 };

@@ -11,237 +11,30 @@
 */
 
 // Fonts
+h1, h2, h3, p, td, span, input, select, option, li {
+    font-family: -apple-system, BlinkMacSystemFont,
+                 'Helvetica Neue', 'Helvetica',
+                 'Segoe UI', 'Roboto', sans-serif;
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility !important;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+}
+.num, #custom-subject td.subject-units  {
+    font-family: 'Monaco', 'Ubuntu Mono',
+                 'Courier New', Courier,
+                 'Lucida Console', 'Consolas', monospace;
+}
 html.wf-active {
-	h1, h2, h3, p, td, span, input, select, option {
-		font-family: "Roboto" !important;
-	}
-	.num { font-family: "Roboto Mono" !important; }
+    h1, h2, h3, p, td, span, input, select, option, li {
+        font-family: "Roboto" !important;
+    }
+    .num, #custom-subject td.subject-units {
+        font-family: "Roboto Mono" !important;
+    }
 }
 
-// Sidebar
-#menu {
-	position: fixed;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 20rem;
-	transition: background 300ms linear;
-
-	& > div {
-		margin: 2rem;
-
-		h2 {
-			font-weight: 500;
-			font-size: 1.5rem;
-			transition: color 300ms linear;
-		}
-		#levels {
-			margin: 3rem 0 1rem;
-
-			select {
-				-webkit-appearance: none;
-				   -moz-appearance: none;
-				        appearance: none;
-				background: url("../img/dropdown.svg") no-repeat right @gry-300;
-				background-size: 10px;
-				background-position-x: ~"calc(100% - 1rem)";
-				border: 0;
-				border-radius: 3px;
-				width: 100%;
-				padding: 1rem;
-				font-size: 1rem;
-				font-weight: 500;
-				cursor: pointer;
-				transition: background-color 300ms linear,
-							color 300ms linear;
-
-				&:focus { outline: 0 }
-			}
-		}
-
-		a { text-decoration: none }
-		.button {
-			padding: 1rem;
-			cursor: pointer;
-			transition: background-color 100ms linear;
-			border-radius: 3px;
-			color: @gry-900;
-
-			img {
-				width: 1rem;
-				max-height: 1rem;
-				vertical-align: middle;
-				margin-right: 1.5rem;
-			}
-			span {
-				font-weight: 500;
-				vertical-align: middle;
-				transition: color 300ms linear;
-			}
-			&:hover { background-color: @gry-300; }
-			&.focus { background-color: @gry-400; }
-
-			// Separate outlinks
-			&#btn-feedback { margin-top: 1rem }
-		}
-
-		#info {
-			position: absolute;
-			bottom: 2rem;
-			left: 2rem;
-			opacity: .6;
-
-			img { width: 150px }
-			p {
-				font-size: .8rem;
-				margin-top: .75rem;
-				transition: color 300ms linear;
-			}
-		}
-	}
-}
-// For dimming the background when the sidebar is shown
-#menu-bg {
-	display: none;
-	position: fixed;
-	top: 0;
-	left: 0;
-	background: rgba(0,0,0,0.5);
-	z-index: 4;
-	width: 100%;
-	height: 100%;
-}
-
-// Main content (computed average & subject list)
-#app {
-	position: absolute;
-	top: 0;
-	left: 20rem;
-	width: ~"calc(100vw - 20rem)";
-
-	// Computed average
-	.top {
-		position: fixed;
-		height: 10rem;
-		width: ~"calc(100vw - 20rem)";
-		background: @gry-200;
-		transition: background 300ms linear;
-
-		#menu-toggle {
-			position: absolute;
-			left: 1.5rem;
-			top: 50%;
-			transform: translateY(-50%);
-			cursor: pointer;
-			display: none;
-
-			img {
-				width: 1rem;
-				filter: none;
-			}
-		}
-
-		#top {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			margin: 2rem auto 0;
-			height: 8rem;
-			background: @blue-700;
-			border-top-left-radius: 3px;
-			border-top-right-radius: 3px;
-			border-bottom-left-radius: 0px;
-			border-bottom-right-radius: 0px;
-			max-width: 768px;
-			width: 100%;
-			transition: background 200ms ease;
-			box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
-
-			#gwa {
-				font-size: 4rem;
-				text-align: center;
-				color: @white;
-			}
-		}
-	}
-
-	// Subject list
-	.body {
-		max-width: 768px;
-		width: 100%;
-		background-color: @white;
-		border-radius: 3px;
-		margin: 10rem auto 2rem;
-		box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
-		transition: background 300ms linear;
-		border-top-left-radius: 0px;
-		border-top-right-radius: 0px;
-		border-bottom-left-radius: 3px;
-		border-bottom-right-radius: 3px;
-
-		#grades {
-			width: ~"calc(100% - 3rem)";
-			padding-top: 1.5rem;
-			margin: 1.5rem;
-
-			table {
-				width: 100%;
-
-				.loader {
-					text-align: center;
-					padding: 5rem 0;
-					margin: 0 auto;
-				}
-				td {
-					padding-bottom: 2rem;
-
-					p, h2 { transition: color 300ms linear }
-					p { margin-bottom: 1rem }
-					h2 {
-						font-size: 2.5rem;
-						cursor: pointer;
-
-						&:hover { font-weight: 700 }
-					}
-					&.controls {
-						width: 7rem;
-						vertical-align: middle;
-						padding: 0;
-						margin: 0;
-
-						& > div {
-							display: inline-block;
-							float: left;
-							width: 3rem;
-							height: 3rem;
-							border-radius: 50%;
-							cursor: pointer;
-							// https://codepen.io/sdthornton/pen/wBZdXq
-							box-shadow: 0 1px 3px rgba(0,0,0,0.12),
-										0 1px 2px rgba(0,0,0,0.24);
-							transition: box-shadow 0.3s cubic-bezier(.25,.8,.25,1);
-
-							&:hover {
-								// https://codepen.io/pixelasticity/pen/WrrWmV
-								box-shadow: 0 6px 10px 0 rgba(0, 0, 0, .14),
-											0 1px 18px 0 rgba(0, 0, 0, .12),
-											0 3px 5px -1px rgba(0, 0, 0, .2);
-							}
-						}
-						.plus {
-							background: url("../img/plus.svg") no-repeat @black;
-							background-size: 1rem;
-							background-position: center;
-							margin-left: 1rem;
-						}
-						.minus {
-							background: url("../img/minus.svg") no-repeat @black;
-							background-size: 1rem;
-							background-position: center;
-						}
-					}
-				}
-			}
-		}
-	}
-}
+// All page styles
+@import "app_menu";
+@import "app_body";
+@import "app_custom_subject";
