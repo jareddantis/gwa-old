@@ -142,17 +142,6 @@
         <!-- Main page scripts -->
         <script defer type="text/javascript" src="dist/js/script.js" id="scGw"></script>
         <script type="text/javascript">
-            // Register service worker
-            if ('serviceWorker' in navigator) {
-                navigator.serviceWorker.register('sw.js')
-                    .then(function() {
-                        console.log("[sw] Registered");
-                    })
-                    .catch(function(error) {
-                        console.error("[sw] Error while registering: " + error);
-                    });
-            }
-
             // WebFontLoader config
             WebFontConfig = {
                 google: {
@@ -175,6 +164,34 @@
                     wf.async = true;
                     s.parentNode.insertBefore(wf, s);
                 })(document);
+
+                // Add to home screen banner (Chrome)
+                window.addEventListener('beforeinstallprompt', function(e) {
+                    // Prevent Chrome 67 and earlier from automatically showing the prompt
+                    e.preventDefault();
+                    // Show prompt
+                    e.prompt();
+                    // Wait for user input
+                    e.userChoice.then(function(choice) {
+                        if (choice.outcome === 'accepted') {
+                            console.log('User accepted the A2HS prompt');
+                        } else {
+                            console.log('User dismissed the A2HS prompt');
+                        }
+                        e = null;
+                    });
+                });
+
+                // Register service worker
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.register('sw.js')
+                        .then(function(reg) {
+                            console.log("[sw] Registered with scope " + reg.scope);
+                        })
+                        .catch(function(error) {
+                            console.error("[sw] Error while registering: " + error);
+                        });
+                }
             };
 
             // On jQuery load
