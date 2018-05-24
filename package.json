@@ -17,6 +17,8 @@
   },
   "homepage": "https://illustra.github.io/gwa",
   "dependencies": {
+  },
+  "devDependencies": {
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
@@ -24,9 +26,7 @@
     "gulp-less": "^3.5.0",
     "gulp-svgmin": "^1.2.4",
     "gulp-uglify": "^3.0.0",
-    "run-sequence": "^2.2.1"
-  },
-  "devDependencies": {
+    "run-sequence": "^2.2.1",
     "gulp-concat": "^2.6.1",
     "gulp-htmlmin": "^4.0.0",
     "gulp-rename": "^1.2.3"
