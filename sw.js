@@ -9,7 +9,7 @@
 */
 
 // Must match state.current.versionCode
-var CACHE_VERSION = "pisaygwa-web-14";
+var CACHE_VERSION = "pisaygwa-web-14-4abe8e7";
 
 // Install: Cache app files
 self.addEventListener('install', function(event) {
