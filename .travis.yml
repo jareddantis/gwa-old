@@ -1,0 +1,15 @@
+language: node_js
+before_install:
+  - npm install
+script: gulp all
+cache:
+  directories:
+    - "node_modules"
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  target-branch: gh-pages
+  on:
+    branch: master
