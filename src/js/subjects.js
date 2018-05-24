@@ -24,7 +24,7 @@ var subjects = {
         if (this.sets.hasOwnProperty(defaultSet))
             this.default = defaultSet;
         else
-            console.error(defaultSet + ": No such set");
+            console.error("[subjects] No such set: " + defaultSet);
     },
 
     /**

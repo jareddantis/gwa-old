@@ -68,7 +68,7 @@ gulp.task('html', ['clean-html'], function() {
 
 // Clean output directory
 gulp.task('clean-css', function(){ del(['dist/css']); });
-gulp.task('clean-js', function(){ del(['dist/js']); });
+gulp.task('clean-js', function(){ del(['dist/js/script.js']); });
 gulp.task('clean-svg', function(){ del(['dist/img/*.svg']); });
 gulp.task('clean-html', function(){ del(['index.html']); });
 

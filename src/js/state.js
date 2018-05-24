@@ -10,8 +10,8 @@ var state = {
         Current settings
     */
     current: {
-        version: "11",     // {String} Version name (external)
-        versionCode: 13,   // {Int} Version code (internal)
+        version: "12",     // {String} Version name (external)
+        versionCode: 14,   // {Int} Version code (internal)
         set: "seven",      // {String} Selected set of subjects
         prevSet: "seven",  // {String} Previously selected set
         grades: [],        // {Array} Entered grades
@@ -80,7 +80,7 @@ var state = {
         if (retainGrades === undefined)
             retainGrades = level == this.get("set");
 
-        console.log("Switching to " + level + ", retain=" + retainGrades);
+        console.log("[state] Switching to " + level + ", retain=" + retainGrades);
 
         // If "custom", show edit button
         if (level == "custom")
@@ -113,7 +113,7 @@ var state = {
         // for current grade level
         level = level || this.get("set");
 
-        console.log("Resetting grades for " + level);
+        console.log("[state] Resetting grades for " + level);
 
         // Fill current set of grades with default values
         var grades = [], subjs = subjects.get(level);
@@ -132,19 +132,19 @@ var state = {
 
             // Check for saved state
             if (savedJson != null) {
-                console.log("Data exists, loading");
+                console.log("[state] Data exists, loading");
                 var savedState = JSON.parse(savedJson);
 
                 // Check if saved state is valid
                 if (savedState.set != null && savedState.grades.length > 0) {
-                    console.log("Restoring state");
+                    console.log("[state] Restoring saved state");
 
                     // Restore grades
                     if (savedState.version === undefined ||
                         savedState.versionCode < this.current.versionCode ||
                         typeof savedState.grades[0] === "string") {
                         // Grades were saved as strings in versions <10
-                        console.log("Upgrading data from v<10");
+                        console.log("[state] Upgrading saved state from v<10");
                         var grades = [];
                         for (var i = 0; i < savedState.grades.length; i++) {
                             var grade = parseFloat(savedState.grades[i]);
@@ -177,17 +177,18 @@ var state = {
                     // restore selected level
                     app.populateChooser(savedState.set);
                     this.switchLevel(savedState.set, true);
+                    this.current.prevSet = savedState.set;
 
                     // Restore everything else
                     app.setGpa(savedState.isGpa);
                     app.setTheme(savedState.dispMode);
                 } else {
-                    console.warn("Data is invalid, resetting");
+                    console.warn("[state] Data is invalid, resetting");
                     app.populateChooser("seven");
                     this.switchLevel("seven", false);
                 }
             } else {
-                console.log("Data does not exist, initializing");
+                console.log("[state] Data does not exist, initializing");
                 app.populateChooser("seven");
                 this.switchLevel("seven", false);
             }

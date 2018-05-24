@@ -60,7 +60,7 @@ app.parseSubjects = function(subjEls) {
                 // Check for any succeeding rows
                 if (subjEls[i+1] !== undefined) {
                     // Skip this row
-                    console.warn("Skipping empty row " + i);
+                    console.warn("[c_s] Skipping empty row " + i);
                     continue;
                 }
                 // Check if entire table is empty
@@ -74,7 +74,7 @@ app.parseSubjects = function(subjEls) {
                     subjects.setCustom([]);
 
                     // Quit
-                    console.error("No subjects, restoring " + prevSet);
+                    console.error("[c_s] No subjects, restoring " + prevSet);
                     valid = false;
                     $('#custom-subject').fadeOut(150);
                     break;
@@ -83,7 +83,7 @@ app.parseSubjects = function(subjEls) {
 
         // Check if name is empty
         if (subjName.length == 0) {
-            console.error("Empty name in row " + i);
+            console.error("[c_s] Empty name in row " + i);
             app.highlightCustomSubjEl(subjNameEl);
             valid = false;
             break;
@@ -92,14 +92,14 @@ app.parseSubjects = function(subjEls) {
         // Check if units is empty or invalid
         if (isNaN(subjUnits) || subjUnits === undefined ||
         	subjUnits.length == 0) {
-            console.error("Bad units in row " + i);
+            console.error("[c_s] Bad units in row " + i);
             app.highlightCustomSubjEl(subjUnitsEl);
             valid = false;
             break;
         }
 
         // Subject is assumed valid
-        console.log("New subject: " + subjName + " = " + subjUnits);
+        console.log("[c_s] New subject: " + subjName + " = " + subjUnits);
         set.push({
             name: subjName,
             units: subjUnits

@@ -14,6 +14,8 @@ var app = {
         page has loaded and all other libraries have initialized.
     */
     init: function() {
+        console.log("[app] Initializing");
+
         // Restore state
         state.load();
 
@@ -102,10 +104,12 @@ var app = {
             app.parseSubjects(subjs);
         });
         $('#custom-subject-quit').click(function(){
-            // Restore previously selected subject set
-            var prevSet = state.get("prevSet");
-            $('#levels select').val(prevSet);
-            state.switchLevel(prevSet);
+            if (subjects.get("custom").length == 0) {
+                // Restore previously selected subject set
+                var prevSet = state.get("prevSet");
+                $('#levels select').val(prevSet);
+                state.switchLevel(prevSet);
+            }
 
             // Hide dialog
             $('#custom-subject').fadeOut(150);
@@ -187,15 +191,13 @@ var app = {
 
             // User selects custom subjects
             if (newSet == "custom") {
+                // Remember currently selected set
+                state.set("prevSet", state.get("set"));
+
                 // If subjects are not defined yet,
-                // don't switch level yet
-                // in case user hits Cancel
-                var customSet = subjects.get("custom");
-                if (customSet.length == 0) {
-                    // Remember currently selected set
-                    console.log("customSet is empty, deferring level switch");
-                    var currSet = state.get("set");
-                    state.set("prevSet", currSet);
+                // don't switch level yet in case user hits Cancel
+                if (subjects.get("custom").length == 0) {
+                    console.log("[app] customSet empty, deferring switchLevel");
                     app.promptSubjects();
                     return;
                 }
@@ -210,7 +212,7 @@ var app = {
             }
             // Load new subject set
             else {
-                console.log("Switching to " + newSet);
+                console.log("[app] Switching to " + newSet);
                 state.switchLevel(newSet);
             }
         });
@@ -227,10 +229,10 @@ var app = {
         // Check for length mismatch
         // e.g. if grade array does not match grade level
         if (currGrades.length != subjs.length) {
-            console.warn("currGrades does not match subjects.default, adjusting");
-            console.log("----- currGrades (len = " + currGrades.length + ") -----");
+            console.warn("[app] currGrades.length != subjects.default, adjusting");
+            console.log("[app] currGrades (len = " + currGrades.length + ") -----");
             console.log(currGrades);
-            console.log("----- subjects.default (len = " + subjs.length + ") -----");
+            console.log("[app] subjects.default (len = " + subjs.length + ") -----");
             console.log(subjs);
 
             // Adjust currGrades to match subjs.length
