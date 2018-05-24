@@ -16,19 +16,19 @@
     "url": "https://github.com/illustra/gwa/issues"
   },
   "homepage": "https://illustra.github.io/gwa",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "del": "^3.0.0",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^5.0.0",
+    "gulp-concat": "^2.6.1",
     "gulp-csso": "^3.0.1",
+    "gulp-html-import": "0.0.2",
+    "gulp-htmlmin": "^4.0.0",
     "gulp-less": "^3.5.0",
+    "gulp-rename": "^1.2.3",
     "gulp-svgmin": "^1.2.4",
     "gulp-uglify": "^3.0.0",
-    "run-sequence": "^2.2.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-htmlmin": "^4.0.0",
-    "gulp-rename": "^1.2.3"
+    "run-sequence": "^2.2.1"
   }
 }

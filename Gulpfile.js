@@ -14,6 +14,7 @@ var concat = require('gulp-concat');
 var csso = require('gulp-csso');
 var del = require('del');
 var gulp = require('gulp');
+var htmlimport = require('gulp-html-import');
 var htmlmin = require('gulp-htmlmin');
 var less = require('gulp-less');
 var rename = require('gulp-rename');
@@ -59,9 +60,11 @@ gulp.task('svg', ['clean-svg'], function() {
 // Minify index HTML file
 gulp.task('html', ['clean-html'], function() {
     return gulp.src('./src/index.html')
+        .pipe(htmlimport('./src/html/'))
         .pipe(htmlmin({
             collapseWhitespace: true,
-            minifyJS: true
+            minifyJS: true,
+            removeComments: true
         }))
         .pipe(gulp.dest('./'));
 });
