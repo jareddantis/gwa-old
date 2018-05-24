@@ -33,6 +33,7 @@ self.addEventListener('install', function(event) {
                 './dist/js/fastclick.min.js',
                 './dist/js/jquery.min.js',
                 './dist/js/script.js',
+                './dist/js/touchswipe.min.js',
                 './dist/js/webfontloader.min.js'
             ]).catch(function(error) {
                 console.error("[sw] Error on install: " + error);

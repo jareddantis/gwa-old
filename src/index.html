@@ -135,9 +135,9 @@
             </div></div>
         </div>
 
-        <!-- JS Libraries & polyfills -->
-        <script async defer type="text/javascript" src="dist/js/fastclick.min.js" id="scFc"></script>
+        <!-- JS libraries -->
         <script defer type="text/javascript" src="dist/js/jquery.min.js" id="scJq"></script>
+        <script async defer type="text/javascript" src="dist/js/fastclick.min.js" id="scFc"></script>
 
         <!-- Main page scripts -->
         <script defer type="text/javascript" src="dist/js/script.js" id="scGw"></script>
@@ -195,6 +195,7 @@
             };
 
             // On jQuery load
+            tsLoaded = false;
             scJq.addEventListener('load', function(){
                 // Remove download button if on iOS
                 // Detection from https://stackoverflow.com/a/9039885/3350320
@@ -209,6 +210,35 @@
                         $('#btn-android').parent().attr('href', apkUri);
                     });
                 }
+
+                // Load touchSwipe
+                (function(d) {
+                    var ts = document.createElement('script'),
+                        s = d.scripts[0];
+                    ts.src = 'dist/js/touchswipe.min.js';
+                    ts.async = true;
+                    ts.onload = ts.onreadystatechange = function() {
+                        if (!tsLoaded && (!this.readyState ||
+                            this.readyState === "loaded" || this.readyState === "complete")) {
+                            // On touchSwipe load
+                            tsLoaded = true;
+                            $('body').swipe({
+                                swipe: function(s,w,i,p,e,r){
+                                    switch (w) {
+                                        case "right":
+                                            $('#menu').addClass('visible');
+                                            $('#menu-bg').fadeIn();
+                                            break;
+                                        case "left":
+                                            $('#menu').removeClass('visible');
+                                            $('#menu-bg').fadeOut();
+                                    }
+                                }
+                            });
+                        }
+                    };
+                    s.parentNode.insertBefore(ts, s);
+                })(document);
             });
 
             // on FastClick load
