@@ -53,17 +53,6 @@
                 e = null;
             });
         });
-
-        // Register service worker
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js')
-                .then(function(reg) {
-                    console.log("[sw] Registered with scope " + reg.scope);
-                })
-                .catch(function(error) {
-                    console.error("[sw] Error while registering: " + error);
-                });
-        }
     };
 
     // On jQuery load
@@ -122,5 +111,35 @@
     scFc.addEventListener('load', function(){
         // Init FastClick
         FastClick.attach(document.body);
+    });
+
+    // Service worker with update functionality
+    // https://medium.com/progressive-web-apps/pwa-create-a-new-update-available-notification-using-service-workers-18be9168d717
+    window.isUpdateAvailable = new Promise(function(resolve, reject) {
+        if ('serviceWorker' in navigator) {
+            // Register service worker
+            navigator.serviceWorker.register('sw.js')
+                .then(function(reg) {
+                    console.log("[sw] Registered with scope " + reg.scope);
+
+                    reg.onupdatefound = function() {
+                        var instWkr = reg.installing;
+                        instWkr.onstatechange = function() {
+                            if (instWkr.state == "installed") {
+                                if (navigator.serviceWorker.controller) {
+                                    // new update available
+                                    resolve(true);
+                                } else {
+                                    // no update available
+                                    resolve(false);
+                                }
+                            }
+                        };
+                    };
+                })
+                .catch(function(error) {
+                    console.error("[sw] Error while registering: " + error);
+                });
+        }
     });
 </script>
