@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+  - "10.2.0"
+before_install:
+  - npm install -g npm@5.6.0
+script: gulp all
+cache:
+  directories:
+    - "node_modules"
+deploy:
+  provider: pages
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  keep-history: true
+  target-branch: gh-pages
+  on:
+    branch: master

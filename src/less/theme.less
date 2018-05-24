@@ -1,0 +1,73 @@
+/**
+    CSS styles for night mode and the different
+    accent colors per grade level.
+
+    NOTE: Do not include this file in index.html.
+    Compile main.less and include the resulting main.css.
+
+    @file theme.less
+    @author Jared Dantis (@aureljared)
+    @license GPLv2
+*/
+
+// Night/day colors
+html {
+    transition: background 300ms linear,
+    color 300ms linear;
+    background: @gry-200;
+    color: @gry-900;
+
+    a { color: @gry-900 !important }
+}
+html[data-theme=day], #menu {
+    background: @gry-200;
+    color: @gry-900;
+}
+html[data-theme=night] {
+    background: @black;
+    color: @gry-200;
+
+    // Light icons
+    img, .subject-delete { filter: invert(100%) }
+
+    // Light text
+    .button span, #grades p, a,
+    #grades h2, #levels select, #menu,
+    #custom-subject h2, #custom-subject td,
+    #custom-subject input, #custom-subject li {
+        color: @white !important;
+    }
+
+    // Subject delete
+    .subject-delete { background-color: @gry-900i !important }
+
+    // Light input border
+    #custom-subject input:focus {
+        border-bottom-color: @white !important;
+    }
+
+    // Dark backgrounds
+    #app .top, #menu { background: @black }
+    .button:hover, #levels select, #app .body,
+    #app .body, #custom-subject > div,
+    #custom-subject input, #custom-subject li:hover {
+        background-color: @gry-900 !important
+    }
+}
+
+// Grade level accent colors
+#app[data-theme=seven] {
+    #top, .plus, .minus { background-color: @ltgrn-700 !important }
+}
+#app[data-theme=eight] {
+    #top, .plus, .minus { background-color: @orng-700 !important }
+}
+#app[data-theme=nine] {
+    #top, .plus, .minus { background-color: @red-700 !important }
+}
+#app[data-theme=ten], #app[data-theme=tenElec] {
+    #top, .plus, .minus { background-color: @blue-700 !important }
+}
+#app[data-theme=tweleven], #app[data-theme=custom] {
+    #top, .plus, .minus { background-color: @bgrey-700 !important }
+}

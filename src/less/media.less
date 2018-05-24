@@ -1,0 +1,127 @@
+/**
+    Set of CSS rules that make the web app responsive, so
+    it looks great no matter what device it's used on.
+
+    NOTE: Do not include this file in index.html.
+    Compile main.less and include the resulting main.css.
+
+    @file media.less
+    @author Jared Dantis (@aureljared)
+    @license GPLv2
+*/
+
+// Smaller laptops (< 1200px width)
+@media screen and (max-width: 1200px) {
+    html[data-theme=day] { background: @white !important }
+    html[data-theme=night] { background: @gry-900 !important }
+    #menu {
+        // Hide the sidebar
+        margin-left: -20rem;
+        transition: margin-left 300ms ease;
+        z-index: 5;
+
+        &.visible { margin-left: 0 }
+    }
+    #app {
+        left: 0;
+        width: 100%;
+
+        .top {
+            height: 5rem;
+            width: 100%;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.2);
+
+            #menu-toggle { display: block }
+            #top {
+                margin: 0 auto;
+                height: 100%;
+                max-width: 100%;
+                border-radius: 0px !important;
+                box-shadow: none;
+
+                #gwa { font-size: 2.5rem }
+            }
+        }
+        .body {
+            margin: 5rem auto 0;
+            max-width: 100%;
+            box-shadow: none;
+
+            #grades { margin-bottom: 0 }
+        }
+    }
+}
+
+// Phablets & phones (< 800px width)
+@media screen and (max-width: 800px) {
+    #menu {
+        width: 100%;
+        max-width: 20rem;
+
+        & > div {
+            margin: 1.5rem;
+
+            #levels { margin-top: 2rem }
+            #levels select, .button span {
+                font-size: .9rem;
+            }
+            .button img {
+                width: .9rem;
+                max-height: .9rem;
+                margin-right: 1rem;
+            }
+        }
+    }
+    #app {
+        .top {
+            height: 3.5rem;
+
+            #top #gwa { font-size: 1.75rem }
+        }
+        .body  {
+            margin: 3.5rem auto 0;
+
+            #grades table td {
+                h2 { font-size: 2rem }
+                &.controls {
+                    width: 6rem;
+                    & > div {
+                        width: 2.5rem;
+                        height: 2.5rem;
+                    }
+                }
+            }
+        }
+    }
+    #custom-subject > div {
+        max-height: 100%;
+        max-width: 100%;
+
+        & > div .custom-subject-header h2 {
+            font-size: 1.25rem;
+        }
+    }
+}
+
+// Small height displays
+@media screen and (max-height: 640px) {
+    #menu {
+        // Allow scrolling sidebar
+        overflow-y: scroll;
+
+        & > div #info {
+            position: initial;
+            margin: 3rem 0 2rem;
+
+            // Separator
+            &::before {
+                display: block;
+                content: " ";
+                width: 5rem;
+                height: 1px;
+                background: @gry-400;
+                margin-bottom: 2rem;
+            }
+        }
+    }
+}
