@@ -58,6 +58,7 @@
     // On jQuery load
     tsLoaded = false;
     scJq.addEventListener('load', function(){
+        // iOS-specific logic
         // Detection from https://stackoverflow.com/a/9039885/3350320
         var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
         if (iOS) {
@@ -68,13 +69,6 @@
             if ('standalone' in window.navigator && window.navigator.standalone) {
                 // TODO: display install popup
             }
-        } else {
-            // Update APK download link
-            var baseUri = 'https://api.github.com/repos/illustra/gwa-android/releases/latest';
-            $.getJSON(baseUri, function(data){
-                var apkUri = data.assets[0].browser_download_url;
-                $('#btn-android').parent().attr('href', apkUri);
-            });
         }
 
         // Load touchSwipe
