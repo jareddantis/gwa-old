@@ -3,10 +3,13 @@ node_js:
   - "10.2.0"
 before_install:
   - npm install -g npm@5.6.0
+  - npm install
 script: gulp all
 cache:
   directories:
     - "node_modules"
+before_deploy:
+    - echo 'src/' >> .gitignore
 deploy:
   provider: pages
   skip-cleanup: true
