@@ -7,7 +7,8 @@
 
 var state = {
     /**
-        Current settings
+        Current settings.
+        Will be saved by state.set(), and is accessed by state.get().
     */
     current: {
         version: "12",     // {String} Version name (external)
