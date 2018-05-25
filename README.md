@@ -9,7 +9,7 @@ General weighted average calculator built for the modern web.
 * GWA calculation for Philippine Science High School students
 * Support for optional electives for Grade 10 PSHS students
 * Support for defining a custom set of subjects (for college students)
-* Progressive web app **(can run offline on [supported browsers](https://caniuse.com/#search=serviceworkers))**
+* Progressive web app **[(can run offline on supported browsers/devices)](http://by.jared.gq/gwaoffline)**
 * Night mode
 * Cumulative GPA calculation mode (experimental)
 
