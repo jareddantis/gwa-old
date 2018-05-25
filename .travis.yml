@@ -2,7 +2,6 @@ language: node_js
 node_js:
   - "10.2.0"
 before_install:
-  - npm install -g npm@5.6.0
   - npm install
 script: gulp all
 cache:
@@ -10,6 +9,12 @@ cache:
     - "node_modules"
 before_deploy:
     - echo 'src/' >> .gitignore
+    - echo 'package.json' >> .gitignore
+    - echo 'Gulpfile.js' >> .gitignore
+    - curl 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js' > dist/js/jquery.min.js
+    - curl 'https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js' > dist/js/fastclick.min.js
+    - curl 'https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js' > dist/js/touchswipe.min.js
+    - curl 'https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js' > dist/js/webfontloader.min.js
 deploy:
   provider: pages
   skip-cleanup: true
