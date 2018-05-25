@@ -2,7 +2,7 @@
 
 General weighted average calculator built for the modern web.
 
-[![Build Status](https://travis-ci.org/illustra/gwa.svg?branch=master)](https://travis-ci.org/illustra/gwa) [![devDependencies](https://david-dm.org/illustra/gwa/dev-status.svg)](https://david-dm.org/illustra/gwa) [![GitHub license](https://img.shields.io/github/license/illustra/gwa.svg)](https://github.com/illustra/gwa/blob/master/LICENSE)
+![GitHub tag](https://img.shields.io/github/tag/illustra/gwa.svg) [![Build Status](https://travis-ci.org/illustra/gwa.svg?branch=master)](https://travis-ci.org/illustra/gwa) [![devDependencies](https://david-dm.org/illustra/gwa/dev-status.svg)](https://david-dm.org/illustra/gwa) [![GitHub license](https://img.shields.io/github/license/illustra/gwa.svg)](https://github.com/illustra/gwa/blob/master/LICENSE)
 
 ## Features
 
