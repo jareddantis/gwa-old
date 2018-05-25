@@ -1,7 +1,6 @@
 *.sublime*
 node_modules/
 package-lock.json
-dist/
 src/
 package.json
 Gulpfile.js
