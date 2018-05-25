@@ -1,8 +1,8 @@
 # gwa
 
-[![Build Status](https://travis-ci.org/illustra/gwa.svg?branch=master)](https://travis-ci.org/illustra/gwa)
-
 General weighted average calculator built for the modern web.
+
+[![Build Status](https://travis-ci.org/illustra/gwa.svg?branch=master)](https://travis-ci.org/illustra/gwa) [![devDependencies](https://david-dm.org/illustra/gwa/dev-status.svg)](https://david-dm.org/illustra/gwa) [![GitHub license](https://img.shields.io/github/license/illustra/gwa.svg)](https://github.com/illustra/gwa/blob/master/LICENSE)
 
 ## Features
 
@@ -59,3 +59,5 @@ The calculator is automatically built with [Travis](https://travis-ci.org) to ma
 - jQuery for, well, [jQuery](https://github.com/jquery/jquery)
 - TypeKit for [WebFontLoader](https://github.com/typekit/webfontloader/)
 - Matt Bryson for [jQuery.touchSwipe](https://github.com/mattbryson/TouchSwipe-Jquery-Plugin)
+
+[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/ages-12.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/does-not-contain-msg.svg)](https://forthebadge.com)
