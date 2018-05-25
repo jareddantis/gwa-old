@@ -8,8 +8,8 @@
     @license GPLv2
 */
 
-// Must match state.current.versionCode
-var CACHE_VERSION = "pisaygwa-web-14-2";
+// Must match state.current.version*
+var CACHE_VERSION = "pisaygwa-web-r14-v12.4.3";
 
 // Install: Cache app files
 self.addEventListener('install', function(event) {
