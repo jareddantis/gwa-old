@@ -9,6 +9,7 @@ cache:
     - "node_modules"
 before_deploy:
   - sed -i '/dist\//d' .gitignore
+  - sed -i '/index.html/d' .gitignore
   - echo 'src/' >> .gitignore
   - echo 'package.json' >> .gitignore
   - echo 'Gulpfile.js' >> .gitignore
