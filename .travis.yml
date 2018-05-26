@@ -18,6 +18,8 @@ cache:
   directories:
     - "node_modules"
 before_deploy:
+  - rm -f github_deploy_key
+  - rm -f github_deploy_key.enc
   - sed -i '/dist\//d' .gitignore
   - sed -i '/index.html/d' .gitignore
   - echo 'src/' >> .gitignore
@@ -31,7 +33,6 @@ before_deploy:
 deploy:
   provider: pages
   skip-cleanup: true
-  github-token: $GITHUB_TOKEN
   keep-history: true
   target-branch: gh-pages
   on:
