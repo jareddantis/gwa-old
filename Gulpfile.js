@@ -24,7 +24,7 @@ var uglify = require('gulp-uglify');
 
 // Build & minify LESS files
 gulp.task('css', ['clean-css'], function() {
-    return gulp.src('./src/less/_main.less')
+    return gulp.src('./src/less/_style.less')
         .pipe(less())
         .pipe(autoprefixer({"browsers": [
             'ie >= 10',
@@ -44,7 +44,9 @@ gulp.task('css', ['clean-css'], function() {
 
 // Minify JS files
 gulp.task('js', ['clean-js'], function() {
-    return gulp.src('./src/js/*.js')
+    return gulp.src([
+        './src/js/*.js',
+        './src/js/dialogs/*.js'])
         .pipe(concat('script.js'))
         .pipe(uglify())
         .pipe(gulp.dest('./dist/js'));
@@ -60,7 +62,7 @@ gulp.task('svg', ['clean-svg'], function() {
 // Minify index HTML file
 gulp.task('html', ['clean-html'], function() {
     return gulp.src('./src/index.html')
-        .pipe(htmlimport('./src/html/'))
+        .pipe(htmlimport('./src/html_components/'))
         .pipe(htmlmin({
             collapseWhitespace: true,
             minifyJS: true,
