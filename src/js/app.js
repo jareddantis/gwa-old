@@ -179,10 +179,10 @@ var app = {
     	var now = new Date(),
     		nowH = now.getHours(), nowM = now.getMinutes(),
     		times = SunCalc.getTimes(now, 12, 121),
-    		riseH = set.sunrise.getHours(),
-    		riseM = set.sunrise.getMinutes(),
-    		setH = set.sunset.getHours(),
-    		setM = set.sunset.getMinutes(),
+    		riseH = times.sunrise.getHours(),
+    		riseM = times.sunrise.getMinutes(),
+    		setH = times.sunset.getHours(),
+    		setM = times.sunset.getMinutes(),
     		sunrise = nowH < riseH || (nowH == riseH && nowM <= riseM),
     		sunset = nowH > setH || (nowH == setH && nowM >= setM);
 
