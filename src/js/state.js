@@ -11,12 +11,12 @@ var state = {
         Will be saved by state.set(), and is accessed by state.get().
     */
     current: {
-        version: "12.4.4", // {String} Version name (external)
-        versionCode: 15,   // {Int} Version code (internal)
+        version: "12.5.0", // {String} Version name (external)
+        versionCode: 16,   // {Int} Version code (internal)
         set: "seven",      // {String} Selected set of subjects
         prevSet: "seven",  // {String} Previously selected set
         grades: [],        // {Array} Entered grades
-        dispMode: "day",   // {String} Display mode (night/day)
+        dispMode: "day",   // {String} Display mode (night/day/auto)
         isGpa: false,      // {Boolean} cGPA mode
         customSet: []      // {Array} Custom subjects & units
     },
@@ -141,9 +141,7 @@ var state = {
                     console.log("[state] Restoring saved state");
 
                     // Restore grades
-                    if (savedState.version === undefined ||
-                        savedState.versionCode < this.current.versionCode ||
-                        typeof savedState.grades[0] === "string") {
+                    if (typeof savedState.grades[0] === "string") {
                         // Grades were saved as strings in versions <10
                         console.log("[state] Upgrading saved state from v<10");
                         var grades = [];
@@ -160,8 +158,7 @@ var state = {
                     }
 
                     // Restore custom subject set
-                    if (savedState.customSet === undefined ||
-                        savedState.versionCode < this.current.versionCode) {
+                    if (savedState.customSet === undefined) {
                         // No custom subject set in release <11
                         // Define it as empty array and save in localStorage
                         this.set("customSet", []);
@@ -180,7 +177,7 @@ var state = {
                     this.switchLevel(savedState.set, true);
                     this.current.prevSet = savedState.set;
 
-                    // Restore everything else
+                    // Restore cGPA calculation mode and theme
                     app.setGpa(savedState.isGpa);
                     app.setTheme(savedState.dispMode);
                 } else {

@@ -9,7 +9,7 @@
 */
 
 // Must match state.current.version*
-var CACHE_VERSION = "pisaygwa-web-r15-v12.4.4";
+var CACHE_VERSION = "pisaygwa-web-r16-v12.5.0";
 
 // Install: Cache app files
 self.addEventListener('install', function(event) {
@@ -33,6 +33,7 @@ self.addEventListener('install', function(event) {
                 './dist/js/fastclick.min.js',
                 './dist/js/jquery.min.js',
                 './dist/js/script.js',
+                './dist/js/suncalc.min.js',
                 './dist/js/touchswipe.min.js',
                 './dist/js/webfontloader.min.js'
             ]).catch(function(error) {

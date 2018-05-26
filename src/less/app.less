@@ -2,7 +2,7 @@
     Main page styles
 
     NOTE: Do not include this file in index.html.
-    Compile main.less and include the resulting main.css.
+    Compile _style.less and include the resulting _style.css.
 
     @file app.less
     @author Jared Dantis (@aureljared)
@@ -31,6 +31,5 @@ html.wf-active {
 }
 
 // Actual page styles
-@import "app_menu";
-@import "app_body";
-@import "app_custom_subject";
+@import "app_components/menu";
+@import "app_components/body";

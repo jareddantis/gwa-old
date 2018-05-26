@@ -1,17 +1,16 @@
 /**
-    Styles for the custom subject input dialog.
+    Dialog styles
 
     NOTE: Do not include this file in index.html.
-	This is imported by app.less, which is then imported
-	by main.less.
-	Compile main.less and include the resulting main.css.
+    Compile _style.less and include the resulting _style.css.
 
-    @file app_custom_subject.less
+    @file dialog.less
     @author Jared Dantis (@aureljared)
     @license GPLv2
 */
 
-#custom-subject {
+// Common dialog styles
+div.dialog {
     position: fixed;
     z-index: 6;
     left: 0;
@@ -23,6 +22,9 @@
     align-items: center;
     justify-content: center;
 
+    &.hidden { display: none }
+
+    // Card
     & > div {
         max-width: 35em;
         max-height: 25em;
@@ -31,13 +33,14 @@
         background: white;
         border-radius: 3px;
 
+        // Card content
         & > div {
             width: ~"calc(100% - 3rem)";
             height: ~"calc(100% - 3rem)";
             position: relative;
             margin: 1.5rem;
 
-            .custom-subject-header {
+            .dialog-header {
                 margin-bottom: 2rem;
 
                 h2 {
@@ -46,51 +49,15 @@
                 }
             }
 
-            .custom-subject-body {
+            .dialog-body {
                 width: 100%;
                 margin-bottom: 2rem;
                 max-height: ~"calc(100% - 6rem)";
                 overflow-y: scroll;
                 position: relative;
-
-                table {
-                    margin: 0;
-                    padding: 0;
-                    border-collapse: collapse;
-                    width: 100%;
-                    height: auto;
-
-                    td { font-size: 1rem }
-                    tbody > tr:first-child input { padding-top: 0 !important }
-                    tbody td {
-                        input {
-                            width: 100%;
-                            margin: 0;
-                            padding: 1rem 0 .5rem;
-                            border: 0;
-                            font-size: 1rem;
-                            user-select: auto;
-                            border-bottom: 2px solid @gry-200;
-                            transition: border-bottom-color 150ms ease;
-
-                            &:focus { border-bottom-color: @black }
-                            &.err { border-bottom-color: @red-700 }
-                        }
-                        &.subject-delete {
-                            width: 1.5rem;
-                            cursor: pointer;
-                            background: url('../img/cross.svg') no-repeat @white;
-                            background-size: .7rem;
-                            background-position-y: 50%;
-                            padding-right: 1rem;
-                        }
-                        &.subject-name { padding-right: 1rem }
-                        &.subject-units { width: 4rem }
-                    }
-                }
             }
 
-            .custom-subject-buttons {
+            .dialog-buttons {
                 position: absolute;
                 bottom: 0;
                 width: 100%;
@@ -121,3 +88,6 @@
         }
     }
 }
+
+// Specific dialog styles
+@import "dialogs/custom_subject";

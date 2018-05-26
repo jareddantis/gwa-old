@@ -1,9 +1,8 @@
 /**
-    This file contains supplementary functions for
-    app.js that handles everything about the
+    This file handles everything about the
     custom subjects input UI.
 
-    @file app_custom_subject.js
+    @file custom_subject.js
     @author Jared Dantis (@aureljared)
     @license GPLv2
 */
@@ -11,7 +10,7 @@
 /**
     Prompts user for custom subjects.
 */
-app.promptSubjects = function() {
+app.dialog.promptSubjects = function() {
     // Get current custom set
     var currCustom = subjects.get("custom"),
         table = $('#custom-subject tbody');
@@ -42,7 +41,7 @@ app.promptSubjects = function() {
 
     @param {Array} subjEls - All subject rows (tr)
 */
-app.parseSubjects = function(subjEls) {
+app.dialog.parseSubjects = function(subjEls) {
     var set = [], valid = true;
 
     for (var i = 0; i < subjEls.length; i++) {
@@ -84,7 +83,7 @@ app.parseSubjects = function(subjEls) {
         // Check if name is empty
         if (subjName.length == 0) {
             console.error("[c_s] Empty name in row " + i);
-            app.highlightCustomSubjEl(subjNameEl);
+            app.dialog.highlightCustomSubjEl(subjNameEl);
             valid = false;
             break;
         }
@@ -93,7 +92,7 @@ app.parseSubjects = function(subjEls) {
         if (isNaN(subjUnits) || subjUnits === undefined ||
         	subjUnits.length == 0) {
             console.error("[c_s] Bad units in row " + i);
-            app.highlightCustomSubjEl(subjUnitsEl);
+            app.dialog.highlightCustomSubjEl(subjUnitsEl);
             valid = false;
             break;
         }
@@ -114,7 +113,7 @@ app.parseSubjects = function(subjEls) {
         state.switchLevel("custom");
 
         // Repopulate
-        app.populateSubjects();
+        app.dialog.populateSubjects();
 
         // Hide dialog
         $('#custom-subject').fadeOut(150);
@@ -124,7 +123,7 @@ app.parseSubjects = function(subjEls) {
 /**
     Highlights empty/invalid cell for 1 second
 */
-app.highlightCustomSubjEl = function(el) {
+app.dialog.highlightCustomSubjEl = function(el) {
     if (!$(el).hasClass('err')) {
     	// Scroll div to element
     	var parentScroll = $('.custom-subject-body').scrollTop(),

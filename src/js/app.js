@@ -43,19 +43,26 @@ var app = {
 
         // Night mode button action
         $('#btn-theme').click(function(){
-            // Night becomes day and vice versa
-            var theme = "day";
-            if ($('html').attr('data-theme') == "day")
-                theme = "night";
+        	var newTheme;
+            switch (state.get("dispMode")) {
+            	case "day": // day -> night
+            		newTheme = "night";
+            		break;
+            	case "night": // night -> auto
+            		newTheme = "auto";
+            		break;
+            	default: // auto -> day
+            		newTheme = "day";
+            }
 
             // Apply theme
-            app.setTheme(theme);
+            app.setTheme(newTheme);
         });
 
         // Edit subjects button action
         $('#btn-edit').click(function(){
             // Show dialog
-            app.promptSubjects();
+            app.dialog.promptSubjects();
         });
 
         // Clear grades button action
@@ -101,7 +108,7 @@ var app = {
         $('#custom-subject-save').click(function(){
             // Parse new subject data
             var subjs = $('#custom-subject tbody tr');
-            app.parseSubjects(subjs);
+            app.dialog.parseSubjects(subjs);
         });
         $('#custom-subject-quit').click(function(){
             if (subjects.get("custom").length == 0) {
@@ -130,15 +137,51 @@ var app = {
         @param {String} The new selected theme
     */
     setTheme: function(theme) {
-        // Update button text
-        var old = theme == "day" ? "Night" : "Day";
-        $('#btn-theme span').text(old + ' mode');
+    	var newTheme;
+
+    	switch (theme) {
+    		case "auto":
+	    		// Update button text
+	    		$('#btn-theme span').text('Night mode auto');
+
+	    		// Determine theme
+	    		if (app.sunHasSet())
+	    			newTheme = "night";
+	    		else
+	    			newTheme = "day";
+	    		break;
+	    	case "night":
+	    		// Update button text
+	    		$('#btn-theme span').text('Night mode on');
+	    		newTheme = theme;
+	    		break;
+	    	default:
+	    		// Update button text
+	    		$('#btn-theme span').text('Night mode off');
+	    		newTheme = theme;
+    	}
 
         // Apply new theme
-        $('html').attr('data-theme', theme);
+        $('html').attr('data-theme', newTheme);
 
         // Save theme preferences
         state.set("dispMode", theme);
+    },
+
+    /**
+        Determines if the sun has set based on Philippine
+        coordinates and the local computer time.
+
+        @returns {Boolean} Whether the sun has set or not
+    */
+    sunHasSet: function() {
+    	var now = new Date(),
+    		nowH = now.getHours(), nowM = now.getMinutes(),
+    		set = SunCalc.getTimes(now, 12, 121),
+    		setH = set.sunset.getHours(),
+    		setM = set.sunset.getMinutes();
+
+    	return nowH >= setH && nowM >= setM;
     },
 
     /**
@@ -206,7 +249,7 @@ var app = {
                 // don't switch level yet in case user hits Cancel
                 if (subjects.get("custom").length == 0) {
                     console.log("[app] customSet empty, deferring switchLevel");
-                    app.promptSubjects();
+                    app.dialog.promptSubjects();
                     return;
                 }
             }
@@ -312,5 +355,10 @@ var app = {
 
         // We truncate the grade, not round
         $('#gwa').text(result.substring(0,5));
-    }
+    },
+
+    /**
+		Dialogs (see src/js/dialogs)
+    */
+    dialog: {}
 };
