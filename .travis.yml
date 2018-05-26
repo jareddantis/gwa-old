@@ -13,6 +13,7 @@ cache:
 before_deploy:
   - sed -i '/dist\//d' .gitignore
   - sed -i '/index.html/d' .gitignore
+  - sed -i '/sw.js/d' .gitignore
   - echo 'src/' >> .gitignore
   - echo 'package.json' >> .gitignore
   - echo 'Gulpfile.js' >> .gitignore
