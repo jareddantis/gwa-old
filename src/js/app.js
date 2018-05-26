@@ -178,10 +178,15 @@ var app = {
     sunHasSet: function() {
     	var now = new Date(),
     		nowH = now.getHours(), nowM = now.getMinutes(),
-    		set = SunCalc.getTimes(now, 12, 121),
+    		times = SunCalc.getTimes(now, 12, 121),
+    		riseH = set.sunrise.getHours(),
+    		riseM = set.sunrise.getMinutes(),
     		setH = set.sunset.getHours(),
-    		setM = set.sunset.getMinutes();
-    	return nowH > setH || (nowH == setH && nowM >= setM);
+    		setM = set.sunset.getMinutes(),
+    		sunrise = nowH < riseH || (nowH == riseH && nowM <= riseM),
+    		sunset = nowH > setH || (nowH == setH && nowM >= setM);
+
+    	return sunrise || sunset;
     },
 
     /**
