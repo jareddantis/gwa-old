@@ -1,13 +1,25 @@
+env:
+  global:
+    - secure: "dgznV/pWaAH4zbu1VuEuIefz6k28A62n1rLhED2y3PJLYKw3TFAJIYrQzVNuNliJjLAPhGU/8a5TXClkTJDJTsMpmlkMymMy0dOIrzjXl6apH/vS0LCZHl/RVFeS8CEGD0UcqeAT0fQkVHGpJufDEPPIdwvJBCumMP6p2xjwhHmzNV2KFOqE049xJIrOvZ7++KOO8K9pFUyFRuwq/SSWgY4NAslxb7zPiLpHhq/2I7NW2ODh6QeiYnRSBOYNt/f5B6gs6ASLBwuyO+kIqnBino9H5hxeKxCmGgjQ+mHZKjqX9Qjvb02sjwsFM6Syzk2eQc953y3ZmPPtW+FBBuI9m/epNMyKmIBIkgi1Bb2zqeKdRFmHvur356iUwm+WUKFsACVj48ODZB6xghdAofWHkkinaFzONyeZVhxWHorYPVtIMjuwjuHcKqS9fjZJoR1cGpHxge0X9q6lp9ULvOPJURnJlJig7/lmT8WcaxrM99KCbyc5nh5a0EQHvsIDT9E/AturZkppTva60H/AfwjG4XiCZmClggkNfY0Z9S6Zq+4eKkvhL6smU4JK/8FQmQFmh4KX6rnGESAz7/1v7SXQNpjm+7+dZJi5bo2KWswIpJJmVKocc4rJBv+m6cIGFMJj/+RfOAVwypDEo7WZT7Rg/yAQhxbGM9vmLZY/K9VueFc="
 language: node_js
 node_js:
   - "node"
 before_install:
   - npm install
+  - openssl aes-256-cbc -K $encrypted_cafaecb8164e_key -iv $encrypted_cafaecb8164e_iv -in github_deploy_key.enc -out github_deploy_key -d
+  - chmod 600 github_deploy_key
+  - echo 'Host github.com' >> ~/.ssh/config
+  - echo '  IdentityFile github_deploy_key' >> ~/.ssh/config
+  - echo '  LogLevel ERROR' >> ~/.ssh/config
+  - eval $(ssh-agent -s)
+  - ssh-add github_deploy_key
 script: gulp all
 cache:
   directories:
     - "node_modules"
 before_deploy:
+  - rm -f github_deploy_key
+  - rm -f github_deploy_key.enc
   - sed -i '/dist\//d' .gitignore
   - sed -i '/index.html/d' .gitignore
   - echo 'src/' >> .gitignore

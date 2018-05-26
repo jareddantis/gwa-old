@@ -1,6 +1,7 @@
 *.sublime*
 node_modules/
 package-lock.json
+github_deploy_key
 src/
 package.json
 Gulpfile.js
