@@ -9,7 +9,7 @@
 */
 
 // Must match state.current.version*
-var CACHE_VERSION = "pisaygwa-web-r16-v12.5.2";
+var CACHE_VERSION = "pisaygwa-web-r16-v12.5.3";
 
 // Install: Cache app files
 self.addEventListener('install', function(event) {
