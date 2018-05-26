@@ -10,7 +10,7 @@ General weighted average calculator built for the modern web.
 * Support for optional electives for Grade 10 PSHS students
 * Support for defining a custom set of subjects (for college students)
 * Progressive web app **[(can run offline on supported browsers/devices)](http://by.jared.gq/gwaoffline)**
-* Night mode
+* Night mode (can be automatically enabled at sunset)
 * Cumulative GPA calculation mode (experimental)
 
 ## Building
@@ -60,5 +60,6 @@ The calculator is automatically built with [Travis](https://travis-ci.org) to ma
 - jQuery for, well, [jQuery](https://github.com/jquery/jquery)
 - TypeKit for [WebFontLoader](https://github.com/typekit/webfontloader/)
 - Matt Bryson for [jQuery.touchSwipe](https://github.com/mattbryson/TouchSwipe-Jquery-Plugin)
+- Vladimir Agafonkin for [SunCalc](https://github.com/mourner/suncalc)
 
 [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/ages-12.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/does-not-contain-msg.svg)](https://forthebadge.com)
