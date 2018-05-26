@@ -126,11 +126,11 @@ app.dialog.parseSubjects = function(subjEls) {
 app.dialog.highlightCustomSubjEl = function(el) {
     if (!$(el).hasClass('err')) {
     	// Scroll div to element
-    	var parentScroll = $('.custom-subject-body').scrollTop(),
-    		parentOffset = $('.custom-subject-body').offset().top,
+    	var parentScroll = $('#custom-subject .dialog-body').scrollTop(),
+    		parentOffset = $('#custom-subject .dialog-body').offset().top,
     		elOffset = $(el).offset().top,
     		offset = parentScroll - parentOffset + elOffset;
-    	$('.custom-subject-body').animate({
+    	$('#custom-subject .dialog-body').animate({
     		scrollTop: offset
     	}, 150);
 
