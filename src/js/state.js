@@ -11,7 +11,7 @@ var state = {
         Will be saved by state.set(), and is accessed by state.get().
     */
     current: {
-        version: "12.5.0", // {String} Version name (external)
+        version: "12.5.1", // {String} Version name (external)
         versionCode: 16,   // {Int} Version code (internal)
         set: "seven",      // {String} Selected set of subjects
         prevSet: "seven",  // {String} Previously selected set
