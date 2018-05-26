@@ -11,12 +11,12 @@ var state = {
         Will be saved by state.set(), and is accessed by state.get().
     */
     current: {
-        version: "12.5.2", // {String} Version name (external)
+        version: "12.5.3", // {String} Version name (external)
         versionCode: 16,   // {Int} Version code (internal)
         set: "seven",      // {String} Selected set of subjects
         prevSet: "seven",  // {String} Previously selected set
         grades: [],        // {Array} Entered grades
-        dispMode: "day",   // {String} Display mode (night/day/auto)
+        dispMode: "auto",   // {String} Display mode (night/day/auto)
         isGpa: false,      // {Boolean} cGPA mode
         customSet: []      // {Array} Custom subjects & units
     },

@@ -138,6 +138,7 @@ var app = {
     */
     setTheme: function(theme) {
     	var newTheme;
+    	console.log("[app] Applying theme: " + theme);
 
     	switch (theme) {
     		case "auto":
@@ -180,8 +181,7 @@ var app = {
     		set = SunCalc.getTimes(now, 12, 121),
     		setH = set.sunset.getHours(),
     		setM = set.sunset.getMinutes();
-
-    	return nowH >= setH && nowM >= setM;
+    	return nowH > setH || (nowH == setH && nowM >= setM);
     },
 
     /**
