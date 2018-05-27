@@ -30,6 +30,11 @@ var calc = {
             total += grade * units;
         }
 
+        if (isNaN(total / totalUnits)) {
+            $('#levels select').val('seven');
+            return false;
+        }
+
         // Convert to string so we can truncate later
         // since we're not supposed to round the value
         return "" + (total / totalUnits).toFixed(10);

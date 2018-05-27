@@ -66,6 +66,10 @@ app.dialog.parseSubjects = function(subjEls) {
                 else if (set[0] === undefined) {
                     // Restore previously selected subject set
                     var prevSet = state.get("prevSet");
+                    if (prevSet == "custom") {
+                        prevSet = "seven";
+                        state.set("prevSet", prevSet);
+                    }
                     $('#levels select').val(prevSet);
                     state.switchLevel(prevSet);
 
@@ -73,7 +77,7 @@ app.dialog.parseSubjects = function(subjEls) {
                     subjects.setCustom([]);
 
                     // Quit
-                    console.error("[c_s] No subjects, restoring " + prevSet);
+                    console.warn("[c_s] No subjects, restoring " + prevSet);
                     valid = false;
                     $('#custom-subject').fadeOut(150);
                     break;
@@ -82,7 +86,7 @@ app.dialog.parseSubjects = function(subjEls) {
 
         // Check if name is empty
         if (subjName.length == 0) {
-            console.error("[c_s] Empty name in row " + i);
+            console.warn("[c_s] Empty name in row " + i);
             app.dialog.highlightCustomSubjEl(subjNameEl);
             valid = false;
             break;
@@ -91,7 +95,7 @@ app.dialog.parseSubjects = function(subjEls) {
         // Check if units is empty or invalid
         if (isNaN(subjUnits) || subjUnits === undefined ||
         	subjUnits.length == 0) {
-            console.error("[c_s] Bad units in row " + i);
+            console.warn("[c_s] Bad units in row " + i);
             app.dialog.highlightCustomSubjEl(subjUnitsEl);
             valid = false;
             break;
@@ -113,7 +117,7 @@ app.dialog.parseSubjects = function(subjEls) {
         state.switchLevel("custom");
 
         // Repopulate
-        app.dialog.populateSubjects();
+        app.populateSubjects();
 
         // Hide dialog
         $('#custom-subject').fadeOut(150);

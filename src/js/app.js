@@ -138,7 +138,6 @@ var app = {
     */
     setTheme: function(theme) {
     	var newTheme;
-    	console.log("[app] Applying theme: " + theme);
 
     	switch (theme) {
     		case "auto":
@@ -253,7 +252,7 @@ var app = {
                 // If subjects are not defined yet,
                 // don't switch level yet in case user hits Cancel
                 if (subjects.get("custom").length == 0) {
-                    console.log("[app] customSet empty, deferring switchLevel");
+                    console.warn("[app] customSet empty, deferring switchLevel");
                     app.dialog.promptSubjects();
                     return;
                 }
