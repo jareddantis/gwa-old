@@ -95,6 +95,20 @@ gulp.task('clean-js', function(){ del(['dist/js/script.js']); });
 gulp.task('clean-svg', function(){ del(['dist/img/*.svg']); });
 gulp.task('clean-html', function(){ del(['index.html']); });
 
+// Gen + sw
+gulp.task('css-sw', function() {
+    runSequence('css','sw');
+});
+gulp.task('js-sw', function() {
+    runSequence('js','sw');
+});
+gulp.task('svg-sw', function() {
+    runSequence('svg','sw');
+});
+gulp.task('html-sw', function() {
+    runSequence('html','sw');
+});
+
 // Gulp task to minify all files
 gulp.task('default', function () {
     runSequence(
