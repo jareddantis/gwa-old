@@ -16,7 +16,7 @@ var state = {
         set: "seven",      // {String} Selected set of subjects
         prevSet: "seven",  // {String} Previously selected set
         grades: [],        // {Array} Entered grades
-        dispMode: "auto",   // {String} Display mode (night/day/auto)
+        dispMode: "auto",  // {String} Display mode (night/day/auto)
         isGpa: false,      // {Boolean} cGPA mode
         customSet: []      // {Array} Custom subjects & units
     },
@@ -52,7 +52,7 @@ var state = {
     /**
         Gets saved grade for a subject.
 
-        @param {String} id - Subject ID. See app.createSubjectRow().
+        @param {String} id - Subject ID. See widget.newSubjectRow().
         @returns {(String|Array|Int|Boolean)} The requested grade
     */
     getGrade: function(id) { return this.current.grades[id]; },
@@ -60,7 +60,7 @@ var state = {
     /**
         Sets grade for a subject.
 
-        @param {String} id - Subject ID. See app.createSubjectRow().
+        @param {String} id - Subject ID. See widget.newSubjectRow().
         @param {String} grade - The new subject grade
     */
     setGrade: function(id, grade) {
