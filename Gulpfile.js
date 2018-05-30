@@ -72,7 +72,12 @@ gulp.task('html', ['clean-html'], function() {
 });
 
 // Generate service worker
-gulp.task('sw', function(callback) {
+gulp.task('sw-min', function() {
+    return gulp.src('./sw.js')
+        .pipe(uglify())
+        .pipe(gulp.dest('./'))
+});
+gulp.task('sw-gen', function(callback) {
     var path = require('path');
     var swPrecache = require('sw-precache');
     var swConfig = {
@@ -87,6 +92,9 @@ gulp.task('sw', function(callback) {
         ]
     };
     swPrecache.write('sw.js', swConfig, callback);
+});
+gulp.task('sw', function() {
+    runSequence('sw-gen', 'sw-min');
 });
 
 // Clean output directory
