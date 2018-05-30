@@ -62,4 +62,25 @@ The calculator is automatically built with [Travis](https://travis-ci.org) to ma
 - Matt Bryson for [jQuery.touchSwipe](https://github.com/mattbryson/TouchSwipe-Jquery-Plugin)
 - Vladimir Agafonkin for [SunCalc](https://github.com/mourner/suncalc)
 
+## License
+
+```
+pisaygwa: The quick, responsive GWA calculator for PSHS and college students.
+Copyright (C) 2016-2018 Aurel Jared Dantis
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+```
+
 [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/ages-12.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/does-not-contain-msg.svg)](https://forthebadge.com)
