@@ -2,7 +2,7 @@
 
 General weighted average calculator built for the modern web.
 
-![GitHub tag](https://img.shields.io/github/tag/illustra/gwa.svg) [![Build Status](https://travis-ci.org/illustra/gwa.svg?branch=master)](https://travis-ci.org/illustra/gwa) [![devDependencies](https://david-dm.org/illustra/gwa/dev-status.svg)](https://david-dm.org/illustra/gwa) [![GitHub license](https://img.shields.io/github/license/illustra/gwa.svg)](https://github.com/illustra/gwa/blob/master/LICENSE)
+![GitHub tag](https://img.shields.io/github/tag/illustra/gwa.svg) [![Build Status](https://travis-ci.org/illustra/gwa.svg?branch=master)](https://travis-ci.org/illustra/gwa) [![devDependencies](https://david-dm.org/illustra/gwa/dev-status.svg)](https://david-dm.org/illustra/gwa) [![Greenkeeper badge](https://badges.greenkeeper.io/illustra/gwa.svg)](https://greenkeeper.io/) [![GitHub license](https://img.shields.io/github/license/illustra/gwa.svg)](https://github.com/illustra/gwa/blob/master/LICENSE)
 
 ## Features
 
@@ -49,7 +49,9 @@ Open the resulting `index.html` with your favorite browser.
 
 ## Contributing
 
-The calculator is automatically built with [Travis](https://travis-ci.org) to make updating and testing easier. If you have a suggestion for the calculator, you can either
+The calculator is automatically built with [Travis](https://travis-ci.org) to make updating and testing easier. NPM dependencies are also automatically updated by [Greenkeeper.](https://greenkeeper.io)
+
+If you have a suggestion for the calculator, you can either
 
 * send me a message about it [here,](http://server.jared.gq/feedback/?subject=pisaygwa-web) or
 * make a pull request on this repository if you have some code to share!
@@ -83,4 +85,4 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 ```
 
-[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/ages-12.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/does-not-contain-msg.svg)](https://forthebadge.com) [![Greenkeeper badge](https://badges.greenkeeper.io/illustra/gwa.svg)](https://greenkeeper.io/)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/ages-12.svg)](https://forthebadge.com) [![forthebadge](https://forthebadge.com/images/badges/does-not-contain-msg.svg)](https://forthebadge.com)
