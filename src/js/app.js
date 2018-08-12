@@ -89,7 +89,7 @@ var app = {
             }
         });
 
-        // Hide sidebar on click outside
+        // Collapse sidebar on click outside (mobile)
         $('#menu-bg').click(function(){
             $('#menu').removeClass('visible');
             $(this).fadeOut();
@@ -238,18 +238,18 @@ var app = {
         $('#levels select').on('change', function(){
             var newSet = $(this).val();
 
-            // Hide sidebar
+            // Collapse sidebar (mobile)
             if ($('#menu').hasClass('visible')) {
                 $('#menu').removeClass('visible');
                 $('#menu-bg').fadeOut();
             }
 
-            // User selects custom subjects
+            // User selected custom subjects
             if (newSet == "custom") {
                 // Remember currently selected set
                 state.set("prevSet", state.get("set"));
 
-                // If subjects are not defined yet,
+                // If subjects are not defined,
                 // don't switch level yet in case user hits Cancel
                 if (subjects.get("custom").length == 0) {
                     console.warn("[app] customSet empty, deferring switchLevel");
