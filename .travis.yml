@@ -2,7 +2,7 @@ language: node_js
 branches:
   only:
     - master
-    - /^greenkeeper/.*$/
+    - /^greenkeeper\/.*$/
 node_js:
   - "node"
 before_install:
@@ -31,4 +31,4 @@ deploy:
   keep-history: true
   target-branch: gh-pages
   on:
-    branch: master
+    all_branches: true
