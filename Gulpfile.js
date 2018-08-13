@@ -80,11 +80,12 @@ gulp.task('sw', gulp.series(function(callback) {
     swPrecache.write('sw.js', {
         staticFileGlobs: [
             'index.html',
-            'dist/css/style.css',
+            'dist/css/**.css',
             'dist/img/**.svg',
             'dist/js/**.js',
             'favicon/**.png',
             'favicon/**.svg',
+            'favicon/favicon.ico',
             'splash/**.png'
         ]
     }, callback);
@@ -96,6 +97,6 @@ gulp.task('sw', gulp.series(function(callback) {
 
 // Gulp task to minify all files
 gulp.task('assets', gulp.parallel('css', 'js', 'html'));
-gulp.task('assets-svg', gulp.parallel('css', 'js', 'svg', 'html'));
+gulp.task('assets-svg', gulp.parallel('assets', 'svg'));
 gulp.task('default', gulp.series('assets', 'sw'));
 gulp.task('all', gulp.series('assets-svg', 'sw'));
