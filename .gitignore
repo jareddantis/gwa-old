@@ -1,6 +1,5 @@
 *.sublime*
 node_modules/
-package-lock.json
 dist/
 index.html
 sw.js
