@@ -1,5 +1,5 @@
 'use strict';
-/* jshint node: true */
+/* jshint esversion: 6, node: true*/
 
 /**
     Gulpfile.js:
@@ -9,18 +9,18 @@
     Licensed under GPLv2.
 */
 
-var del = require('del');
-var gulp = require('gulp');
-var rename = require('gulp-rename');
-var uglify = require('gulp-uglify');
+const del = require('del');
+const gulp = require('gulp');
+const rename = require('gulp-rename');
+const uglify = require('gulp-uglify');
 
 // Build & minify LESS files
-gulp.task('css', function() {
-    var autoprefixer = require('autoprefixer');
-    var csso = require('gulp-csso');
-    var less = require('gulp-less');
-    var postcss = require('gulp-postcss');
-    var unprefix = require('postcss-unprefix');
+gulp.task('css', () => {
+    const autoprefixer = require('autoprefixer');
+    const csso = require('gulp-csso');
+    const less = require('gulp-less');
+    const postcss = require('gulp-postcss');
+    const unprefix = require('postcss-unprefix');
     del(['dist/css']);
 
     return gulp.src('./src/less/_style.less')
@@ -35,8 +35,8 @@ gulp.task('css', function() {
 });
 
 // Minify JS files
-gulp.task('js', function() {
-    var concat = require('gulp-concat');
+gulp.task('js', () => {
+    const concat = require('gulp-concat');
     del(['dist/js/script.js']);
 
     return gulp.src([
@@ -49,8 +49,8 @@ gulp.task('js', function() {
 });
 
 // Minify SVG files
-gulp.task('svg', function() {
-    var svgmin = require('gulp-svgmin');
+gulp.task('svg', () => {
+    const svgmin = require('gulp-svgmin');
     del(['dist/img/*.svg']);
 
     return gulp.src('./src/img/*.svg')
@@ -59,9 +59,9 @@ gulp.task('svg', function() {
 });
 
 // Minify index HTML file
-gulp.task('html', function() {
-    var htmlimport = require('gulp-html-import');
-    var htmlmin = require('gulp-htmlmin');
+gulp.task('html', () => {
+    const htmlimport = require('gulp-html-import');
+    const htmlmin = require('gulp-htmlmin');
     del(['index.html']);
 
     return gulp.src('./src/index.html')
@@ -75,21 +75,24 @@ gulp.task('html', function() {
 });
 
 // Generate service worker
-gulp.task('sw', gulp.series(function(callback) {
-    var swPrecache = require('sw-precache');
+gulp.task('sw', gulp.series((callback) => {
+    const swPrecache = require('sw-precache');
     swPrecache.write('sw.js', {
         staticFileGlobs: [
             'index.html',
-            'dist/css/**.css',
-            'dist/img/**.svg',
-            'dist/js/**.js',
-            'favicon/**.png',
-            'favicon/**.svg',
-            'favicon/favicon.ico',
-            'splash/**.png'
-        ]
+            'dist/**/*.{css,svg,js}',
+            'favicon/*.{png,svg,ico}',
+            'splash/*.png'
+        ],
+        importScripts: ['sw-import.js'],
+        runtimeCaching: [{
+            urlPattern: /gwa/,
+            handler: 'networkFirst'
+        }],
+        skipWaiting: true,
+        swDest: './sw.js'
     }, callback);
-}, function() {
+}, () => {
     return gulp.src('./sw.js')
         .pipe(uglify())
         .pipe(gulp.dest('./'));

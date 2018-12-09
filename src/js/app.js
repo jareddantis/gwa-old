@@ -13,7 +13,7 @@ var app = {
         This function is the first function called after the
         page has loaded and all other libraries have initialized.
     */
-    init: function() {
+    init: function(swInstance) {
         console.log("[app] Initializing");
 
         // Restore state
@@ -120,14 +120,6 @@ var app = {
 
             // Hide dialog
             $('#custom-subject').fadeOut(150);
-        });
-
-        // New update available (PWA)
-        window.isUpdateAvailable.then(function(available) {
-            if (available) {
-                // TODO: Show new update to UI
-                console.log("[app] New PWA update found");
-            }
         });
     },
 
