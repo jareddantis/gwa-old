@@ -47,9 +47,9 @@
             // Wait for user input
             e.userChoice.then(function(choice) {
                 if (choice.outcome === 'accepted') {
-                    console.log('User accepted the A2HS prompt');
+                    console.log('[window] User accepted the A2HS prompt');
                 } else {
-                    console.log('User dismissed the A2HS prompt');
+                    console.log('[window] User dismissed the A2HS prompt');
                 }
                 e = null;
             });
@@ -111,47 +111,32 @@
 
     // Service worker with update functionality
     // https://medium.com/progressive-web-apps/pwa-create-a-new-update-available-notification-using-service-workers-18be9168d717
-    if ('serviceWorker' in navigator) {
-        // Register service worker
-        navigator.serviceWorker.register('sw.js')
-            .then(function(reg) {
-                console.log("[sw] Registered with scope " + reg.scope);
+    window.isUpdateAvailable = new Promise(function(resolve, reject) {
+        if ('serviceWorker' in navigator) {
+            // Register service worker
+            navigator.serviceWorker.register('sw.js')
+                .then(function(reg) {
+                    console.log("[sw] Registered with scope " + reg.scope);
 
-                reg.addEventListener('updatefound', function() {
-                    var instWkr = reg.installing;
+                    reg.addEventListener('updatefound', function() {
+                        var instWkr = reg.installing;
 
-                    instWkr.addEventListener('statechange', function() {
-                        if (instWkr.state == "installed") {
-                            if (navigator.serviceWorker.controller) {
-                                // new update available
-                                resolve(true);
-                            } else {
-                                // no update available
-                                resolve(false);
+                        instWkr.addEventListener('statechange', function() {
+                            if (instWkr.state == "installed") {
+                                if (navigator.serviceWorker.controller) {
+                                    // new update available
+                                    resolve(true);
+                                } else {
+                                    // no update available
+                                    resolve(false);
+                                }
                             }
-                        }
+                        });
                     });
+                })
+                .catch(function(error) {
+                    console.error("[sw] Error while registering: " + error);
                 });
-            })
-            .catch(function(error) {
-                console.error("[sw] Error while registering: " + error);
-            });
-
-        // Handle service worker changes
-        var refreshing = false;
-        navigator.serviceWorker.addEventListener('controllerchange', function() {
-            if (refreshing)
-                return;
-
-            // Attach reload handler
-            $('#update-reload').click(function(){
-                navigator.serviceWorker.controller.postMessage('skipWaiting');
-                window.location.reload();
-                refreshing = true;
-            });
-
-            // Show dialog
-            $('#update-found').fadeIn(150);
-        });
-    }
+        }
+    });
 </script>

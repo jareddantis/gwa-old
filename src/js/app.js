@@ -26,6 +26,18 @@ var app = {
         fdbkLink += '-' + version.replace(/ /g, '');
         $('#btn-feedback').parent().attr('href', fdbkLink);
 
+        // Check for updates
+        $('#update-reload').click(function(){
+            window.location.reload();
+        });
+        window['isUpdateAvailable']
+            .then(function(isAvailable) {
+                console.log("[app] Update found, showing dialog");
+                if (isAvailable) {
+                    $('#update-found').fadeIn(200);
+                }
+            });
+
         // Button styling & default action
         $('.button').each(function(){
             $(this).mousedown(function(){
