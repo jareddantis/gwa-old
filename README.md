@@ -69,7 +69,7 @@ If you have a suggestion for the calculator, you can either
 
 ```
 pisaygwa: The quick, responsive GWA calculator for PSHS and college students.
-Copyright (C) 2016-2018 Aurel Jared Dantis
+Copyright (C) 2015-2019 Aurel Jared Dantis
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
