@@ -76,22 +76,37 @@ gulp.task('html', () => {
 
 // Generate service worker
 gulp.task('sw', gulp.series((callback) => {
-    const swPrecache = require('sw-precache');
-    swPrecache.write('sw.js', {
-        staticFileGlobs: [
+    const workbox = require('workbox-build');
+    return workbox.generateSW({
+        globDirectory: '.',
+        globPatterns: [
             'index.html',
             'dist/**/*.{css,svg,js}',
             'favicon/*.{png,svg,ico}',
             'splash/*.png'
         ],
-        importScripts: ['sw-import.js'],
+        swDest: './sw.js',
         runtimeCaching: [{
             urlPattern: /gwa/,
-            handler: 'networkFirst'
+            handler: 'NetworkFirst',
+            options: {
+                cacheName: 'GwaCache',
+                backgroundSync: {
+                    name: 'GwaSyncQ',
+                    options: {
+                        maxRetentionTime: 60 * 60
+                    }
+                },
+                broadcastUpdate: {
+                    channelName: 'GwaUpdChan'
+                }
+            }
         }],
-        skipWaiting: true,
-        swDest: './sw.js'
-    }, callback);
+        skipWaiting: true
+    }).then(({count, size, warnings}) => {
+        warnings.forEach(console.warn);
+        console.log(`${count} files will be precached, totaling ${size} bytes.`);
+    });
 }, () => {
     return gulp.src('./sw.js')
         .pipe(uglify())

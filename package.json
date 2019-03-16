@@ -1,6 +1,6 @@
 {
   "name": "pisaygwa",
-  "version": "12.7.2",
+  "version": "13.0.20190316",
   "description": "General weighted average calculator for PSHS students",
   "main": "Gulpfile.js",
   "scripts": {
@@ -33,6 +33,7 @@
     "postcss-unprefix": "^2.1.4",
     "run-sequence": "^2.2.1",
     "sw-precache": "^5.2.1",
-    "sw-toolbox": "^3.6.0"
+    "sw-toolbox": "^3.6.0",
+    "workbox-build": "^4.1.1"
   }
 }
