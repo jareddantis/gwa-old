@@ -4,7 +4,7 @@
     Also handles custom subject definitions.
 
     @file subjects.js
-    @author Jared Dantis (@aureljared)
+    @author Jared Dantis (@jareddantis)
     @license GPLv2
 */
 

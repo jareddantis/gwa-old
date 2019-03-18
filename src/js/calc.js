@@ -1,7 +1,7 @@
 /**
     @file calc.js
     @description Where the magic happens!
-    @author Jared Dantis (@aureljared)
+    @author Jared Dantis (@jareddantis)
     @license GPLv2
 */
 

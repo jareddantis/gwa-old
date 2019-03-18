@@ -3,7 +3,7 @@
     custom subjects input UI.
 
     @file custom_subject.js
-    @author Jared Dantis (@aureljared)
+    @author Jared Dantis (@jareddantis)
     @license GPLv2
 */
 

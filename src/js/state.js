@@ -1,7 +1,7 @@
 /**
     @file state.js
     @description Responsible for saving user grades & settings.
-    @author Jared Dantis (@aureljared)
+    @author Jared Dantis (@jareddantis)
     @license GPLv2
 */
 

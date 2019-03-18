@@ -1,7 +1,7 @@
 /**
     @file widget.js
     @description Reusable components (table rows)
-    @author Jared Dantis (@aureljared)
+    @author Jared Dantis (@jareddantis)
     @license GPLv2
 */
 

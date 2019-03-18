@@ -1,7 +1,7 @@
 /**
     @file app.js
     @description Responsible for handling the UI.
-    @author Jared Dantis (@aureljared)
+    @author Jared Dantis (@jareddantis)
     @license GPLv2
 */
 
