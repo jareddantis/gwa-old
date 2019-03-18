@@ -5,10 +5,11 @@
     Gulpfile.js:
       Recipe for building the GWA app with Gulp.
 
-    Part of the illustra/gwa project by @aureljared.
+    Part of the illustra/gwa project by @jareddantis.
     Licensed under GPLv2.
 */
 
+const concat = require('gulp-concat');
 const del = require('del');
 const gulp = require('gulp');
 const rename = require('gulp-rename');
@@ -36,7 +37,6 @@ gulp.task('css', () => {
 
 // Minify JS files
 gulp.task('js', () => {
-    const concat = require('gulp-concat');
     del(['dist/js/script.js']);
 
     return gulp.src([
@@ -85,7 +85,7 @@ gulp.task('sw', gulp.series((callback) => {
             'favicon/*.{png,svg,ico}',
             'splash/*.png'
         ],
-        swDest: './sw.js',
+        swDest: './sw-tmp.js',
         runtimeCaching: [{
             urlPattern: /gwa/,
             handler: 'NetworkFirst',
@@ -108,9 +108,15 @@ gulp.task('sw', gulp.series((callback) => {
         console.log(`${count} files will be precached, totaling ${size} bytes.`);
     });
 }, () => {
-    return gulp.src('./sw.js')
+    gulp.src([
+            './sw-tmp.js',
+            './sw-custom.js'
+        ])
+        .pipe(concat('./sw.js'))
         .pipe(uglify())
         .pipe(gulp.dest('./'));
+
+    return del(['./sw-tmp.js']);
 }));
 
 // Gulp task to minify all files
