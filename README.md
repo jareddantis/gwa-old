@@ -28,18 +28,6 @@ npm install -g gulp-cli
 npm install
 ```
 
-You also need to download the JavaScript libraries used by the calculator:
-
-```bash
-mkdir -p dist/js
-curl 'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js' > dist/js/jquery.min.js
-curl 'https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js' > dist/js/fastclick.min.js
-curl 'https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js' > dist/js/touchswipe.min.js
-curl 'https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js' > dist/js/webfontloader.min.js
-curl 'https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js' > dist/js/suncalc.min.js
-curl 'https://cdn.jsdelivr.net/npm/vanilla-ripplejs@1.0.6' > dist/js/ripple.min.js
-```
-
 You are now ready to make your changes to the files inside `src/`. When you're done, build the calculator:
 
 ```bash

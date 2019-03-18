@@ -8,10 +8,10 @@
 -->
 
 <!-- JS libraries -->
-<script defer type="text/javascript" src="dist/js/jquery.min.js" id="scJq"></script>
-<script async defer type="text/javascript" src="dist/js/fastclick.min.js" id="scFc"></script>
-<script async defer type="text/javascript" src="dist/js/suncalc.min.js" id="scSc"></script>
-<script async defer type="text/javascript" src="dist/js/ripple.min.js" id="scRp"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" id="scJq"></script>
+<script async defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js" id="scFc"></script>
+<script async defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js" id="scSc"></script>
+<script async defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/vanilla-ripplejs@1.0.6" id="scRp"></script>
 
 <!-- Main page scripts -->
 <script defer type="text/javascript" src="dist/js/script.js" id="scGw"></script>
@@ -33,7 +33,7 @@
         (function(d) {
             var wf = document.createElement('script'),
                 s = d.scripts[0];
-            wf.src = 'dist/js/webfontloader.min.js';
+            wf.src = 'https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js';
             wf.async = true;
             s.parentNode.insertBefore(wf, s);
         })(document);
@@ -76,7 +76,7 @@
         (function(d) {
             var ts = document.createElement('script'),
                 s = d.scripts[0];
-            ts.src = 'dist/js/touchswipe.min.js';
+            ts.src = 'https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js';
             ts.async = true;
             ts.onload = ts.onreadystatechange = function() {
                 if (!tsLoaded && (!this.readyState ||

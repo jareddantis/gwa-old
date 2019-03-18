@@ -1,7 +1,7 @@
 /**
     sw-custom.js:
       Custom logic for Service Worker.
-      Currently handles caching for Google Fonts.
+      Currently handles caching for Google Fonts and JS libraries.
 
     Part of the illustra/gwa project by @jareddantis.
     Licensed under GPLv2.
@@ -24,6 +24,20 @@ workbox.routing.registerRoute(
             new workbox.cacheableResponse.Plugin({
                 statuses: [0, 200],
             }),
+            new workbox.expiration.Plugin({
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+                maxEntries: 30,
+            }),
+        ],
+    })
+);
+
+// Cache files from CDNJS and JSDelivr
+workbox.routing.registerRoute(
+    /^https:\/\/(?:cdnjs|cdn)\.(?:cloudflare|jsdeliver)\.(?:com|net)/,
+    new workbox.strategies.CacheFirst({
+        cacheName: 'cdn-resources',
+        plugins: [
             new workbox.expiration.Plugin({
                 maxAgeSeconds: 60 * 60 * 24 * 365,
                 maxEntries: 30,
