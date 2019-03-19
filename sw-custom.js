@@ -1,13 +1,13 @@
 /**
-    sw-custom.js:
-      Custom logic for Service Worker.
-      Currently handles caching for Google Fonts and JS libraries.
-
-    Part of the illustra/gwa project by @jareddantis.
-    Licensed under GPLv2.
+    @file sw-custom.js
+    @description Custom logic for the service worker.
+                 Handles Google Font and JS lib caching.
+    @author Jared Dantis (@jareddantis)
+    @license GPLv2
 */
 
 // Cache the Google Fonts stylesheets with a stale-while-revalidate strategy.
+// https://developers.google.com/web/tools/workbox/guides/common-recipes
 workbox.routing.registerRoute(
     /^https:\/\/fonts\.googleapis\.com/,
     new workbox.strategies.StaleWhileRevalidate({
@@ -16,6 +16,7 @@ workbox.routing.registerRoute(
 );
 
 // Cache the underlying font files with a cache-first strategy for 1 year.
+// https://developers.google.com/web/tools/workbox/guides/common-recipes
 workbox.routing.registerRoute(
     /^https:\/\/fonts\.gstatic\.com/,
     new workbox.strategies.CacheFirst({
