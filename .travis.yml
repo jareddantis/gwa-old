@@ -16,6 +16,7 @@ before_deploy:
   - echo 'src/' >> .gitignore
   - echo 'package.json' >> .gitignore
   - echo 'Gulpfile.js' >> .gitignore
+  - echo 'sw-custom.js' >> .gitignore
 deploy:
   provider: pages
   skip-cleanup: true
