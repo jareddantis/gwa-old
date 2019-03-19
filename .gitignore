@@ -4,3 +4,4 @@ src/**/*.css
 src/
 package.json
 Gulpfile.js
+sw-custom.js
