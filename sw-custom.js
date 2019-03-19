@@ -12,6 +12,15 @@ workbox.routing.registerRoute(
     /^https:\/\/fonts\.googleapis\.com/,
     new workbox.strategies.StaleWhileRevalidate({
         cacheName: 'google-fonts-stylesheets',
+        plugins: [
+            new workbox.cacheableResponse.Plugin({
+                statuses: [0, 200],
+            }),
+            new workbox.expiration.Plugin({
+                maxAgeSeconds: 60 * 60 * 24 * 365,
+                maxEntries: 30,
+            }),
+        ],
     })
 );
 
@@ -39,6 +48,9 @@ workbox.routing.registerRoute(
     new workbox.strategies.CacheFirst({
         cacheName: 'cdn-resources',
         plugins: [
+            new workbox.cacheableResponse.Plugin({
+                statuses: [0, 200],
+            }),
             new workbox.expiration.Plugin({
                 maxAgeSeconds: 60 * 60 * 24 * 365,
                 maxEntries: 30,
