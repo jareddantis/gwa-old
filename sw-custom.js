@@ -34,7 +34,7 @@ workbox.routing.registerRoute(
 
 // Cache files from CDNJS and JSDelivr
 workbox.routing.registerRoute(
-    /^https:\/\/(?:cdnjs|cdn)\.(?:cloudflare|jsdeliver)\.(?:com|net)/,
+    /^https:\/\/(?:cdnjs|cdn)\.(?:cloudflare|jsdelivr)\.(?:com|net)/,
     new workbox.strategies.CacheFirst({
         cacheName: 'cdn-resources',
         plugins: [
