@@ -2,11 +2,10 @@
 /* jshint esversion: 6, node: true*/
 
 /**
-    Gulpfile.js:
-      Recipe for building the GWA app with Gulp.
-
-    Part of the illustra/gwa project by @jareddantis.
-    Licensed under GPLv2.
+    @file Gulpfile.js
+    @description Recipe for building the GWA app with Gulp.
+    @author Jared Dantis (@jareddantis)
+    @license GPLv2
 */
 
 const concat = require('gulp-concat');
