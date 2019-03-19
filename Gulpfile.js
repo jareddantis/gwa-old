@@ -87,7 +87,7 @@ gulp.task('sw', gulp.series((callback) => {
         swDest: './sw-tmp.js',
         runtimeCaching: [{
             urlPattern: /gwa/,
-            handler: 'NetworkFirst',
+            handler: 'StaleWhileRevalidate',
             options: {
                 cacheName: 'GwaCache',
                 backgroundSync: {
