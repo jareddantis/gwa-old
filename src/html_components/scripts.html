@@ -63,9 +63,6 @@
         // Detection from https://stackoverflow.com/a/9039885/3350320
         var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
         if (iOS) {
-            // Remove download button if on iOS
-            $('#btn-android').parent().remove();
-
             // Check for PWA support (iOS 11.3+)
             if ('standalone' in window.navigator && window.navigator.standalone) {
                 // TODO: display install popup
