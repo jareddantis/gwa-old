@@ -5,12 +5,12 @@
     @license GPLv2
 */
 
-var widget = {
+const widget = {
     /**
         Creates a table row element (tr) that contains a
         subject, along with the grade and -/+ controls.
 
-        @param {Int} id
+        @param {Number} id
             The subject ID, e.g. the index of the subject
             in the array subjects.default.
         @param {String} subjName  -  Subject name
@@ -19,7 +19,7 @@ var widget = {
     */
     newSubjectRow: function(id, subjName, subjGrade){
         //  <tr> element that will contain everything
-        var row = $('<tr>').attr('data-subject', id),
+        let row = $('<tr>').attr('data-subject', id),
         //  <td> element that will contain the grade & subject name
             lcol = $('<td>'),
             subj = $('<p>').text(subjName),
@@ -32,7 +32,7 @@ var widget = {
         // Add plus/minus button actions
         $(minus).click(function(){
             // Get current grade
-            var subjId = $(this).parent().parent().attr('data-subject'),
+            let subjId = $(this).parent().parent().attr('data-subject'),
                 grade = state.getGrade(parseInt(subjId));
 
             // Increment if possible
@@ -52,7 +52,7 @@ var widget = {
         });
         $(plus).click(function(){
             // Get current grade
-            var subjId = $(this).parent().parent().attr('data-subject'),
+            let subjId = $(this).parent().parent().attr('data-subject'),
                 grade = state.getGrade(parseInt(subjId));
 
             // Decrement if possible
@@ -73,7 +73,7 @@ var widget = {
 
         // Allow manual grade entry on grade click
         $(grade).click(function(){
-            var subjId = $(this).parent().parent().attr('data-subject');
+            let subjId = $(this).parent().parent().attr('data-subject');
             app.promptGrade(subjId);
         });
 
@@ -88,15 +88,12 @@ var widget = {
         Creates a table row element (tr) that contains
         input boxes for a custom subject and its units.
 
-        @param {Int} id
-            The subject ID, e.g. the index of the subject
-            in the array subjects.default.
         @param {String} subjName  -  Subject name
         @param {String} subjUnits  -  Subject units
         @returns {jQuery} The created subject row
     */
     newCustomSubject: function(subjName, subjUnits) {
-        var row = $('<tr>'),
+        let row = $('<tr>'),
             del = $('<td>').addClass('subject-delete'),
             name = $('<td>').addClass('subject-name'),
             unit = $('<td>').addClass('subject-units'),
@@ -105,14 +102,14 @@ var widget = {
 
         // on click delete button
         $(del).click(function(){
-            var row = $(this).parent();
+            let row = $(this).parent();
 
             if ($(row).siblings().length > 0)
                 $(row).remove();
             else {
                 // Don't delete the only row
                 // Instead, empty the content
-                var name = $(row).children('td.subject-name')
+                let name = $(row).children('td.subject-name')
                                  .children('input'),
                     unit = $(row).children('td.subject-units')
                                  .children('input');
@@ -121,7 +118,7 @@ var widget = {
             }
         });
 
-        // Name & unit textbox placeholders
+        // Name & unit text box placeholders
         $(nameInput).attr('placeholder', 'Subject');
         $(unitInput).attr('placeholder', 'Units');
 

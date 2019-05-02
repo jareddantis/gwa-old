@@ -5,24 +5,24 @@
     @license GPLv2
 */
 
-var calc = {
+const calc = {
     /**
         Calculates grade average. Get it? calc.ulate? :-(
 
         @returns {String} The computed average, truncated to 10 decimal places
     */
     ulate: function() {
-        var totalUnits = 0, total = 0, isGpa = state.get("isGpa"),
+        let totalUnits = 0, total = 0, isGpa = state.get("isGpa"),
             subjs = subjects.get();
 
         // Get weighted sum
-        for (var i = 0; i < subjs.length; i++) {
+        for (let i = 0; i < subjs.length; i++) {
             // Get units
-            var units = subjs[i].units;
+            let units = subjs[i].units;
             totalUnits += units;
 
             // Get grade
-            var grade = state.getGrade(i);
+            let grade = state.getGrade(i);
             if (isGpa)
                 grade = this.convertToGpa(grade);
 
@@ -44,11 +44,11 @@ var calc = {
         Converts grade value to GPA equivalent.
         Conversion is based on the following page:
 
-        @param {Float} grade - The grade value
-        @returns {Float} The GPA equivalent
+        @param {String} grade - The grade value
+        @returns {Number} The GPA equivalent
     */
     convertToGpa: function(grade) {
-        var equiv;
+        let equiv;
 
         switch (parseFloat(grade)) {
             case 1:
@@ -97,16 +97,16 @@ var calc = {
             reason for invalidation (.reason), if any.
     */
     isValid: function(value) {
-        var grade = parseFloat(value), reason = "";
+        let grade = parseFloat(value), reason = "";
 
         // Contains characters other than numbers and period
-        if (/[^0-9\.]+/.test(value))
+        if (/[^0-9.]+/.test(value))
             reason = "contains invalid characters";
         // Out of range
         else if (grade < 1 || grade > 5)
             reason = grade + " is out of range";
         // Indivisible by 0.25 for grades greater than 3.00
-        else if (grade < 3 && (grade % 0.25 != 0))
+        else if (grade < 3 && (grade % 0.25 !== 0))
             reason = "no such grade";
         // Between 3, 4, and 5
         else if ((grade > 3 && grade < 4) || (grade > 4 && grade < 5))

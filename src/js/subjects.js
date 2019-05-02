@@ -8,7 +8,7 @@
     @license GPLv2
 */
 
-var subjects = {
+const subjects = {
     /**
         Default set, from which app.populateSubjects()
         will create subject rows for.
@@ -46,10 +46,10 @@ var subjects = {
         @returns {Array} All available subject sets
     */
     getSets: function() {
-        var sets = [],
+        let sets = [],
             keys = Object.keys(this.sets);
-        for (var i = 0; i < keys.length; i++) {
-            var key = keys[i];
+        for (let i = 0; i < keys.length; i++) {
+            let key = keys[i];
             sets.push({
                 alias: key,
                 name: subjects.sets[key].name

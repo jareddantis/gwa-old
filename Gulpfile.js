@@ -36,6 +36,7 @@ gulp.task('css', () => {
 
 // Minify JS files
 gulp.task('js', () => {
+    const babel = require('gulp-babel');
     del(['dist/js/script.js']);
 
     return gulp.src([
@@ -43,6 +44,9 @@ gulp.task('js', () => {
             './src/js/dialogs/*.js'
         ])
         .pipe(concat('script.js'))
+        .pipe(babel({
+            presets: ['@babel/preset-env']
+        }))
         .pipe(uglify())
         .pipe(gulp.dest('./dist/js'));
 });

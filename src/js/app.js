@@ -5,7 +5,7 @@
     @license GPLv2
 */
 
-var app = {
+const app = {
     /**
         Initializes the app by creating click listeners,
         displaying the app version, and restoring saved state.
@@ -13,16 +13,16 @@ var app = {
         This function is the first function called after the
         page has loaded and all other libraries have initialized.
     */
-    init: function(swInstance) {
+    init: function() {
         console.log("[app] Initializing");
 
         // Restore state
         state.load();
 
         // Display version
-        var version = state.get("version");
+        let version = state.get("version");
         $('#version').text(version);
-        var fdbkLink = $('#btn-feedback').parent().attr('href');
+        let fdbkLink = $('#btn-feedback').parent().attr('href');
         fdbkLink += '-' + version.replace(/ /g, '');
         $('#btn-feedback').parent().attr('href', fdbkLink);
 

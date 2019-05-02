@@ -5,14 +5,14 @@
     @license GPLv2
 */
 
-var state = {
+const state = {
     /**
         Current settings.
         Will be saved by state.set(), and is accessed by state.get().
     */
     current: {
-        version: "13.2-20190321", // {String} Version name (external)
-        versionCode: 20,   // {Int} Version code (internal)
+        version: "13.2-20190502", // {String} Version name (external)
+        versionCode: 20,   // {Number} Version code (internal)
         set: "seven",      // {String} Selected set of subjects
         prevSet: "seven",  // {String} Previously selected set
         grades: [],        // {Array} Entered grades
@@ -25,7 +25,7 @@ var state = {
         Retrieves specific setting.
 
         @param {String} key - The key for the setting
-        @returns {(String|Array|Int|Boolean)} The requested setting
+        @returns {(String|Array|Number|Boolean)} The requested setting
     */
     get: function(key) {
         return this.current[key];
@@ -35,7 +35,7 @@ var state = {
         Updates specific setting and save all settings to localStorage.
 
         @param {String} key - The key for the setting
-        @param {String} value - The new value for the setting
+        @param {String|Array} value - The new value for the setting
     */
     set: function(key, value) {
         // Modify current settings object
@@ -43,7 +43,7 @@ var state = {
 
         // Save settings in local storage
         if (typeof(Storage) !== undefined) {
-            var currentState = this.current,
+            let currentState = this.current,
                 currentJson = JSON.stringify(currentState);
             localStorage.setItem("gwadata", currentJson);
         }
@@ -52,8 +52,8 @@ var state = {
     /**
         Gets saved grade for a subject.
 
-        @param {String} id - Subject ID. See widget.newSubjectRow().
-        @returns {(String|Array|Int|Boolean)} The requested grade
+        @param {Number} id - Subject ID. See widget.newSubjectRow().
+        @returns {(String|Array|Number|Boolean)} The requested grade
     */
     getGrade: function(id) { return this.current.grades[id]; },
 
@@ -79,12 +79,12 @@ var state = {
     switchLevel: function(level, retainGrades) {
         // Retain grades if no change in level
         if (retainGrades === undefined)
-            retainGrades = level == this.get("set");
+            retainGrades = level === this.get("set");
 
         console.log("[state] Switching to " + level + ", retain=" + retainGrades);
 
         // If "custom", show edit button
-        if (level == "custom")
+        if (level === "custom")
             app.showEditBtn();
         else
             app.hideEditBtn();
@@ -117,8 +117,8 @@ var state = {
         console.log("[state] Resetting grades for " + level);
 
         // Fill current set of grades with default values
-        var grades = [], subjs = subjects.get(level);
-        for (var i = 0; i < subjs.length; i++)
+        let grades = [], subjs = subjects.get(level);
+        for (let i = 0; i < subjs.length; i++)
             grades.push(1.0);
         this.set("grades", grades);
     },
@@ -129,12 +129,12 @@ var state = {
     load: function() {
         // Check if browser supports local data storage
         if (typeof(Storage) !== undefined) {
-            var savedJson = localStorage.getItem("gwadata");
+            let savedJson = localStorage.getItem("gwadata");
 
             // Check for saved state
             if (savedJson != null) {
                 console.log("[state] Data exists, loading");
-                var savedState = JSON.parse(savedJson);
+                let savedState = JSON.parse(savedJson);
 
                 // Check if saved state is valid
                 if (savedState.set != null && savedState.grades.length > 0) {
@@ -144,9 +144,9 @@ var state = {
                     if (typeof savedState.grades[0] === "string") {
                         // Grades were saved as strings in versions <10
                         console.log("[state] Upgrading saved state from v<10");
-                        var grades = [];
-                        for (var i = 0; i < savedState.grades.length; i++) {
-                            var grade = parseFloat(savedState.grades[i]);
+                        let grades = [];
+                        for (let i = 0; i < savedState.grades.length; i++) {
+                            let grade = parseFloat(savedState.grades[i]);
                             grades.push(grade);
                         }
 
@@ -167,7 +167,7 @@ var state = {
                         subjects.setCustom(savedState.customSet);
 
                         // Show edit button if selected set is custom
-                        if (savedState.set == "custom")
+                        if (savedState.set === "custom")
                             app.showEditBtn();
                     }
 
