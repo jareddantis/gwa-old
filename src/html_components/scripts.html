@@ -90,27 +90,6 @@
                 s = d.scripts[0];
             ts.src = 'https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js';
             ts.async = true;
-            ts.onload = ts.onreadystatechange = function() {
-                if (!tsLoaded && (!this.readyState ||
-                    this.readyState === "loaded" || this.readyState === "complete")) {
-                    // On touchSwipe load
-                    tsLoaded = true;
-                    $('body').swipe({
-                        swipe: function(s,w,i,p,e,r){
-                            switch (w) {
-                                case "right":
-                                    $('#menu').addClass('visible');
-                                    $('#menu-bg').fadeIn();
-                                    break;
-                                case "left":
-                                    $('#menu').removeClass('visible');
-                                    $('#menu-bg').fadeOut();
-                            }
-                        },
-                        excludedElements: "#levels, label, button, input, select, textarea"
-                    });
-                }
-            };
             s.parentNode.insertBefore(ts, s);
         })(document);
     });

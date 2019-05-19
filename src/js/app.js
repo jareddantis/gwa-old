@@ -38,6 +38,22 @@ const app = {
                 }
             });
 
+        // Swipe to open drawer
+        $('body').swipe({
+            swipe: function(s,w,i,p,e,r){
+                switch (w) {
+                    case "right":
+                        $('#menu').addClass('visible');
+                        $('#menu-bg').fadeIn();
+                        break;
+                    case "left":
+                        $('#menu').removeClass('visible');
+                        $('#menu-bg').fadeOut();
+                }
+            },
+            excludedElements: "#levels, label, button, input, select, textarea"
+        });
+
         // Button styling & default action
         $('.button').each(function(){
             $(this).mousedown(function(){
