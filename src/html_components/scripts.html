@@ -8,7 +8,7 @@
 -->
 
 <!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+<script async defer src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
 <script>
     var firebaseConfig = {
         apiKey: "AIzaSyBvz9rV3292l0G64j1fZN3WhXRf1P-eMmE",
@@ -23,13 +23,14 @@
 </script>
 
 <!-- JS libraries -->
-<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" id="scJq"></script>
-<script async defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js" id="scFc"></script>
-<script async defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js" id="scSc"></script>
-<script async defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/vanilla-ripplejs@1.0.6" id="scRp"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script async defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js"></script>
+<script async defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/suncalc/1.8.0/suncalc.min.js"></script>
+<script async defer type="text/javascript" src="https://cdn.jsdelivr.net/npm/vanilla-ripplejs@1.0.6"></script>
+<script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js"></script>
 
 <!-- Main page scripts -->
-<script defer type="text/javascript" src="dist/js/script.js" id="scGw"></script>
+<script defer type="text/javascript" src="dist/js/script.js"></script>
 <script type="text/javascript">
     // WebFontLoader config
     WebFontConfig = {
@@ -70,35 +71,6 @@
             });
         });
     };
-
-    // On jQuery load
-    let tsLoaded = false;
-    scJq.addEventListener('load', function(){
-        // iOS-specific logic
-        // Detection from https://stackoverflow.com/a/9039885/3350320
-        var iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
-        if (iOS) {
-            // Check for PWA support (iOS 11.3+)
-            if ('standalone' in window.navigator && window.navigator.standalone) {
-                // TODO: display install popup
-            }
-        }
-
-        // Load touchSwipe
-        (function(d) {
-            var ts = document.createElement('script'),
-                s = d.scripts[0];
-            ts.src = 'https://cdnjs.cloudflare.com/ajax/libs/jquery.touchswipe/1.6.18/jquery.touchSwipe.min.js';
-            ts.async = true;
-            s.parentNode.insertBefore(ts, s);
-        })(document);
-    });
-
-    // on FastClick load
-    scFc.addEventListener('load', function(){
-        // Init FastClick
-        FastClick.attach(document.body);
-    });
 
     // Service worker with update functionality
     // https://medium.com/progressive-web-apps/pwa-create-a-new-update-available-notification-using-service-workers-18be9168d717
