@@ -7,6 +7,21 @@
     @license GPLv2
 -->
 
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyBvz9rV3292l0G64j1fZN3WhXRf1P-eMmE",
+        authDomain: "gwa-calc.firebaseapp.com",
+        databaseURL: "https://gwa-calc.firebaseio.com",
+        projectId: "gwa-calc",
+        storageBucket: "gwa-calc.appspot.com",
+        messagingSenderId: "529570912429",
+        appId: "1:529570912429:web:a962817fb6bd3484"
+    };
+    firebase.initializeApp(firebaseConfig);
+</script>
+
 <!-- JS libraries -->
 <script defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" id="scJq"></script>
 <script async defer type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js" id="scFc"></script>
@@ -57,7 +72,7 @@
     };
 
     // On jQuery load
-    tsLoaded = false;
+    let tsLoaded = false;
     scJq.addEventListener('load', function(){
         // iOS-specific logic
         // Detection from https://stackoverflow.com/a/9039885/3350320
@@ -119,7 +134,7 @@
                         var instWkr = reg.installing;
 
                         instWkr.addEventListener('statechange', function() {
-                            if (instWkr.state == "installed") {
+                            if (instWkr.state === "installed") {
                                 if (navigator.serviceWorker.controller) {
                                     // new update available
                                     resolve(true);
