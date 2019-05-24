@@ -34,42 +34,29 @@ gulp.task('css', () => {
         .pipe(gulp.dest('./dist/css'));
 });
 
-// Add build date to state.js
-gulp.task('js-add-date', () => {
-    const replace = require('gulp-replace'),
-          dObj = new Date(Date.now()), year = dObj.getFullYear();
+// Minify JS files
+gulp.task('js', () => {
+    const babel = require('gulp-babel'),
+        replace = require('gulp-replace'),
+        dObj = new Date(Date.now()), year = dObj.getFullYear();
     let month = dObj.getMonth() + 1, day = dObj.getDate();
     if (month < 10) month = '0' + month;
     if (day < 10) day = '0' + day;
     let dateStamp = ' build ' + year + month + day;
-    console.log(`Building ${dateStamp}`);
-
-    del(['dist/js/state.js']);
-    return gulp.src(['./src/js/state.js'])
-        .pipe(replace(/(version: ".*)(")/, '$1' + dateStamp + '$2'))
-        .pipe(gulp.dest('./dist/js'))
-});
-
-// Minify JS files
-gulp.task('js-minify', () => {
-    const babel = require('gulp-babel');
 
     del(['dist/js/script.js']);
-    gulp.src([
+    return gulp.src([
             './src/js/*.js',
-            './src/js/dialogs/*.js',
-            '!./src/js/state.js',
-            './dist/js/state.js'
+            './src/js/dialogs/*.js'
         ])
         .pipe(concat('script.js'))
+        .pipe(replace(/(version: ".*)(")/, '$1' + dateStamp + '$2'))
         .pipe(babel({
             presets: ['@babel/preset-env']
         }))
         .pipe(uglify())
         .pipe(gulp.dest('./dist/js'));
-    return del(['dist/js/state.js']);
 });
-gulp.task('js', gulp.series('js-add-date', 'js-minify'));
 
 // Minify SVG files
 gulp.task('svg', () => {
@@ -98,7 +85,7 @@ gulp.task('html', () => {
 });
 
 // Generate service worker
-gulp.task('sw', gulp.series((callback) => {
+gulp.task('sw', gulp.series(() => {
     const workbox = require('workbox-build');
     return workbox.generateSW({
         globDirectory: '.',
