@@ -17,7 +17,7 @@ app.init = function() {
     let appVersion = state.get("version"),
         fdbkLink = 'http://server.jared.gq/feedback/?subject=pisaygwa-web-';
     console.log("[app] Welcome to pisaygwa v" + appVersion);
-    $('#version').text(appVersion);
+    $('#version').text(appVersion + ' ');
     $('#btn-feedback').parent().attr('href',
         fdbkLink + appVersion.replace(' build ', 'b'));
 
