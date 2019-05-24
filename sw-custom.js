@@ -38,10 +38,6 @@ workbox.routing.registerRoute(
     /^https:\/\/storage\.googleapis\.com/,
     newSwrStrategy('google-storage')
 );
-workbox.routing.registerRoute(
-    /^https:\/\/www\.gstatic\.com/,
-    newSwrStrategy('google-static-storage')
-);
 
 // Cache the Google Fonts stylesheets with a stale-while-revalidate strategy.
 // https://developers.google.com/web/tools/workbox/guides/common-recipes
