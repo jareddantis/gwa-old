@@ -35,7 +35,7 @@ const state = {
         Updates specific setting and save all settings to localStorage.
 
         @param {String} key - The key for the setting
-        @param {String|Array} value - The new value for the setting
+        @param {String|Array|Boolean} value - The new value for the setting
     */
     set: function(key, value) {
         // Modify current settings object
@@ -61,7 +61,7 @@ const state = {
         Sets grade for a subject.
 
         @param {String} id - Subject ID. See widget.newSubjectRow().
-        @param {String} grade - The new subject grade
+        @param {String|Number} grade - The new subject grade
     */
     setGrade: function(id, grade) {
         this.current.grades[id] = grade;
@@ -72,7 +72,7 @@ const state = {
         Switches grade level and save that preference.
 
         @param {String} level - The new grade level
-        @param {Boolean} retainGrades
+        @param {Boolean} [retainGrades]
             Whether to retain grades or not.
             Useful when restoring saved state.
     */
@@ -107,7 +107,7 @@ const state = {
     /**
         Sets all grades to 1.0.
 
-        @param {String} level - The grade level for which to reset grades
+        @param {String} [level] - The grade level for which to reset grades
     */
     resetGrades: function(level) {
         // If no args passed, assume reset grades

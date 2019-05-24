@@ -88,8 +88,8 @@ const widget = {
         Creates a table row element (tr) that contains
         input boxes for a custom subject and its units.
 
-        @param {String} subjName  -  Subject name
-        @param {String} subjUnits  -  Subject units
+        @param {String} [subjName]  -  Subject name
+        @param {String} [subjUnits]  -  Subject units
         @returns {jQuery} The created subject row
     */
     newCustomSubject: function(subjName, subjUnits) {

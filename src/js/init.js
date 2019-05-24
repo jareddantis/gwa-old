@@ -13,6 +13,8 @@
     page has loaded and all other libraries have initialized.
  */
 app.init = function() {
+    let $menu = $('#menu'), $menuBg = $('#menu-bg');
+
     // Display version
     let appVersion = state.get("version"),
         fdbkLink = 'http://server.jared.gq/feedback/?subject=pisaygwa-web-';
@@ -41,12 +43,12 @@ app.init = function() {
         swipe: function(s,w,i,p,e,r){
             switch (w) {
                 case "right":
-                    $('#menu').addClass('visible');
-                    $('#menu-bg').fadeIn();
+                    $menu.addClass('visible');
+                    $menuBg.fadeIn();
                     break;
                 case "left":
-                    $('#menu').removeClass('visible');
-                    $('#menu-bg').fadeOut();
+                    $menu.removeClass('visible');
+                    $menuBg.fadeOut();
             }
         },
         excludedElements: "#levels, label, button, input, select, textarea"
@@ -60,16 +62,16 @@ app.init = function() {
             $(this).removeClass('focus');
         }).click(function(){
             // Hide sidebar on click
-            if ($('#menu').hasClass('visible')) {
-                $('#menu').removeClass('visible');
-                $('#menu-bg').fadeOut();
+            if ($menu.hasClass('visible')) {
+                $menu.removeClass('visible');
+                $menuBg.fadeOut();
             }
         });
     });
 
     // Night mode button action
     $('#btn-theme').click(function(){
-        var newTheme;
+        let newTheme;
         switch (state.get("dispMode")) {
             case "day": // day -> night
                 newTheme = "night";
@@ -100,46 +102,46 @@ app.init = function() {
     // cGPA toggle button action
     $('#btn-gpa').click(function(){
         // Flip mode
-        var curr = state.get("isGpa");
+        let curr = state.get("isGpa");
         app.setGpa(!curr);
     });
 
     // Sidebar toggle action
     $('#menu-toggle').click(function(){
-        if ($('#menu').hasClass('visible')) {
-            $('#menu').removeClass('visible');
-            $('#menu-bg').fadeOut();
+        if ($menu.hasClass('visible')) {
+            $menu.removeClass('visible');
+            $menuBg.fadeOut();
         } else {
-            $('#menu').addClass('visible');
-            $('#menu-bg').fadeIn();
+            $menu.addClass('visible');
+            $menuBg.fadeIn();
         }
     });
 
     // Collapse sidebar on click outside (mobile)
-    $('#menu-bg').click(function(){
-        $('#menu').removeClass('visible');
+    $menuBg.click(function(){
+        $menu.removeClass('visible');
         $(this).fadeOut();
     });
 
     // Custom subject dialog buttons
     $('#custom-subject-add').click(function(){
         // Add empty row to custom subject table
-        var table = $('#custom-subject tbody');
-        $(table).append(widget.newCustomSubject());
+        let $table = $('#custom-subject tbody');
+        $table.append(widget.newCustomSubject());
 
         // Scroll to bottom of table
-        var height = $(".custom-subject-body")[0].scrollHeight;
-        $(".custom-subject-body")[0].scrollTop = height;
+        let $body = $(".custom-subject-body")[0];
+        $body.scrollTop = $body.scrollHeight;
     });
     $('#custom-subject-save').click(function(){
         // Parse new subject data
-        var subjs = $('#custom-subject tbody tr');
+        let subjs = $('#custom-subject tbody tr');
         app.dialog.parseSubjects(subjs);
     });
     $('#custom-subject-quit').click(function(){
-        if (subjects.get("custom").length == 0) {
+        if (subjects.get("custom").length === 0) {
             // Restore previously selected subject set
-            var prevSet = state.get("prevSet");
+            let prevSet = state.get("prevSet");
             $('#levels select').val(prevSet);
             state.switchLevel(prevSet);
         }

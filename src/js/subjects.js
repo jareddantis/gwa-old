@@ -30,7 +30,7 @@ const subjects = {
     /**
         Retrieves a specific subject set.
 
-        @param {String} set - A specific subject set
+        @param {String} [set] - A specific subject set
         @returns {Array} The requested subject set
     */
     get: function(set) {

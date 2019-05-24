@@ -9,15 +9,15 @@ const app = {
     /**
         Sets day/night mode.
 
-        @param {String} The new selected theme
+        @param {String} theme - new selected theme
     */
     setTheme: function(theme) {
-    	var newTheme;
+    	let $span = $('#btn-theme span'), newTheme;
 
     	switch (theme) {
     		case "auto":
 	    		// Update button text
-	    		$('#btn-theme span').text('Night mode auto');
+	    		$span.text('Night mode auto');
 
 	    		// Determine theme
 	    		if (app.sunHasSet())
@@ -27,12 +27,12 @@ const app = {
 	    		break;
 	    	case "night":
 	    		// Update button text
-	    		$('#btn-theme span').text('Night mode on');
+	    		$span.text('Night mode on');
 	    		newTheme = theme;
 	    		break;
 	    	default:
 	    		// Update button text
-	    		$('#btn-theme span').text('Night mode off');
+	    		$span.text('Night mode off');
 	    		newTheme = theme;
     	}
 
@@ -50,15 +50,15 @@ const app = {
         @returns {Boolean} Whether the sun has set or not
     */
     sunHasSet: function() {
-    	var now = new Date(),
+    	let now = new Date(),
     		nowH = now.getHours(), nowM = now.getMinutes(),
     		times = SunCalc.getTimes(now, 12, 121),
     		riseH = times.sunrise.getHours(),
     		riseM = times.sunrise.getMinutes(),
     		setH = times.sunset.getHours(),
     		setM = times.sunset.getMinutes(),
-    		sunrise = nowH < riseH || (nowH == riseH && nowM <= riseM),
-    		sunset = nowH > setH || (nowH == setH && nowM >= setM);
+    		sunrise = nowH < riseH || (nowH === riseH && nowM <= riseM),
+    		sunset = nowH > setH || (nowH === setH && nowM >= setM);
 
     	return sunrise || sunset;
     },
@@ -70,7 +70,7 @@ const app = {
     */
     setGpa: function(isGpa) {
         // Update button text
-        var newText = isGpa ? "GWA mode" : "cGPA mode (alpha)";
+        let newText = isGpa ? "GWA mode" : "cGPA mode (alpha)";
         $('#btn-gpa span').text(newText);
 
         // Save prefs
@@ -95,38 +95,37 @@ const app = {
         @param {String} selectedSet - The grade level to select by default
     */
     populateChooser: function(selectedSet) {
-        var sets = subjects.getSets();
-        for (var i = 0; i < sets.length; i++) {
-            var set = sets[i],
-                value = set.alias,
-                text = set.name,
+        let $select = $('#levels select'), sets = subjects.getSets();
+        for (let i = 0; i < sets.length; i++) {
+            let set = sets[i],
+                {alias: value, name: text} = set,
                 option = $("<option>");
             $(option).attr("value", value)
                      .text(text);
-            $('#levels select').append(option);
+            $select.append(option);
         }
 
         // Restore selected set
-        $('#levels select').val(selectedSet);
+        $select.val(selectedSet);
 
         // Define onChange behavior
-        $('#levels select').on('change', function(){
-            var newSet = $(this).val();
+        $select.on('change', function(){
+            let newSet = $(this).val(), $menu = $('#menu');
 
             // Collapse sidebar (mobile)
-            if ($('#menu').hasClass('visible')) {
-                $('#menu').removeClass('visible');
+            if ($menu.hasClass('visible')) {
+                $menu.removeClass('visible');
                 $('#menu-bg').fadeOut();
             }
 
             // User selected custom subjects
-            if (newSet == "custom") {
+            if (newSet === "custom") {
                 // Remember currently selected set
                 state.set("prevSet", state.get("set"));
 
                 // If subjects are not defined,
                 // don't switch level yet in case user hits Cancel
-                if (subjects.get("custom").length == 0) {
+                if (subjects.get("custom").length === 0) {
                     console.warn("[app] customSet empty, deferring switchLevel");
                     app.dialog.promptSubjects();
                     return;
@@ -136,10 +135,8 @@ const app = {
             // If user hit Cancel on custom subject input,
             // we restore previously selected set
             // along with the grades
-            if (state.get("set") == "custom" &&
-                newSet == state.get("prevSet")) {
+            if (state.get("set") === "custom" && newSet === state.get("prevSet"))
                 state.switchLevel(newSet, true);
-            }
             // Load new subject set
             else {
                 console.log("[app] Switching to " + newSet);
@@ -153,12 +150,12 @@ const app = {
         grades for each.
     */
     populateSubjects: function() {
-        var currGrades = state.get("grades"),
+        let currGrades = state.get("grades"),
             subjs = subjects.get();
 
         // Check for length mismatch
         // e.g. if grade array does not match grade level
-        if (currGrades.length != subjs.length) {
+        if (currGrades.length !== subjs.length) {
             console.warn("[app] currGrades.length != subjects.default, adjusting");
             console.log("[app] currGrades (len = " + currGrades.length + ") -----");
             console.log(currGrades);
@@ -169,7 +166,7 @@ const app = {
             if (currGrades.length > subjs.length) {
                 // Trim extra grades
                 while (currGrades.length > subjs.length)
-                    currGrades.pop(currGrades.length - 1);
+                    currGrades.pop();
             } else {
                 // Add 1.00 grades
                 while (currGrades.length < subjs.length)
@@ -178,18 +175,19 @@ const app = {
         }
 
         // Empty subject table
-        $('#grades table').empty();
+        let $table = $('#grades table');
+        $table.empty();
 
         // Create new subject rows
-        for (var i = 0; i < subjs.length; i++) {
+        for (let i = 0; i < subjs.length; i++) {
             // Create subject row
-            var subj = subjs[i],
+            let subj = subjs[i],
                 subjName = subj.name + " (" + subj.units.toFixed(1) + " units)",
                 subjGrade = currGrades[i].toFixed(2),
                 row = widget.newSubjectRow(i, subjName, subjGrade);
 
             // Add new row to table
-            $('#grades table').append(row);
+            $table.append(row);
         }
 
         // Calculate GWA in case of saved grades
@@ -204,11 +202,10 @@ const app = {
             in the array subjects.default.
     */
     promptGrade: function(subjId) {
-        var curr = state.getGrade(parseInt(subjId)),
-            name = subjects.get()[subjId].name;
+        let name = subjects.get()[subjId].name;
 
         // Prompt new grade
-        var newGrade = window.prompt("Enter grade for " + name),
+        let newGrade = window.prompt("Enter grade for " + name),
             validation = calc.isValid(newGrade);
         if (newGrade.length > 0) {
             if (!validation.result) {
@@ -230,7 +227,7 @@ const app = {
         Calculates GWA and displays result
     */
     calculate: function() {
-        var result = calc.ulate();
+        let result = calc.ulate();
 
         // We truncate the grade, not round
         $('#gwa').text(result.substring(0,5));

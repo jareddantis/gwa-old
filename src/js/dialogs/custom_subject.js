@@ -12,7 +12,7 @@
 */
 app.dialog.promptSubjects = function() {
     // Get current custom set
-    var currCustom = subjects.get("custom"),
+    let currCustom = subjects.get("custom"),
         table = $('#custom-subject tbody');
 
     // Empty table
@@ -21,8 +21,8 @@ app.dialog.promptSubjects = function() {
     // See if there are already defined subjects
     if (currCustom.length > 0) {
         // Restore previously defined subjects
-        for (var i = 0; i < currCustom.length; i++) {
-            var name = currCustom[i].name,
+        for (let i = 0; i < currCustom.length; i++) {
+            let name = currCustom[i].name,
                 units = currCustom[i].units,
                 row = widget.newCustomSubject(name, units);
             $(table).append(row);
@@ -42,10 +42,10 @@ app.dialog.promptSubjects = function() {
     @param {Array} subjEls - All subject rows (tr)
 */
 app.dialog.parseSubjects = function(subjEls) {
-    var set = [], valid = true;
+    let set = [], valid = true;
 
-    for (var i = 0; i < subjEls.length; i++) {
-        var subj = subjEls[i],
+    for (let i = 0; i < subjEls.length; i++) {
+        let subj = subjEls[i],
             subjNameEl = $(subj).children('td.subject-name')
                            .children('input'),
             subjName = $(subjNameEl).val(),
@@ -54,8 +54,7 @@ app.dialog.parseSubjects = function(subjEls) {
             subjUnits = parseFloat($(subjUnitsEl).val());
 
             // Check if entire row is empty
-            if (subjName.length == 0 && (isNaN(subjUnits) ||
-            	subjUnits.length == 0 || subjUnits === undefined)) {
+            if (subjName.length === 0 && (isNaN(subjUnits) || subjUnits.length === 0)) {
                 // Check for any succeeding rows
                 if (subjEls[i+1] !== undefined) {
                     // Skip this row
@@ -65,8 +64,8 @@ app.dialog.parseSubjects = function(subjEls) {
                 // Check if entire table is empty
                 else if (set[0] === undefined) {
                     // Restore previously selected subject set
-                    var prevSet = state.get("prevSet");
-                    if (prevSet == "custom") {
+                    let prevSet = state.get("prevSet");
+                    if (prevSet === "custom") {
                         prevSet = "seven";
                         state.set("prevSet", prevSet);
                     }
@@ -85,7 +84,7 @@ app.dialog.parseSubjects = function(subjEls) {
             }
 
         // Check if name is empty
-        if (subjName.length == 0) {
+        if (subjName.length === 0) {
             console.warn("[c_s] Empty name in row " + i);
             app.dialog.highlightCustomSubjEl(subjNameEl);
             valid = false;
@@ -93,8 +92,7 @@ app.dialog.parseSubjects = function(subjEls) {
         }
 
         // Check if units is empty or invalid
-        if (isNaN(subjUnits) || subjUnits === undefined ||
-        	subjUnits.length == 0) {
+        if (isNaN(subjUnits) || subjUnits === undefined || subjUnits.length === 0) {
             console.warn("[c_s] Bad units in row " + i);
             app.dialog.highlightCustomSubjEl(subjUnitsEl);
             valid = false;
@@ -130,11 +128,12 @@ app.dialog.parseSubjects = function(subjEls) {
 app.dialog.highlightCustomSubjEl = function(el) {
     if (!$(el).hasClass('err')) {
     	// Scroll div to element
-    	var parentScroll = $('#custom-subject .dialog-body').scrollTop(),
-    		parentOffset = $('#custom-subject .dialog-body').offset().top,
+    	let $body = $('#custom-subject .dialog-body'),
+            parentScroll = $body.scrollTop(),
+    		parentOffset = $body.offset().top,
     		elOffset = $(el).offset().top,
     		offset = parentScroll - parentOffset + elOffset;
-    	$('#custom-subject .dialog-body').animate({
+    	$body.animate({
     		scrollTop: offset
     	}, 150);
 

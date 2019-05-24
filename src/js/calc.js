@@ -32,7 +32,7 @@ const calc = {
 
         if (isNaN(total / totalUnits)) {
             $('#levels select').val('seven');
-            return false;
+            return 'Error';
         }
 
         // Convert to string so we can truncate later
