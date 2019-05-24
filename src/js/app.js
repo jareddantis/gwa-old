@@ -36,7 +36,7 @@ const app = {
 	    		$span.text('Night mode auto');
 
 	    		// Determine theme
-	    		if (app.sunHasSet())
+	    		if (app.sunHasSet() || app.deviceInDarkMode())
 	    			newTheme = "night";
 	    		else
 	    			newTheme = "day";
@@ -77,6 +77,15 @@ const app = {
     		sunset = nowH > setH || (nowH === setH && nowM >= setM);
 
     	return sunrise || sunset;
+    },
+
+    /**
+        Determines if device is in dark mode based on browser API.
+
+        @returns {Boolean} Whether browser reports active system dark mode
+     */
+    deviceInDarkMode: function() {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches;
     },
 
     /**
