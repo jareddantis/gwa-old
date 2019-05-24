@@ -19,11 +19,12 @@ app.init = function() {
     state.load();
 
     // Display version
-    let version = state.get("version");
-    $('#version').text(version);
-    let fdbkLink = $('#btn-feedback').parent().attr('href');
-    fdbkLink += '-' + version.replace(/ /g, '');
-    $('#btn-feedback').parent().attr('href', fdbkLink);
+    let appVersion = state.get("version"),
+        fdbkLink = 'http://server.jared.gq/feedback/?subject=pisaygwa-web-';
+    console.log("[app] Welcome to pisaygwa v" + appVersion);
+    $('#version').text(appVersion);
+    $('#btn-feedback').parent().attr('href',
+        fdbkLink + encodeURIComponent(appVersion));
 
     // Check for updates
     $('#update-reload').click(function(){
