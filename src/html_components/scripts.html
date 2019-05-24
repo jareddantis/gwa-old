@@ -32,27 +32,9 @@
 <!-- Main page scripts -->
 <script defer type="text/javascript" src="dist/js/script.js"></script>
 <script type="text/javascript">
-    // WebFontLoader config
-    WebFontConfig = {
-        google: {
-            families: [
-                'Roboto Mono:400,700'
-            ]
-        }
-    };
-
     window.onload = function(){
         // Initialize app
         app.init();
-
-        // Load webfonts
-        (function(d) {
-            var wf = document.createElement('script'),
-                s = d.scripts[0];
-            wf.src = 'https://cdnjs.cloudflare.com/ajax/libs/webfont/1.6.28/webfontloader.js';
-            wf.async = true;
-            s.parentNode.insertBefore(wf, s);
-        })(document);
 
         // Add to home screen banner (Chrome)
         window.addEventListener('beforeinstallprompt', function(e) {
