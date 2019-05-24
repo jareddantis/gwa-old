@@ -11,8 +11,8 @@ const state = {
         Will be saved by state.set(), and is accessed by state.get().
     */
     current: {
-        version: "13.2 build 20190502", // {String} Version name (external)
-        versionCode: 20,   // {Number} Version code (internal)
+        version: "14.0", // {String} Version name (external)
+        versionCode: 21,   // {Number} Version code (internal)
         set: "seven",      // {String} Selected set of subjects
         prevSet: "seven",  // {String} Previously selected set
         grades: [],        // {Array} Entered grades
