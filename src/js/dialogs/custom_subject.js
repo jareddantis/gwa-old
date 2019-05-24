@@ -33,7 +33,8 @@ app.dialog.promptSubjects = function() {
     }
 
     // We're ready, show dialog
-    $('#custom-subject').fadeIn(150);
+    $('#menu-bg').fadeIn(150);
+    $('#custom-subject').addClass('visible');
 };
 
 /**
@@ -78,7 +79,8 @@ app.dialog.parseSubjects = function(subjEls) {
                     // Quit
                     console.warn("[c_s] No subjects, restoring " + prevSet);
                     valid = false;
-                    $('#custom-subject').fadeOut(150);
+                    $('#menu-bg').fadeOut(150);
+                    $('#custom-subject').removeClass('visible');
                     break;
                 }
             }
@@ -118,7 +120,8 @@ app.dialog.parseSubjects = function(subjEls) {
         app.populateSubjects();
 
         // Hide dialog
-        $('#custom-subject').fadeOut(150);
+        $('#custom-subject').removeClass('visible');
+        $('#menu-bg').fadeOut(150);
     }
 };
 

@@ -9,9 +9,38 @@
     @license GPLv2
 */
 
-#update-found > div {
-    max-height: 15em;
+#update-found {
+    max-height: 24em;
     max-width: 25em;
 
-    p { line-height: 1.4rem; }
+    .dialog-body {
+        margin-bottom: 2rem;
+        overflow: hidden;
+        text-align: center;
+
+        img { width: 10rem }
+    }
+    .dialog-header {
+        margin-bottom: 3rem;
+        h2 { text-align: center }
+    }
+    .dialog-buttons {
+        position: relative;
+        bottom: initial;
+
+        ul { text-align: center }
+        li {
+            color: white;
+            padding: 1rem 1.5rem;
+            text-transform: uppercase;
+            border-radius: 100px;
+            background-color: @blue-700;
+            transition: background-color 150ms linear;
+            float: none;
+            margin: 0 auto;
+
+            &:hover { background-color: @blue-900 !important; }
+        }
+    }
 }
+html[data-theme=night] #update-found .dialog-body img { filter: none !important }
