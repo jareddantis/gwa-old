@@ -33,9 +33,6 @@ app.init = function() {
             }
         });
 
-    // Init FastClick
-    FastClick.attach(document.body);
-
     // Swipe to open drawer
     let hammer = new Hammer(document.body);
     hammer.on('swiperight', app.openMenu);
