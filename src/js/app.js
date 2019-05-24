@@ -7,6 +7,22 @@
 
 const app = {
     /**
+        Opens sidebar on mobile.
+     */
+    openMenu: function() {
+        $('#menu').addClass('visible');
+        $('#menu-bg').fadeIn();
+    },
+
+    /**
+        Closes sidebar on mobile.
+     */
+    closeMenu: function() {
+        $('#menu').removeClass('visible');
+        $('#menu-bg').fadeOut();
+    },
+
+    /**
         Sets day/night mode.
 
         @param {String} theme - new selected theme
@@ -110,13 +126,8 @@ const app = {
 
         // Define onChange behavior
         $select.on('change', function(){
-            let newSet = $(this).val(), $menu = $('#menu');
-
-            // Collapse sidebar (mobile)
-            if ($menu.hasClass('visible')) {
-                $menu.removeClass('visible');
-                $('#menu-bg').fadeOut();
-            }
+            let newSet = $(this).val();
+            app.closeMenu();
 
             // User selected custom subjects
             if (newSet === "custom") {

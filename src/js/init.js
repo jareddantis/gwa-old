@@ -13,8 +13,6 @@
     page has loaded and all other libraries have initialized.
  */
 app.init = function() {
-    let $menu = $('#menu'), $menuBg = $('#menu-bg');
-
     // Display version
     let appVersion = state.get("version"),
         fdbkLink = 'http://server.jared.gq/feedback/?subject=pisaygwa-web-';
@@ -54,19 +52,19 @@ app.init = function() {
         excludedElements: "#levels, label, button, input, select, textarea"
     });
 
+    // Sidebar toggle action
+    $('#menu-toggle').click($('#menu').hasClass('visible') ? app.closeMenu : app.openMenu);
+
+    // Collapse sidebar on background click (mobile)
+    $('#menu-bg').click(app.closeMenu);
+
     // Button styling & default action
     $('.button').each(function(){
         $(this).mousedown(function(){
             $(this).addClass('focus');
         }).mouseup(function(){
             $(this).removeClass('focus');
-        }).click(function(){
-            // Hide sidebar on click
-            if ($menu.hasClass('visible')) {
-                $menu.removeClass('visible');
-                $menuBg.fadeOut();
-            }
-        });
+        }).click(app.closeMenu);
     });
 
     // Night mode button action
@@ -104,23 +102,6 @@ app.init = function() {
         // Flip mode
         let curr = state.get("isGpa");
         app.setGpa(!curr);
-    });
-
-    // Sidebar toggle action
-    $('#menu-toggle').click(function(){
-        if ($menu.hasClass('visible')) {
-            $menu.removeClass('visible');
-            $menuBg.fadeOut();
-        } else {
-            $menu.addClass('visible');
-            $menuBg.fadeIn();
-        }
-    });
-
-    // Collapse sidebar on click outside (mobile)
-    $menuBg.click(function(){
-        $menu.removeClass('visible');
-        $(this).fadeOut();
     });
 
     // Custom subject dialog buttons
