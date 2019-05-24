@@ -37,20 +37,9 @@ app.init = function() {
     FastClick.attach(document.body);
 
     // Swipe to open drawer
-    $('body').swipe({
-        swipe: function(s,w,i,p,e,r){
-            switch (w) {
-                case "right":
-                    $menu.addClass('visible');
-                    $menuBg.fadeIn();
-                    break;
-                case "left":
-                    $menu.removeClass('visible');
-                    $menuBg.fadeOut();
-            }
-        },
-        excludedElements: "#levels, label, button, input, select, textarea"
-    });
+    let hammer = new Hammer(document.body);
+    hammer.on('swiperight', app.openMenu);
+    hammer.on('swipeleft', app.closeMenu);
 
     // Sidebar toggle action
     $('#menu-toggle').click($('#menu').hasClass('visible') ? app.closeMenu : app.openMenu);
