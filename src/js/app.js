@@ -66,17 +66,12 @@ const app = {
         @returns {Boolean} Whether the sun has set or not
     */
     sunHasSet: function() {
-    	let now = new Date(),
-    		nowH = now.getHours(), nowM = now.getMinutes(),
-    		times = SunCalc.getTimes(now, 12, 121),
-    		riseH = times.sunrise.getHours(),
-    		riseM = times.sunrise.getMinutes(),
-    		setH = times.sunset.getHours(),
-    		setM = times.sunset.getMinutes(),
-    		sunrise = nowH < riseH || (nowH === riseH && nowM <= riseM),
-    		sunset = nowH > setH || (nowH === setH && nowM >= setM);
+    	let now = new Date(), times = SunCalc.getTimes(now, 12, 121),
+            sunriseTime = times.sunrise, sunsetTime = times.sunset,
+            sunriseOffset = sunriseTime - now, sunsetOffset = now - sunsetTime;
 
-    	return sunrise || sunset;
+    	// We will use dark mode if time is between sunrise and sunset
+    	return sunriseOffset >= 0 || sunsetOffset >= 0;
     },
 
     /**
