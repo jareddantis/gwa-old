@@ -21,7 +21,7 @@ app.init = function() {
     console.log("[app] Welcome to pisaygwa v" + appVersion);
     $('#version').text(appVersion);
     $('#btn-feedback').parent().attr('href',
-        fdbkLink + encodeURIComponent(appVersion));
+        fdbkLink + appVersion.replace(' build ', 'b'));
 
     // Check for updates
     $('#update-reload').click(function(){
