@@ -7,19 +7,30 @@
 
 const app = {
     /**
+        Determines if screen is small enough for the sidebar to be hidden.
+     */
+    menuIsHidden: function() {
+        return window.matchMedia('(max-width: 1200px)').matches;
+    },
+
+    /**
         Opens sidebar on mobile.
      */
     openMenu: function() {
-        $('#menu').addClass('visible');
-        app.dim();
+        if (app.menuIsHidden()) {
+            $('#menu').addClass('visible');
+            app.dim();
+        }
     },
 
     /**
         Closes sidebar on mobile.
      */
     closeMenu: function() {
-        $('#menu').removeClass('visible');
-        app.unDim();
+        if (app.menuIsHidden()) {
+            $('#menu').removeClass('visible');
+            app.unDim();
+        }
     },
 
     /**
