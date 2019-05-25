@@ -39,15 +39,18 @@ gulp.task('css', () => {
     return buildCSS('dialogs/_base', 'dialog');
 });
 
-// Minify JS files
-gulp.task('js', () => {
-    const babel = require('gulp-babel'),
-        replace = require('gulp-replace'),
-        dObj = new Date(Date.now()), year = dObj.getFullYear();
+function getDateStamp() {
+    const dObj = new Date(Date.now()), year = dObj.getFullYear();
     let month = dObj.getMonth() + 1, day = dObj.getDate();
     if (month < 10) month = '0' + month;
     if (day < 10) day = '0' + day;
-    let dateStamp = ' build ' + year + month + day;
+    return ' build ' + year + month + day;
+}
+
+// Minify JS files
+gulp.task('js', () => {
+    const babel = require('gulp-babel'),
+        replace = require('gulp-replace');
 
     del(['dist/js/script.js']);
     return gulp.src([
@@ -55,13 +58,35 @@ gulp.task('js', () => {
             './src/js/dialogs/*.js'
         ])
         .pipe(concat('script.js'))
-        .pipe(replace(/(version: ".*)(")/, '$1' + dateStamp + '$2'))
+        .pipe(replace(/(version: ".*)(")/, '$1' + getDateStamp() + '$2'))
         .pipe(babel({
             presets: ['@babel/preset-env']
         }))
         .pipe(uglify())
         .pipe(gulp.dest('./dist/js'));
 });
+
+// Minify and strip debug
+gulp.task('js-strip', () => {
+    const babel = require('gulp-babel'),
+        replace = require('gulp-replace'),
+        strip = require('gulp-strip-debug');
+
+    del(['dist/js/script.js']);
+    return gulp.src([
+        './src/js/*.js',
+        './src/js/dialogs/*.js'
+    ])
+        .pipe(concat('script.js'))
+        .pipe(replace(/(version: ".*)(")/, '$1' + getDateStamp() + '$2'))
+        .pipe(babel({
+            presets: ['@babel/preset-env']
+        }))
+        .pipe(strip())
+        .pipe(uglify())
+        .pipe(gulp.dest('./dist/js'));
+});
+
 
 // Minify SVG files
 gulp.task('svg', () => {
@@ -136,9 +161,8 @@ gulp.task('sw', gulp.series(() => {
 
 // Gulp task to minify all files
 gulp.task('assets', gulp.parallel('css', 'js', 'html'));
-gulp.task('assets-svg', gulp.parallel('assets', 'svg'));
 gulp.task('html-sw', gulp.series('html', 'sw'));
 gulp.task('css-sw', gulp.series('css', 'sw'));
 gulp.task('js-sw', gulp.series('js', 'sw'));
 gulp.task('default', gulp.series('assets', 'sw'));
-gulp.task('all', gulp.series('assets-svg', 'sw'));
+gulp.task('release', gulp.series('html', 'css', 'js-strip', 'svg', 'sw'));
