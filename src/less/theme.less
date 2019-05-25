@@ -12,67 +12,92 @@
 
 // Night/day colors
 html {
-    transition: background 300ms linear,
-    color 300ms linear;
-    background: @gry-200;
-    color: @gry-900;
+  transition: background 300ms linear,
+  color 300ms linear;
+  background: @gry-200;
+  color: @gry-900;
 
-    a { color: @gry-900 !important }
+  a {
+    color: @gry-900 !important
+  }
 }
+
 html[data-theme=day], #menu {
-    background: @gry-200;
-    color: @gry-900;
+  background: @gry-200;
+  color: @gry-900;
 }
+
 html[data-theme=night] {
-    background: @black;
-    color: @gry-200;
+  background: @black;
+  color: @gry-200;
 
-    // Light icons
-    img, .subject-delete { filter: invert(100%) }
+  // Light icons
+  img, .subject-delete {
+    filter: invert(100%)
+  }
 
-    // Light text
-    .button span, #grades p, a,
-    #grades h2, #levels select, #menu,
-    .dialog h2, .dialog td, .dialog-body p,
-    #custom-subject input, .dialog li {
-        color: @white !important;
-    }
+  // Light text
+  .button span, #grades p, a,
+  #grades h2, #levels select, #menu,
+  .dialog h2, .dialog td, .dialog-body p,
+  #custom-subject input, .dialog li {
+    color: @white !important;
+  }
 
-    // Subject delete
-    .subject-delete { background-color: @gry-900i !important }
+  // Subject delete
+  .subject-delete {
+    background-color: @gry-900i !important
+  }
 
-    // Light input border
-    #custom-subject input:focus {
-        border-bottom-color: @white !important;
-    }
+  // Light input border
+  #custom-subject input:focus {
+    border-bottom-color: @white !important;
+  }
 
-    // Dark backgrounds
-    #app .top, #menu { background: @black }
-    .button:hover, #levels select, #app .body,
-    #app .body, .dialog,
-    #custom-subject input, .dialog li:hover {
-        background-color: @gry-900 !important
-    }
+  // Dark backgrounds
+  #app .top, #menu {
+    background: @black
+  }
 
-    // MD ripple effect
-    .rippleJS .ripple {
-        background: @gry-400;
-    }
+  .button:hover, #levels select, #app .body,
+  #app .body, .dialog,
+  #custom-subject input, .dialog li:hover {
+    background-color: @gry-900 !important
+  }
+
+  // MD ripple effect
+  .rippleJS .ripple {
+    background: @gry-400;
+  }
 }
 
 // Grade level accent colors
 #app[data-theme=seven] {
-    #top, .plus, .minus, #update-found li { background-color: @ltgrn-700 !important }
+  #top, .plus, .minus, #update-found li {
+    background-color: @ltgrn-700 !important
+  }
 }
+
 #app[data-theme=eight] {
-    #top, .plus, .minus, #update-found li { background-color: @orng-700 !important }
+  #top, .plus, .minus, #update-found li {
+    background-color: @orng-700 !important
+  }
 }
+
 #app[data-theme=nine] {
-    #top, .plus, .minus, #update-found li { background-color: @red-700 !important }
+  #top, .plus, .minus, #update-found li {
+    background-color: @red-700 !important
+  }
 }
+
 #app[data-theme=ten], #app[data-theme=tenElec] {
-    #top, .plus, .minus, #update-found li { background-color: @blue-700 !important }
+  #top, .plus, .minus, #update-found li {
+    background-color: @blue-700 !important
+  }
 }
+
 #app[data-theme=tweleven], #app[data-theme=custom] {
-    #top, .plus, .minus, #update-found li { background-color: @bgrey-700 !important }
+  #top, .plus, .minus, #update-found li {
+    background-color: @bgrey-700 !important
+  }
 }

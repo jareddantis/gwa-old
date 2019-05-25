@@ -8,7 +8,6 @@
     @author Jared Dantis (@jareddantis)
     @license GPLv2
 */
-
 // Do not change order.
 @import "reset";
 @import "colors";
@@ -24,14 +23,18 @@
 
   // Disable outline on tap and focus (WebKit)
   outline: none;
-  &:focus { outline: none }
+
+  &:focus {
+    outline: none
+  }
 }
+
 // Button styles
 .button, .controls > div, #menu-toggle {
   // Reduce touch latency on clickable elements (IE 10+)
-    -ms-touch-action: manipulation;
-        touch-action: manipulation;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
 
   // Disable highlight on tap (Chrome Android)
-  -webkit-tap-highlight-color: rgba(255,255,255,0);
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
 }
