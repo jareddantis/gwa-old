@@ -104,6 +104,11 @@ app.init = function() {
         app.setGpa(!curr);
     });
 
+    // <a> optimization
+    $('a').each(function(){
+        $(this).attr('target', '_blank').attr('rel', 'noopener');
+    });
+
     // Restore state
     state.load();
 };
