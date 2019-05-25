@@ -23,15 +23,20 @@ gulp.task('css', () => {
     const unprefix = require('postcss-unprefix');
     del(['dist/css']);
 
-    return gulp.src('./src/less/_style.less')
-        .pipe(less())
-        .pipe(postcss([
-            unprefix(),
-            autoprefixer()
-        ]))
-        .pipe(csso())
-        .pipe(rename('style.css'))
-        .pipe(gulp.dest('./dist/css'));
+    const buildCSS = function(src, dst) {
+        return gulp.src(`./src/less/${src}.less`)
+            .pipe(less())
+            .pipe(postcss([
+                unprefix(),
+                autoprefixer()
+            ]))
+            .pipe(csso())
+            .pipe(rename(`${dst}.css`))
+            .pipe(gulp.dest('./dist/css'));
+    };
+
+    buildCSS('_style', 'style');
+    return buildCSS('dialogs/_base', 'dialog');
 });
 
 // Minify JS files
