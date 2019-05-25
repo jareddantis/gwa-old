@@ -45,13 +45,13 @@ app.init = function() {
     // Swipe to open drawer
     let hammer = new Hammer(document.body);
     hammer.on('swiperight', app.openMenu);
-    hammer.on('swipeleft', app.closeMenu);
+    hammer.on('swipeleft', function() { app.closeMenu(false) });
 
     // Sidebar toggle action
     $('#menu-toggle').click($('#menu').hasClass('visible') ? app.closeMenu : app.openMenu);
 
     // Collapse sidebar on background click (mobile)
-    $('#menu-bg').click(app.closeMenu);
+    $('#dimmer').click(function() { app.closeMenu(false) });
 
     // Button styling & default action
     $('.button').each(function(){

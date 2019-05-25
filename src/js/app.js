@@ -28,7 +28,7 @@ const app = {
 
         @param {Boolean} [remainDim] - Whether to leave the background dimmed
      */
-    closeMenu: function(remainDim) {
+    closeMenu: function(remainDim = false) {
         if (app.menuIsHidden()) {
             $('#menu').removeClass('visible');
             if (!remainDim)
