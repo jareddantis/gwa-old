@@ -10,6 +10,12 @@ class Dialog extends HTMLElement {
         const template = document.getElementById('dialog-template');
         const node = document.importNode(template.content, true);
         shadowRoot.appendChild(node);
+
+        // Copy theme
+        const root = shadowRoot.querySelector('.dialog-content');
+        let accent = state.get("set"), theme = state.get("dispMode");
+        root.setAttribute('data-theme', theme);
+        root.setAttribute('data-accent', accent);
     }
 
     disconnectedCallback() {

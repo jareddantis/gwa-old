@@ -1,0 +1,51 @@
+// Night mode
+.dialog-content[data-theme=night] {
+  h2, td, p, &[type=custom-subjects] input {
+    color: @white !important;
+  }
+
+  &[type=custom-subjects] {
+    .subject-delete {
+      filter: invert(100%);
+    }
+    .dialog-body input {
+      background-color: @gry-900 !important;
+      border-bottom-color: @gry-500 !important;
+
+      &:focus {
+        border-bottom-color: @white !important;
+      }
+    }
+  }
+}
+
+// Grade level accent colors
+.dialog-content[data-accent=seven] {
+  .dialog-buttons li {
+    background-color: @ltgrn-700 !important;
+  }
+}
+
+.dialog-content[data-accent=eight] {
+  .dialog-buttons li {
+    background-color: @orng-700 !important;
+  }
+}
+
+.dialog-content[data-accent=nine] {
+  .dialog-buttons li {
+    background-color: @red-700 !important;
+  }
+}
+
+.dialog-content[data-accent=ten], .dialog-content[data-accent=tenElec] {
+  .dialog-buttons li {
+    background-color: @blue-700 !important;
+  }
+}
+
+.dialog-content[data-accent=tweleven], .dialog-content[data-accent=custom] {
+  .dialog-buttons li {
+    background-color: @bgrey-700 !important;
+  }
+}
