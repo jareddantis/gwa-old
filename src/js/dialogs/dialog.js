@@ -13,7 +13,8 @@ class Dialog extends HTMLElement {
 
         // Copy theme
         const root = shadowRoot.querySelector('.dialog-content');
-        let accent = state.get("set"), theme = state.get("dispMode");
+        let accent = state.get("set"),
+            theme = document.documentElement.getAttribute('data-theme');
         root.setAttribute('data-theme', theme);
         root.setAttribute('data-accent', accent);
     }
