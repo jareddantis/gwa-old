@@ -1,7 +1,8 @@
 class Dialog extends HTMLElement {
     constructor() {
         super();
-        let shadow = this.attachShadow({ mode: "open" });
+        this.listeners = {};
+        this.attachShadow({ mode: "open" });
     }
 
     connectedCallback() {
@@ -9,6 +10,15 @@ class Dialog extends HTMLElement {
         const template = document.getElementById('dialog-template');
         const node = document.importNode(template.content, true);
         shadowRoot.appendChild(node);
+    }
+
+    disconnectedCallback() {
+        // Remove all button listeners
+        let buttons = this.shadowRoot.querySelectorAll('.dialog-buttons li');
+        for (let i = 0; i < buttons.length; i++) {
+            let button = buttons[i];
+            button.removeEventListener('click', this.listeners[button.innerText]);
+        }
     }
 
     set title(text) {
@@ -26,9 +36,13 @@ class Dialog extends HTMLElement {
         const { shadowRoot } = this;
 
         // Create <li>
+        let boundListener = listener.bind(this);
         let el = document.createElement('li');
         el.innerText = text;
-        el.addEventListener('click', listener.bind(this));
+        el.addEventListener('click', boundListener);
+
+        // Store button & function reference for cleanup on disconnect
+        this.listeners[text] = boundListener;
 
         // Append <li> to DOM
         shadowRoot.querySelector('.dialog-buttons ul').appendChild(el);
