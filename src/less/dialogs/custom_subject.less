@@ -29,7 +29,7 @@
 
       td {
         font-size: 1rem;
-        flex-grow: 1;
+        flex-basis: 0;
 
         input {
           width: calc(100% - 1.5rem);
@@ -58,6 +58,8 @@
           background: url('../img/cross.svg') no-repeat rgba(0,0,0,0);
           background-size: .7rem;
           background-position-y: 50%;
+          flex-grow: 0;
+          flex-basis: 2rem;
         }
 
         &.subject-name {
@@ -66,7 +68,7 @@
         }
 
         &.subject-units {
-          width: 4rem
+          flex-grow: 1;
         }
       }
     }

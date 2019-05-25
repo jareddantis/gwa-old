@@ -81,4 +81,26 @@
       font-size: 1.25rem;
     }
   }
+
+  .dialog-content[type=custom-subjects] {
+    .dialog-body table td {
+      &.subject-delete {
+        flex-grow: 0;
+      }
+      &.subject-name {
+        flex-grow: 4;
+      }
+      &.subject-units {
+        flex-grow: 2;
+      }
+    }
+  }
+}
+
+// Small width displays
+@media screen and (max-width: 480px) {
+  .dialog-content .dialog-buttons ul li {
+    font-size: .8rem;
+    padding: .75rem 0;
+  }
 }
