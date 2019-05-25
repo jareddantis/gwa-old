@@ -59,7 +59,10 @@ app.init = function() {
             $(this).addClass('focus');
         }).mouseup(function(){
             $(this).removeClass('focus');
-        }).click(app.closeMenu);
+        }).click(function() {
+            // Don't undim background if editing subjects
+            app.closeMenu($(this)[0].id === "btn-edit");
+        });
     });
 
     // Night mode button action
@@ -82,8 +85,10 @@ app.init = function() {
 
     // Edit subjects button action
     $('#btn-edit').click(function(){
-        // Show dialog
-        app.dialog.promptSubjects();
+        // Show dialog after sidebar animation
+        window.setTimeout(function(){
+            app.dialog.promptSubjects();
+        }, 300);
     });
 
     // Clear grades button action

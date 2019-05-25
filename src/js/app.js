@@ -25,11 +25,14 @@ const app = {
 
     /**
         Closes sidebar on mobile.
+
+        @param {Boolean} [remainDim] - Whether to leave the background dimmed
      */
-    closeMenu: function() {
+    closeMenu: function(remainDim) {
         if (app.menuIsHidden()) {
             $('#menu').removeClass('visible');
-            app.unDim();
+            if (!remainDim)
+                app.unDim();
         }
     },
 
@@ -156,10 +159,11 @@ const app = {
         // Define onChange behavior
         $select.on('change', function(){
             let newSet = $(this).val();
-            app.closeMenu();
 
             // User selected custom subjects
             if (newSet === "custom") {
+                app.closeMenu(true);
+
                 // Remember currently selected set
                 state.set("prevSet", state.get("set"));
 
@@ -170,7 +174,8 @@ const app = {
                     app.dialog.promptSubjects();
                     return;
                 }
-            }
+            } else
+                app.closeMenu(false);
 
             // If user hit Cancel on custom subject input,
             // we restore previously selected set
