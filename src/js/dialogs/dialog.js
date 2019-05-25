@@ -55,12 +55,25 @@ class Dialog extends HTMLElement {
 
     show() {
         app.dim();
-        this.classList.add('visible');
+
+        // Sometimes the animation does not play due to reflows.
+        // Accessing offsetWidth forces an immediate reflow,
+        // which allows us to play the animation afterward.
+        // https://stackoverflow.com/a/24195559
+        void(this.offsetWidth);
+        requestAnimationFrame(function(){
+            this.classList.add('visible');
+        }.bind(this));
     }
 
     dismiss() {
         app.unDim();
         this.classList.remove('visible');
+
+        // Remove after animation
+        window.setTimeout(function() {
+            document.body.removeChild(this);
+        }.bind(this), 300);
     }
 }
 
