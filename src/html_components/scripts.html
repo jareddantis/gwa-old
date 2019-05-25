@@ -48,6 +48,14 @@
                 e = null;
             });
         });
+
+        // Load webfonts
+        let wfe = document.createElement('link');
+        wfe.rel = 'stylesheet';
+        wfe.href = 'https://fonts.googleapis.com/css?family=Roboto+Mono:400,700&display=swap';
+        wfe.type = 'text/css';
+        let l = document.getElementsByTagName('link')[0];
+        l.parentNode.insertBefore(wfe, l);
     };
 
     // Service worker with update functionality
