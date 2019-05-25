@@ -29,7 +29,7 @@ app.init = function() {
         .then(function(isAvailable) {
             console.log("[app] Update found, showing dialog");
             if (isAvailable) {
-                $('#menu-bg').fadeIn();
+                app.dim();
                 $('#update-found').addClass('visible');
             }
         });
@@ -115,7 +115,7 @@ app.init = function() {
         }
 
         // Hide dialog
-        $('#menu-bg').fadeOut();
+        app.unDim();
         $('#custom-subject').removeClass('visible');
     });
 

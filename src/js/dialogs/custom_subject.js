@@ -33,7 +33,7 @@ app.dialog.promptSubjects = function() {
     }
 
     // We're ready, show dialog
-    $('#menu-bg').fadeIn(150);
+    app.dim();
     $('#custom-subject').addClass('visible');
 };
 
@@ -79,7 +79,7 @@ app.dialog.parseSubjects = function(subjEls) {
                     // Quit
                     console.warn("[c_s] No subjects, restoring " + prevSet);
                     valid = false;
-                    $('#menu-bg').fadeOut(150);
+                    app.unDim();
                     $('#custom-subject').removeClass('visible');
                     break;
                 }
@@ -121,7 +121,7 @@ app.dialog.parseSubjects = function(subjEls) {
 
         // Hide dialog
         $('#custom-subject').removeClass('visible');
-        $('#menu-bg').fadeOut(150);
+        app.unDim();
     }
 };
 

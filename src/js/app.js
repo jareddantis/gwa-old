@@ -11,7 +11,7 @@ const app = {
      */
     openMenu: function() {
         $('#menu').addClass('visible');
-        $('#menu-bg').fadeIn();
+        app.dim();
     },
 
     /**
@@ -19,7 +19,21 @@ const app = {
      */
     closeMenu: function() {
         $('#menu').removeClass('visible');
-        $('#menu-bg').fadeOut();
+        app.unDim();
+    },
+
+    /**
+        Shows dark background for sidebar and dialogs.
+     */
+    dim: function() {
+        $('#dimmer').fadeIn();
+    },
+
+    /**
+        Hides dark background.
+     */
+    unDim: function() {
+        $('#dimmer').fadeOut();
     },
 
     /**
