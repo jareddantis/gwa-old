@@ -12,57 +12,66 @@
 */
 
 .dialog-content[type=custom-subjects] {
-  .dialog-body table {
-    margin: 0;
-    padding: 0;
-    border-collapse: collapse;
-    width: 100%;
-    height: auto;
+  .dialog-body {
+    margin-bottom: 0;
+    max-height: ~"calc(100% - 8rem)";
+    table {
+      margin: 0;
+      padding: 0;
+      border-collapse: collapse;
+      width: 100%;
+      height: auto;
 
-    td {
-      font-size: 1rem
-    }
+      tr {
+        display: flex;
+        margin-bottom: 1rem;
+      }
 
-    tbody > tr:first-child input {
-      padding-top: 0 !important
-    }
-
-    tbody td {
-      input {
-        width: 100%;
-        margin: 0;
-        padding: 1rem 0 .5rem;
-        border: 0;
+      td {
         font-size: 1rem;
-        user-select: auto;
-        border-bottom: 2px solid @gry-200;
-        transition: border-bottom-color 150ms ease;
+        flex-grow: 1;
 
-        &:focus {
-          border-bottom-color: @black
+        input {
+          width: calc(100% - 1.5rem);
+          padding: .75rem;
+          font-size: 1rem;
+          user-select: auto;
+          border: 0;
+          border-bottom: 2px solid @gry-200;
+          border-radius: 3px;
+          transition: border-bottom-color 150ms ease;
+          background: @gry-100;
+
+          &:focus {
+            border-bottom-color: @black
+          }
+
+          &.err {
+            border-bottom-color: @red-700
+          }
         }
 
-        &.err {
-          border-bottom-color: @red-700
+        &.subject-delete {
+          cursor: pointer;
+          background: url('../img/cross.svg') no-repeat @white;
+          background-size: .7rem;
+          background-position-y: 50%;
         }
-      }
 
-      &.subject-delete {
-        width: 1.5rem;
-        cursor: pointer;
-        background: url('../img/cross.svg') no-repeat @white;
-        background-size: .7rem;
-        background-position-y: 50%;
-        padding-right: 1rem;
-      }
+        &.subject-name {
+          margin-right: 1rem;
+          flex-grow: 5;
+        }
 
-      &.subject-name {
-        padding-right: 1rem
-      }
-
-      &.subject-units {
-        width: 4rem
+        &.subject-units {
+          width: 4rem
+        }
       }
     }
+  }
+
+  .dialog-buttons {
+    position: absolute;
+    bottom: 0;
   }
 }
