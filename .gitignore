@@ -1,6 +1,7 @@
 *.sublime*
 node_modules/
 src/**/*.css
+.idea/
 src/
 package.json
 Gulpfile.js
