@@ -61,10 +61,8 @@ app.dialog.prepareSubjectsPrompt = function(dialog) {
 
         // Parse new subject data
         let subjs = shadowRoot.querySelectorAll('.dialog-body tbody tr');
-        if (app.dialog.parseSubjects(subjs))
+        if (app.dialog.parseSubjects(subjs, shadowRoot.querySelector('.dialog-body')))
             this.dismiss();
-        else
-            window.alert("Please make sure all fields are complete and valid.");
     });
     dialog.addButton('cancel', function(){
         if (subjects.get("custom").length === 0) {
@@ -84,7 +82,7 @@ app.dialog.prepareSubjectsPrompt = function(dialog) {
 
     @param {Array} subjEls - All subject rows (tr)
 */
-app.dialog.parseSubjects = function(subjEls) {
+app.dialog.parseSubjects = function(subjEls, body) {
     let set = [], valid = true;
 
     for (let i = 0; i < subjEls.length; i++) {
@@ -127,6 +125,7 @@ app.dialog.parseSubjects = function(subjEls) {
         // Check if name is empty
         if (subjName.length === 0) {
             console.warn("[c_s] Empty name in row " + i);
+            app.dialog.highlightCustomSubjEl(subjNameEl, body);
             valid = false;
             break;
         }
@@ -134,6 +133,7 @@ app.dialog.parseSubjects = function(subjEls) {
         // Check if units is empty or invalid
         if (isNaN(subjUnits) || subjUnits === undefined || subjUnits.length === 0) {
             console.warn("[c_s] Bad units in row " + i);
+            app.dialog.highlightCustomSubjEl(subjUnitsEl, body);
             valid = false;
             break;
         }
@@ -157,6 +157,28 @@ app.dialog.parseSubjects = function(subjEls) {
         app.populateSubjects();
     }
     return valid;
+};
+
+/**
+    Highlights empty/invalid cell for 1 second
+ */
+app.dialog.highlightCustomSubjEl = function(el, body) {
+    if (!$(el).hasClass('err')) {
+        // Scroll div to element
+        var parentScroll = $(body).scrollTop(),
+            parentOffset = $(body).offset().top,
+            elOffset = $(el).offset().top,
+            offset = parentScroll - parentOffset + elOffset;
+        $(body).animate({
+            scrollTop: offset
+        }, 150);
+
+        // Highlight with red bar
+        $(el).addClass('err');
+        window.setTimeout(function(){
+            $(el).removeClass('err');
+        }, 500);
+    }
 };
 
 /**

@@ -39,15 +39,17 @@
           border: 0;
           border-bottom: 2px solid @gry-200;
           border-radius: 3px;
-          transition: border-bottom-color 150ms ease;
-          background: @gry-100;
+          transition: all 500ms linear;
+          background-color: @gry-100;
 
           &:focus {
             border-bottom-color: @black
           }
 
           &.err {
-            border-bottom-color: @red-700
+            border-bottom-color: @red-700;
+            border-bottom-width: 4px;
+            transition: none;
           }
         }
 
