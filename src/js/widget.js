@@ -132,6 +132,6 @@ const widget = {
         $(name).append(nameInput);
         $(unit).append(unitInput);
         $(row).append(del).append(name).append(unit);
-        return row;
+        return row[0];
     }
 };

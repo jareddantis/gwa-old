@@ -1,0 +1,82 @@
+@import "../reset";
+@import "../colors";
+@import "../global";
+
+// Card content
+.dialog-content {
+  width: ~"calc(100% - 3rem)";
+  height: ~"calc(100% - 3rem)";
+  position: relative;
+  margin: 1.5rem;
+
+  .dialog-header {
+    margin-bottom: 2rem;
+
+    h2 {
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: 500;
+    }
+  }
+
+  .dialog-body {
+    width: 100%;
+    margin-bottom: 2rem;
+    max-height: ~"calc(100% - 6rem)";
+    overflow-y: scroll;
+    position: relative;
+
+    img { width: 10rem }
+  }
+
+  .dialog-buttons {
+    width: 100%;
+
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      text-align: center;
+
+      li {
+        flex-grow: 1;
+        color: white;
+        padding: 1rem 1.5rem;
+        text-transform: uppercase;
+        border-radius: 100px;
+        background-color: @blue-700;
+        transition: background-color 150ms linear;
+        margin-right: .5rem;
+        font-weight: 700;
+
+        &:hover {
+          background-color: @gry-200;
+        }
+
+        &:focus, &:active {
+          background-color: @gry-300;
+        }
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+@import "custom_subject";
+@import "update_found";
+
+// Phablets & phones (< 800px width)
+@media screen and (max-width: 800px) {
+  .dialog-content {
+    max-height: 100%;
+    max-width: 100%;
+
+    .dialog-header h2 {
+      font-size: 1.25rem;
+    }
+  }
+}

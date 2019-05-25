@@ -19,6 +19,18 @@ html, body {
   height: 100%;
 }
 
+* {
+  // Disable text selection on everything
+  user-select: none;
+
+  // Disable outline on tap and focus (WebKit)
+  outline: none;
+
+  &:focus {
+    outline: none
+  }
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -61,7 +73,6 @@ blockquote, q {
 blockquote:before, blockquote:after,
 q:before, q:after {
   content: '';
-  content: none;
 }
 
 table {

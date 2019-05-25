@@ -13,10 +13,12 @@
 app.dialog.promptSubjects = function() {
     // Get current custom set
     let currCustom = subjects.get("custom"),
-        table = $('#custom-subject tbody');
+        $tableBody = $('<tbody>'),
+        dialog = new Dialog();
 
-    // Empty table
-    $(table).empty();
+    // Prepare dialog
+    $('body').append(dialog);
+    this.prepareSubjectsPrompt(dialog);
 
     // See if there are already defined subjects
     if (currCustom.length > 0) {
@@ -25,17 +27,57 @@ app.dialog.promptSubjects = function() {
             let name = currCustom[i].name,
                 units = currCustom[i].units,
                 row = widget.newCustomSubject(name, units);
-            $(table).append(row);
+            $tableBody.append(row);
         }
     } else {
         // Add empty row to subject table
-        $(table).append(widget.newCustomSubject());
+        $tableBody.append(widget.newCustomSubject());
     }
 
     // We're ready, show dialog
-    app.dim();
-    $('#custom-subject').addClass('visible');
+    dialog.appendToBody($('<table>').append($tableBody)[0]);
+    dialog.show();
 };
+
+app.dialog.prepareSubjectsPrompt = function(dialog) {
+    // Title
+    dialog.title = 'Custom subjects';
+    dialog.type = 'custom-subjects';
+
+    // Custom subject dialog buttons
+    dialog.addButton('+ row', function(){
+        const { shadowRoot } = this;
+
+        // Add empty row to custom subject table
+        let table = shadowRoot.querySelector('tbody');
+        table.appendChild(widget.newCustomSubject());
+
+        // Scroll to bottom of table
+        let body = shadowRoot.querySelector('.dialog-body');
+        body.scrollTop = body.scrollHeight;
+    });
+    dialog.addButton('save', function(){
+        const { shadowRoot } = this;
+
+        // Parse new subject data
+        let subjs = shadowRoot.querySelectorAll('.dialog-body tbody tr');
+        if (app.dialog.parseSubjects(subjs))
+            this.dismiss();
+        else
+            window.alert("Please make sure all fields are complete and valid.");
+    });
+    dialog.addButton('cancel', function(){
+        if (subjects.get("custom").length === 0) {
+            // Restore previously selected subject set
+            let prevSet = state.get("prevSet");
+            $('#levels select').val(prevSet);
+            state.switchLevel(prevSet);
+        }
+
+        // Hide dialog
+        this.dismiss();
+    });
+}
 
 /**
     Validates and saves user-specified subjects.
@@ -78,17 +120,13 @@ app.dialog.parseSubjects = function(subjEls) {
 
                     // Quit
                     console.warn("[c_s] No subjects, restoring " + prevSet);
-                    valid = false;
-                    app.unDim();
-                    $('#custom-subject').removeClass('visible');
-                    break;
+                    return true;
                 }
             }
 
         // Check if name is empty
         if (subjName.length === 0) {
             console.warn("[c_s] Empty name in row " + i);
-            app.dialog.highlightCustomSubjEl(subjNameEl);
             valid = false;
             break;
         }
@@ -96,7 +134,6 @@ app.dialog.parseSubjects = function(subjEls) {
         // Check if units is empty or invalid
         if (isNaN(subjUnits) || subjUnits === undefined || subjUnits.length === 0) {
             console.warn("[c_s] Bad units in row " + i);
-            app.dialog.highlightCustomSubjEl(subjUnitsEl);
             valid = false;
             break;
         }
@@ -118,34 +155,8 @@ app.dialog.parseSubjects = function(subjEls) {
 
         // Repopulate
         app.populateSubjects();
-
-        // Hide dialog
-        $('#custom-subject').removeClass('visible');
-        app.unDim();
     }
-};
-
-/**
-    Highlights empty/invalid cell for 1 second
-*/
-app.dialog.highlightCustomSubjEl = function(el) {
-    if (!$(el).hasClass('err')) {
-    	// Scroll div to element
-    	let $body = $('#custom-subject .dialog-body'),
-            parentScroll = $body.scrollTop(),
-    		parentOffset = $body.offset().top,
-    		elOffset = $(el).offset().top,
-    		offset = parentScroll - parentOffset + elOffset;
-    	$body.animate({
-    		scrollTop: offset
-    	}, 150);
-
-    	// Highlight with red bar
-        $(el).addClass('err');
-        window.setTimeout(function(){
-            $(el).removeClass('err');
-        }, 1000);
-    }
+    return valid;
 };
 
 /**

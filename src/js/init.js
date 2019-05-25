@@ -22,15 +22,23 @@ app.init = function() {
         fdbkLink + appVersion.replace(' build ', 'b'));
 
     // Check for updates
-    $('#update-reload').click(function(){
-        window.location.reload();
-    });
     window['isUpdateAvailable']
         .then(function(isAvailable) {
             console.log("[app] Update found, showing dialog");
             if (isAvailable) {
-                app.dim();
-                $('#update-found').addClass('visible');
+                // Create dialog
+                let image = $('<img>').attr('src', 'dist/img/update-found.svg'),
+                    dialog = new Dialog();
+                $('body').append(dialog);
+                dialog.title = 'App update found';
+                dialog.type = 'update-found';
+                dialog.addButton('update & refresh', function() {
+                    window.location.reload();
+                });
+                dialog.appendToBody($(image)[0]);
+
+                // Show dialog
+                dialog.show();
             }
         });
 
@@ -89,34 +97,6 @@ app.init = function() {
         // Flip mode
         let curr = state.get("isGpa");
         app.setGpa(!curr);
-    });
-
-    // Custom subject dialog buttons
-    $('#custom-subject-add').click(function(){
-        // Add empty row to custom subject table
-        let $table = $('#custom-subject tbody');
-        $table.append(widget.newCustomSubject());
-
-        // Scroll to bottom of table
-        let $body = $(".custom-subject-body")[0];
-        $body.scrollTop = $body.scrollHeight;
-    });
-    $('#custom-subject-save').click(function(){
-        // Parse new subject data
-        let subjs = $('#custom-subject tbody tr');
-        app.dialog.parseSubjects(subjs);
-    });
-    $('#custom-subject-quit').click(function(){
-        if (subjects.get("custom").length === 0) {
-            // Restore previously selected subject set
-            let prevSet = state.get("prevSet");
-            $('#levels select').val(prevSet);
-            state.switchLevel(prevSet);
-        }
-
-        // Hide dialog
-        app.unDim();
-        $('#custom-subject').removeClass('visible');
     });
 
     // Restore state
