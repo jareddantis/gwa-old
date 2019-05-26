@@ -47,11 +47,11 @@ If you have a suggestion for the calculator, you can either
 
 ## Credits
 
-- Google for [Material Design Icons](https://material.io/icons)
-- jQuery for, well, [jQuery](https://github.com/jquery/jquery)
-- TypeKit for [WebFontLoader](https://github.com/typekit/webfontloader/)
-- Matt Bryson for [jQuery.touchSwipe](https://github.com/mattbryson/TouchSwipe-Jquery-Plugin)
-- Vladimir Agafonkin for [SunCalc](https://github.com/mourner/suncalc)
+- @google for [Material Design Icons](https://material.io/icons) and [Firebase](https://firebase.google.com/)
+- @jquery for [jQuery](https://github.com/jquery/jquery)
+- @hammerjs for [Hammer.js](http://hammerjs.github.io/)
+- @mourner for [SunCalc](https://github.com/mourner/suncalc)
+- @samthor for [rippleJS](https://github.com/samthor/rippleJS)
 
 ## License
 
