@@ -3,6 +3,7 @@ class Dialog extends HTMLElement {
         super();
         this.listeners = {};
         this.attachShadow({ mode: "open" });
+        document.body.appendChild(this);
     }
 
     connectedCallback() {

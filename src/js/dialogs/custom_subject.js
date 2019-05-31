@@ -17,7 +17,6 @@ app.dialog.promptSubjects = function() {
         dialog = new Dialog();
 
     // Prepare dialog
-    $('body').append(dialog);
     this.prepareSubjectsPrompt(dialog);
 
     // See if there are already defined subjects

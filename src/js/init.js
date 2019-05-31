@@ -34,7 +34,6 @@ app.init = function() {
                 // Create dialog
                 let image = $('<img>').attr('src', 'dist/img/update-found.svg'),
                     dialog = new Dialog();
-                $('body').append(dialog);
                 dialog.title = 'App update found';
                 dialog.type = 'update-found';
                 dialog.addButton('update & refresh', function() {
@@ -139,7 +138,6 @@ app.init = function() {
 
         if (willShow) {
             let dialog = new Dialog();
-            $('body').append(dialog);
             dialog.type = 'ios-install';
             dialog.title = 'Bookmark for easier access, even when offline';
             dialog.appendToBody($img[0]);
