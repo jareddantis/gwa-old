@@ -140,7 +140,7 @@ app.init = function() {
         if (willShow) {
             let dialog = new Dialog();
             $('body').append(dialog);
-            dialog.type = 'update-found';
+            dialog.type = 'ios-install';
             dialog.title = 'Bookmark for easier access, even when offline';
             dialog.appendToBody($img[0]);
             dialog.appendToBody($p[0]);
