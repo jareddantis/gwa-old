@@ -102,10 +102,12 @@ gulp.task('svg', () => {
 gulp.task('html', () => {
     const htmlimport = require('gulp-html-import');
     const htmlmin = require('gulp-htmlmin');
+    const appendQS = require('gulp-append-query-string');
     del(['index.html']);
 
     return gulp.src('./src/index.html')
         .pipe(htmlimport('./src/html_components/'))
+        .pipe(appendQS())
         .pipe(htmlmin({
             collapseWhitespace: true,
             minifyJS: true,
