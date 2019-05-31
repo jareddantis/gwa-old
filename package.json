@@ -18,11 +18,12 @@
   "homepage": "https://illustra.github.io/gwa",
   "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
-    "autoprefixer": "^9.5.0",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
+    "autoprefixer": "^9.5.1",
     "del": "4.1.1",
-    "gulp": "^4.0.0",
+    "gulp": "^4.0.2",
+    "gulp-append-query-string": "^1.1.0",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
     "gulp-csso": "^3.0.1",
@@ -33,10 +34,10 @@
     "gulp-rename": "^1.4.0",
     "gulp-replace": "^1.0.0",
     "gulp-strip-debug": "^3.0.0",
-    "gulp-svgmin": "^2.0.0",
+    "gulp-svgmin": "^2.2.0",
     "gulp-uglify": "^3.0.2",
     "postcss-unprefix": "^2.1.4",
     "run-sequence": "^2.2.1",
-    "workbox-build": "^4.1.1"
+    "workbox-build": "^4.3.1"
   }
 }
