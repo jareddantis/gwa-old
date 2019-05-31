@@ -111,6 +111,26 @@ const app = {
         return window.matchMedia("(prefers-color-scheme: dark)").matches;
     },
 
+    deviceIsIOS: function() {
+        let ua = window.navigator.userAgent;
+        let iOS = !!ua.match(/iP(ad|hone|od|od Touch)/i);
+        let webkit = !!ua.match(/WebKit/i);
+        return iOS && webkit;
+    },
+
+    /**
+        Determines if browser is iOS Safari.
+        https://stackoverflow.com/a/29696509
+        https://www.bennadel.com/blog/1950-detecting-iphone-s-app-mode-full-screen-mode-for-web-applications.htm
+
+        @returns {Boolean} Whether browser is iOS Safari.
+     */
+    deviceIsMobileSafari: function() {
+        let ua = window.navigator.userAgent;
+        let otherBrowsers = ua.match(/(Chrome|CriOS|OPiOS)/i);
+        return app.deviceIsIOS() && !otherBrowsers;
+    },
+
     /**
         Sets/unsets cGPA calculation mode.
 
