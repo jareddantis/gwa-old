@@ -13,6 +13,11 @@
     page has loaded and all other libraries have initialized.
  */
 app.init = function() {
+    console.log("[app] Initializing");
+
+    // Restore state
+    state.load();
+
     // Display version
     let appVersion = state.get("version"),
         fdbkLink = 'http://server.jared.gq/feedback/?subject=pisaygwa-web-';
@@ -108,7 +113,4 @@ app.init = function() {
     $('a').each(function(){
         $(this).attr('target', '_blank').attr('rel', 'noopener');
     });
-
-    // Restore state
-    state.load();
 };
