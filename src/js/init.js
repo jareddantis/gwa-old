@@ -113,4 +113,44 @@ app.init = function() {
     $('a').each(function(){
         $(this).attr('target', '_blank').attr('rel', 'noopener');
     });
+
+    // iOS PWA install dialogs
+    // Though all browsers on iOS use the same underlying Webkit engine,
+    // only Safari is able to add PWAs to the Home Screen.
+    // Therefore we need to make sure that the user is using Safari.
+    if (app.deviceIsIOS() && !state.get("iOSprompt")) {
+        let willShow = true, $img = $('<img>'), $p = $('<p>');
+
+        if (app.deviceIsMobileSafari()) {
+            // Show dialog only if not yet installed
+            if ("standalone" in window.navigator && !window.navigator.standalone) {
+                $img.attr('src', 'dist/img/ios-install.svg');
+                $p.html('Just tap Share and choose Add To Home Screen.');
+            } else {
+                // No need to show dialog
+                willShow = false;
+            }
+        } else {
+            // User is running iOS but not using Safari.
+            // Let the user know that installation can only be done with Safari.
+            $img.attr('src', 'dist/img/ios-safari.svg');
+            $p.html('Open this site in Safari to begin.');
+        }
+
+        if (willShow) {
+            let dialog = new Dialog();
+            $('body').append(dialog);
+            dialog.type = 'update-found';
+            dialog.title = 'Bookmark for easier access, even when offline';
+            dialog.appendToBody($img[0]);
+            dialog.appendToBody($p[0]);
+            dialog.addButton('dismiss', function() {
+                dialog.dismiss();
+
+                // Don't show dialog again
+                state.set("iOSprompt", true);
+            });
+            dialog.show();
+        }
+    }
 };

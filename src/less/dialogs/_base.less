@@ -68,10 +68,21 @@
 }
 
 // Specific themes
-.dialog-content[type=update-found] {
+.dialog-content[type=update-found],
+.dialog-content[type=ios-install] {
   .dialog-body {
     overflow: hidden;
     text-align: center;
+  }
+}
+
+.dialog-content[type=ios-install] .dialog-body {
+  img {
+    width: 15rem;
+    margin-bottom: 1rem;
+  }
+  p {
+    line-height: 1.4rem;
   }
 }
 

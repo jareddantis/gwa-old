@@ -11,14 +11,15 @@ const state = {
         Will be saved by state.set(), and is accessed by state.get().
     */
     current: {
-        version: "14.0", // {String} Version name (external)
-        versionCode: 21,   // {Number} Version code (internal)
+        version: "14.1",   // {String} Version name (external)
+        versionCode: 22,   // {Number} Version code (internal)
         set: "seven",      // {String} Selected set of subjects
         prevSet: "seven",  // {String} Previously selected set
         grades: [],        // {Array} Entered grades
         dispMode: "auto",  // {String} Display mode (night/day/auto)
         isGpa: false,      // {Boolean} cGPA mode
-        customSet: []      // {Array} Custom subjects & units
+        customSet: [],     // {Array} Custom subjects & units
+        iOSprompt: false,  // {Boolean} Whether iOS install prompt was already shown
     },
 
     /**
@@ -169,6 +170,15 @@ const state = {
                         // Show edit button if selected set is custom
                         if (savedState.set === "custom")
                             app.showEditBtn();
+                    }
+
+                    // Restore iOS prompt status
+                    if (savedState.iOSprompt === undefined || savedState.versionCode < 22) {
+                        // No iOS prompt in release <22
+                        // Default to false and save to LocalStorage
+                        this.set("iOSprompt", false);
+                    } else {
+                        this.current.iOSprompt = savedState.iOSprompt;
                     }
 
                     // Populate grade level chooser and
