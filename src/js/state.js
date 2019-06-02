@@ -53,7 +53,7 @@ const state = {
     /**
         Gets saved grade for a subject.
 
-        @param {Number} id - Subject ID. See widget.newSubjectRow().
+        @param {Number} id - Subject ID. See utils.newSubjectRow().
         @returns {(String|Array|Number|Boolean)} The requested grade
     */
     getGrade: function(id) { return this.current.grades[id]; },
@@ -61,7 +61,7 @@ const state = {
     /**
         Sets grade for a subject.
 
-        @param {String} id - Subject ID. See widget.newSubjectRow().
+        @param {String} id - Subject ID. See utils.newSubjectRow().
         @param {String|Number} grade - The new subject grade
     */
     setGrade: function(id, grade) {

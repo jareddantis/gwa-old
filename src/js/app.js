@@ -187,12 +187,11 @@ const app = {
                 // Remember currently selected set
                 state.set("prevSet", state.get("set"));
 
-                // If subjects are not defined,
+                // If subjects are not defined, then show dialog, but
                 // don't switch level yet in case user hits Cancel
                 if (subjects.get("custom").length === 0) {
                     console.warn("[app] customSet empty, deferring switchLevel");
-                    app.dialog.promptSubjects();
-                    return;
+                    return dialogs.customSubjects();
                 }
             } else
                 app.closeMenu(false);
@@ -249,7 +248,7 @@ const app = {
             let subj = subjs[i],
                 subjName = subj.name + " (" + subj.units.toFixed(1) + " units)",
                 subjGrade = currGrades[i].toFixed(2),
-                row = widget.newSubjectRow(i, subjName, subjGrade);
+                row = utils.newSubjectRow(i, subjName, subjGrade);
 
             // Add new row to table
             $table.append(row);
@@ -299,7 +298,16 @@ const app = {
     },
 
     /**
-		Dialogs (see src/js/dialogs)
-    */
-    dialog: {}
+        Shows 'Edit subjects' menu button
+     */
+    showEditBtn: function() {
+        $('#btn-edit').slideDown();
+    },
+
+    /**
+        Hides 'Edit subjects' menu button
+     */
+    hideEditBtn: function() {
+        $('#btn-edit').slideUp();
+    }
 };

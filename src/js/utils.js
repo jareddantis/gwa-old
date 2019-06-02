@@ -1,11 +1,11 @@
 /**
-    @file widget.js
-    @description Reusable components (table rows)
+    @file utils.js
+    @description Reusable components and helper functions
     @author Jared Dantis (@jareddantis)
     @license GPLv2
 */
 
-const widget = {
+const utils = {
     /**
         Creates a table row element (tr) that contains a
         subject, along with the grade and -/+ controls.
@@ -133,5 +133,107 @@ const widget = {
         $(unit).append(unitInput);
         $(row).append(del).append(name).append(unit);
         return row[0];
+    },
+
+    highlightCustomSubjEl: function(el, body) {
+        if (!$(el).hasClass('err')) {
+            // Scroll div to element
+            let parentScroll = $(body).scrollTop(),
+                parentOffset = $(body).offset().top,
+                elOffset = $(el).offset().top,
+                offset = parentScroll - parentOffset + elOffset;
+            $(body).animate({
+                scrollTop: offset
+            }, 150);
+
+            // Highlight with red bar
+            $(el).addClass('err');
+            window.setTimeout(function(){
+                $(el).removeClass('err');
+            }, 500);
+        }
+    },
+
+    /**
+        Validates and saves user-specified subjects.
+
+        @param {Array} subjEls - All subject rows (tr)
+        @param {Element} body - Custom subjects table body
+     */
+    parseSubjects: function(subjEls, body) {
+        let set = [], valid = true;
+
+        for (let i = 0; i < subjEls.length; i++) {
+            let subj = subjEls[i],
+                subjNameEl = $(subj).children('td.subject-name')
+                    .children('input'),
+                subjName = $(subjNameEl).val(),
+                subjUnitsEl = $(subj).children('td.subject-units')
+                    .children('input'),
+                subjUnits = parseFloat($(subjUnitsEl).val());
+
+            // Check if entire row is empty
+            if (subjName.length === 0 && (isNaN(subjUnits) || subjUnits.length === 0)) {
+                // Check for any succeeding rows
+                if (subjEls[i+1] !== undefined) {
+                    // Skip this row
+                    console.warn("[utils:parseSubjects] Skipping empty row " + i);
+                    continue;
+                }
+                // Check if entire table is empty
+                else if (set[0] === undefined) {
+                    // Restore previously selected subject set
+                    let prevSet = state.get("prevSet");
+                    if (prevSet === "custom") {
+                        prevSet = "seven";
+                        state.set("prevSet", prevSet);
+                    }
+                    $('#levels select').val(prevSet);
+                    state.switchLevel(prevSet);
+
+                    // Empty saved custom set
+                    subjects.setCustom([]);
+
+                    // Quit
+                    console.warn("[utils:parseSubjects] No subjects, restoring " + prevSet);
+                    return true;
+                }
+            }
+
+            // Check if name is empty
+            if (subjName.length === 0) {
+                console.warn("[utils:parseSubjects] Empty name in row " + i);
+                this.highlightCustomSubjEl(subjNameEl, body);
+                valid = false;
+                break;
+            }
+
+            // Check if units is empty or invalid
+            if (isNaN(subjUnits) || subjUnits === undefined || subjUnits.length === 0) {
+                console.warn("[utils:parseSubjects] Bad units in row " + i);
+                this.highlightCustomSubjEl(subjUnitsEl, body);
+                valid = false;
+                break;
+            }
+
+            // Subject is assumed valid
+            console.log("[utils:parseSubjects] New subject: " + subjName + " = " + subjUnits);
+            set.push({
+                name: subjName,
+                units: subjUnits
+            });
+        }
+
+        if (valid) {
+            // Save new set
+            subjects.setCustom(set);
+
+            // Select new set
+            state.switchLevel("custom");
+
+            // Repopulate
+            app.populateSubjects();
+        }
+        return valid;
     }
 };

@@ -30,20 +30,8 @@ app.init = function() {
     window['isUpdateAvailable']
         .then(function(isAvailable) {
             console.log("[app] Update found, showing dialog");
-            if (isAvailable) {
-                // Create dialog
-                let image = $('<img>').attr('src', 'dist/img/update-found.svg'),
-                    dialog = new Dialog();
-                dialog.title = 'App update found';
-                dialog.type = 'update-found';
-                dialog.addButton('update & refresh', function() {
-                    window.location.reload();
-                });
-                dialog.appendToBody($(image)[0]);
-
-                // Show dialog
-                dialog.show();
-            }
+            if (isAvailable)
+                dialogs.updateFound();
         });
 
     // Swipe to open drawer
@@ -113,42 +101,26 @@ app.init = function() {
         $(this).attr('target', '_blank').attr('rel', 'noopener');
     });
 
-    // iOS PWA install dialogs
+    // iOS PWA install dialog
     // Though all browsers on iOS use the same underlying Webkit engine,
     // only Safari is able to add PWAs to the Home Screen.
     // Therefore we need to make sure that the user is using Safari.
     if (app.deviceIsIOS() && !state.get("iOSprompt")) {
-        let willShow = true, $img = $('<img>'), $p = $('<p>');
+        let willShow = true, isSafari = true;
 
         if (app.deviceIsMobileSafari()) {
             // Show dialog only if not yet installed
-            if ("standalone" in window.navigator && !window.navigator.standalone) {
-                $img.attr('src', 'dist/img/ios-install.svg');
-                $p.html('Just tap Share and choose Add To Home Screen.');
-            } else {
+            if ("standalone" in window.navigator && window.navigator.standalone) {
                 // No need to show dialog
                 willShow = false;
             }
         } else {
             // User is running iOS but not using Safari.
             // Let the user know that installation can only be done with Safari.
-            $img.attr('src', 'dist/img/ios-safari.svg');
-            $p.html('Open this site in Safari to begin.');
+            isSafari = false;
         }
 
-        if (willShow) {
-            let dialog = new Dialog();
-            dialog.type = 'ios-install';
-            dialog.title = 'Bookmark for easier access, even when offline';
-            dialog.appendToBody($img[0]);
-            dialog.appendToBody($p[0]);
-            dialog.addButton('dismiss', function() {
-                dialog.dismiss();
-
-                // Don't show dialog again
-                state.set("iOSprompt", true);
-            });
-            dialog.show();
-        }
+        if (willShow)
+            dialogs.iOSinstall(isSafari);
     }
 };
