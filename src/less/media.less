@@ -20,15 +20,21 @@
     background: @gry-900 !important
   }
 
-  #menu {
-    // Hide the sidebar
-    margin-left: -20rem;
-    transition: margin-left 300ms ease;
-    z-index: 5;
-
-    &.visible {
-      margin-left: 0
-    }
+  // Hide the sidebar
+  #menu .menu {
+    transform: translateX(-100%);
+    will-change: transform;
+    pointer-events: none;
+  }
+  #menu.animating .menu {
+    transition: transform @ease-in;
+  }
+  #menu.visible .menu {
+    transform: none;
+    pointer-events: auto;
+  }
+  #menu.visible.animating .menu {
+    transition: transform @ease-out;
   }
 
   #app {
@@ -38,7 +44,7 @@
     .top {
       height: 5rem;
       width: 100%;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 
       #menu-toggle {
         display: block
@@ -71,7 +77,7 @@
 
 // Phablets & phones (< 800px width)
 @media screen and (max-width: 800px) {
-  #menu {
+  #menu .menu {
     width: 100%;
     max-width: 20rem;
 
@@ -134,7 +140,7 @@
 
 // Small height displays
 @media screen and (max-height: 640px) {
-  #menu {
+  #menu .menu {
     // Allow scrolling sidebar
     overflow-y: scroll;
 

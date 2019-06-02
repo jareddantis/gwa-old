@@ -11,13 +11,14 @@
     @license GPLv2
 */
 
-#menu {
+.menu {
   position: fixed;
   top: 0;
   left: 0;
   height: 100%;
   width: 20rem;
   transition: background 300ms linear;
+  z-index: 5;
 
   & > div {
     margin: 2rem;
@@ -49,7 +50,7 @@
     }
 
     a {
-      text-decoration: none
+      text-decoration: none;
     }
 
     .button {

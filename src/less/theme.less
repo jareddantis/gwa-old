@@ -12,9 +12,10 @@
 
 // Night/day colors
 html {
-  transition: background 300ms linear,
-  color 300ms linear;
-  background: @gry-200;
+  transition: background-color 300ms linear,
+              color 300ms linear;
+  will-change: background-color, color;
+  background-color: @gry-200;
   color: @gry-900;
 
   a {
@@ -22,7 +23,7 @@ html {
   }
 }
 
-html[data-theme=day], #menu {
+html[data-theme=day], #menu .menu {
   background: @gry-200;
   color: @gry-900;
 }
@@ -43,7 +44,7 @@ html[data-theme=night] {
   }
 
   // Dark backgrounds
-  #app .top, #menu {
+  #app .top, #menu .menu {
     background: @black
   }
 

@@ -1,14 +1,20 @@
 /**
     Main page colors, taken from the Material Design library.
+    Also contains transition bezier definitions.
 
     NOTE: Do not include this file in index.html.
     Compile _style.less and include the resulting _style.css.
 
-    @file colors.less
+    @file constants.less
     @author Jared Dantis (@jareddantis)
     @license GPLv2
 */
 
+// Transitions (for off-canvas elements)
+@ease-in: 300ms cubic-bezier(0.55, 0.085, 0.68, 0.53);
+@ease-out: 700ms cubic-bezier(0.19, 1, 0.22, 1);
+
+// Colors
 @white: #ffffff;
 @black: #000000;
 @gry-900: #212121;

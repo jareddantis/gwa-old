@@ -7,54 +7,53 @@
     @license GPLv2
 -->
 
-<!-- Dark background for open sidebar and dialogs -->
-<div id="dimmer"></div>
-
 <!-- App menu -->
-<div id="menu">
-    <div>
-        <a href="https://jared.gq/gwa" aria-label="Home page"><h2>GWA Calculator</h2></a>
+<div id="menu" class="animatable-container">
+    <div class="menu">
+        <div>
+            <a href="https://jared.gq/gwa" aria-label="Home page"><h2>GWA Calculator</h2></a>
 
-        <!-- Grade dropdown -->
-        <div id="levels">
-            <select aria-label="Grade level">
-                <!-- Automatically populated by app.js:init() -->
-            </select>
-        </div>
+            <!-- Grade dropdown -->
+            <div id="levels">
+                <select aria-label="Grade level">
+                    <!-- Automatically populated by app.js:init() -->
+                </select>
+            </div>
 
-        <!-- Buttons -->
-        <div class="button" id="btn-edit">
-            <img alt="Edit subjects" src="dist/img/edit.svg">
-            <span>Edit subjects</span>
-            <div class="rippleJS"></div>
-        </div>
-        <div class="button" id="btn-clr">
-            <img alt="Clear grades" src="dist/img/trash.svg">
-            <span>Clear grades</span>
-            <div class="rippleJS"></div>
-        </div>
-        <div class="button" id="btn-theme">
-            <img alt="Toggle night mode" src="dist/img/theme.svg">
-            <span>Night mode auto</span>
-            <div class="rippleJS"></div>
-        </div>
-        <div class="button" id="btn-gpa">
-            <img alt="Switch result type" src="dist/img/swap.svg">
-            <span>cGPA mode (alpha)</span>
-            <div class="rippleJS"></div>
-        </div>
-        <a aria-label="Send feedback" href="http://server.jared.gq/feedback/?subject=pisaygwa-web">
-            <div class="button" id="btn-feedback">
-                <img alt="Send feedback" src="dist/img/comment.svg">
-                <span>Send feedback</span>
+            <!-- Buttons -->
+            <div class="button" id="btn-edit">
+                <img alt="Edit subjects" src="dist/img/edit.svg">
+                <span>Edit subjects</span>
                 <div class="rippleJS"></div>
             </div>
-        </a>
+            <div class="button" id="btn-clr">
+                <img alt="Clear grades" src="dist/img/trash.svg">
+                <span>Clear grades</span>
+                <div class="rippleJS"></div>
+            </div>
+            <div class="button" id="btn-theme">
+                <img alt="Toggle night mode" src="dist/img/theme.svg">
+                <span>Night mode auto</span>
+                <div class="rippleJS"></div>
+            </div>
+            <div class="button" id="btn-gpa">
+                <img alt="Switch result type" src="dist/img/swap.svg">
+                <span>cGPA mode (alpha)</span>
+                <div class="rippleJS"></div>
+            </div>
+            <a aria-label="Send feedback" href="http://server.jared.gq/feedback/?subject=pisaygwa-web">
+                <div class="button" id="btn-feedback">
+                    <img alt="Send feedback" src="dist/img/comment.svg">
+                    <span>Send feedback</span>
+                    <div class="rippleJS"></div>
+                </div>
+            </a>
 
-        <!-- Credits -->
-        <div id="info">
-            <a aria-label="Jared Dantis" href="https://jared.gq"><img alt="Jared Dantis" src="dist/img/name.svg"></a>
-            <p><span id="version"></span>&copy; 2015-2019</p>
+            <!-- Credits -->
+            <div id="info">
+                <a aria-label="Jared Dantis" href="https://jared.gq"><img alt="Jared Dantis" src="dist/img/name.svg"></a>
+                <p><span id="version"></span>&copy; 2015-2019</p>
+            </div>
         </div>
     </div>
 </div>
@@ -81,6 +80,7 @@
 </div>
 
 <!-- Dialog template -->
+<div id="dialog-container" class="animatable-container"></div>
 <template id="dialog-template">
     <style>@import "dist/css/dialog.css";</style>
     <div class="dialog-content">

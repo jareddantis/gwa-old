@@ -37,13 +37,14 @@ app.init = function() {
     // Swipe to open drawer
     let hammer = new Hammer(document.body);
     hammer.on('swiperight', app.openMenu);
-    hammer.on('swipeleft', function() { app.closeMenu(false) });
+    hammer.on('swipeleft', function() { app.closeMenu() });
 
     // Sidebar toggle action
-    $('#menu-toggle').click($('#menu').hasClass('visible') ? app.closeMenu : app.openMenu);
+    let $menu = $('#menu');
+    $('#menu-toggle').click($menu.hasClass('visible') ? app.closeMenu : app.openMenu);
 
     // Collapse sidebar on background click (mobile)
-    $('#dimmer').click(function() { app.closeMenu(false) });
+    $menu.click(function() { app.closeMenu() });
 
     // Button styling & default action
     $('.button').each(function(){
@@ -52,8 +53,7 @@ app.init = function() {
         }).mouseup(function(){
             $(this).removeClass('focus');
         }).click(function() {
-            // Don't undim background if editing subjects
-            app.closeMenu($(this)[0].id === "btn-edit");
+            app.closeMenu();
         });
     });
 
@@ -99,6 +99,16 @@ app.init = function() {
     // <a> optimization
     $('a').each(function(){
         $(this).attr('target', '_blank').attr('rel', 'noopener');
+    });
+
+    // Animatable containers ontransitionend
+    $('.animatable-container').each(function(){
+        let _this = this;
+        $(_this).one('transitionend', function(){
+            $(_this).removeClass('animating');
+        }).children().click(function(e) {
+            e.stopPropagation();
+        });
     });
 
     // iOS PWA install dialog

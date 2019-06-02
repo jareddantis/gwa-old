@@ -3,7 +3,10 @@ class Dialog extends HTMLElement {
         super();
         this.listeners = {};
         this.attachShadow({ mode: "open" });
-        document.body.appendChild(this);
+
+        // Isolate dialog in separate container to ensure smooth animation
+        this.container = document.getElementById('dialog-container');
+        this.container.appendChild(this);
     }
 
     connectedCallback() {
@@ -62,25 +65,25 @@ class Dialog extends HTMLElement {
     }
 
     show() {
-        app.dim();
-
         // Sometimes the animation does not play due to reflows.
         // Let's use a small delay to allow the browser some breathing time.
+        const { container } = this;
         window.setTimeout(function(){
-            const { classList } = this;
             requestAnimationFrame(function(){
-                classList.add('visible');
+                container.classList.add('animating');
+                container.classList.add('visible');
             });
-        }.bind(this), 10);
+        }, 10);
     }
 
     dismiss() {
-        app.unDim();
-        this.classList.remove('visible');
+        const { container } = this;
+        container.classList.add('animating');
+        container.classList.remove('visible');
 
         // Remove after animation
         window.setTimeout(function() {
-            document.body.removeChild(this);
+            container.removeChild(this);
         }.bind(this), 300);
     }
 }

@@ -9,7 +9,7 @@ const app = {
     /**
         Determines if screen is small enough for the sidebar to be hidden.
      */
-    menuIsHidden: function() {
+    menuShouldHide: function() {
         return window.matchMedia('(max-width: 1200px)').matches;
     },
 
@@ -17,37 +17,16 @@ const app = {
         Opens sidebar on mobile.
      */
     openMenu: function() {
-        if (app.menuIsHidden()) {
-            $('#menu').addClass('visible');
-            app.dim();
-        }
+        if (app.menuShouldHide())
+            $('#menu').addClass('animating').addClass('visible');
     },
 
     /**
         Closes sidebar on mobile.
-
-        @param {Boolean} [remainDim] - Whether to leave the background dimmed
      */
-    closeMenu: function(remainDim = false) {
-        if (app.menuIsHidden()) {
-            $('#menu').removeClass('visible');
-            if (!remainDim)
-                app.unDim();
-        }
-    },
-
-    /**
-        Shows dark background for sidebar and dialogs.
-     */
-    dim: function() {
-        $('#dimmer').fadeIn();
-    },
-
-    /**
-        Hides dark background.
-     */
-    unDim: function() {
-        $('#dimmer').fadeOut();
+    closeMenu: function() {
+        if (app.menuShouldHide())
+            $('#menu').addClass('animating').removeClass('visible');
     },
 
     /**
@@ -182,7 +161,7 @@ const app = {
 
             // User selected custom subjects
             if (newSet === "custom") {
-                app.closeMenu(true);
+                app.closeMenu();
 
                 // Remember currently selected set
                 state.set("prevSet", state.get("set"));
@@ -194,7 +173,7 @@ const app = {
                     return dialogs.customSubjects();
                 }
             } else
-                app.closeMenu(false);
+                app.closeMenu();
 
             // If user hit Cancel on custom subject input,
             // we restore previously selected set
