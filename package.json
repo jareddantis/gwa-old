@@ -19,6 +19,7 @@
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-throw-expressions": "^7.2.0",
     "@babel/preset-env": "^7.4.5",
     "autoprefixer": "^9.5.1",
     "del": "4.1.1",

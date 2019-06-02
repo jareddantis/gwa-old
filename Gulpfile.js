@@ -60,7 +60,8 @@ gulp.task('js', () => {
         .pipe(concat('script.js'))
         .pipe(replace(/(version: ".*)(")/, '$1' + getDateStamp() + '$2'))
         .pipe(babel({
-            presets: ['@babel/preset-env']
+            presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-proposal-throw-expressions']
         }))
         .pipe(uglify())
         .pipe(gulp.dest('./dist/js'));
@@ -80,7 +81,8 @@ gulp.task('js-strip', () => {
         .pipe(concat('script.js'))
         .pipe(replace(/(version: ".*)(")/, '$1' + getDateStamp() + '$2'))
         .pipe(babel({
-            presets: ['@babel/preset-env']
+            presets: ['@babel/preset-env'],
+            plugins: ['@babel/plugin-proposal-throw-expressions']
         }))
         .pipe(strip())
         .pipe(uglify())
