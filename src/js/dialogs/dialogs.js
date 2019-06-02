@@ -116,7 +116,7 @@ const dialogs = {
 
     iOSinstall: function(isSafari) {
         let dialog = this._new({
-            title: 'Bookmark for easier access, even when offline',
+            title: 'Bookmark for easier access,<br>even when offline',
             type: 'ios-install',
             subtitle: isSafari ? 'Just tap Share and choose Add To Home Screen.'
                 : 'Open this site in Safari to begin.',

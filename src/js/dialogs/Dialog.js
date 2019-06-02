@@ -31,7 +31,7 @@ class Dialog extends HTMLElement {
 
     set title(text) {
         const { shadowRoot } = this;
-        shadowRoot.querySelector('.dialog-header h2').innerText = text;
+        shadowRoot.querySelector('.dialog-header h2').innerHTML = text;
     }
 
     set type(text) {
