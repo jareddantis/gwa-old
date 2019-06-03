@@ -21,7 +21,7 @@
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-throw-expressions": "^7.2.0",
     "@babel/preset-env": "^7.4.5",
-    "autoprefixer": "^9.5.1",
+    "autoprefixer": "^9.6.0",
     "del": "4.1.1",
     "gulp": "^4.0.2",
     "gulp-append-query-string": "^1.1.0",
