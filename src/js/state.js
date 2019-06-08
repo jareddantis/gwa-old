@@ -1,14 +1,14 @@
 /**
-    @file state.js
-    @description Responsible for saving user grades & settings.
-    @author Jared Dantis (@jareddantis)
-    @license GPLv2
+ * @file state.js
+ * @description Responsible for syncing user data with LocalStorage.
+ * @author Jared Dantis (@jareddantis)
+ * @license GPLv2
 */
 
 const state = {
     /**
-        Current settings.
-        Will be saved by state.set(), and is accessed by state.get().
+     * Current settings.
+     * Will be saved by state.set(), and is accessed by state.get().
     */
     current: {
         version: "14.1",   // {String} Version name (external)
@@ -23,20 +23,20 @@ const state = {
     },
 
     /**
-        Retrieves specific setting.
-
-        @param {String} key - The key for the setting
-        @returns {(String|Array|Number|Boolean)} The requested setting
+     * Retrieves specific setting.
+     *
+     * @param {String} key - The key for the setting
+     * @returns {(String|Array|Number|Boolean)} The requested setting
     */
     get: function(key) {
         return this.current[key];
     },
 
     /**
-        Updates specific setting and save all settings to localStorage.
-
-        @param {String} key - The key for the setting
-        @param {String|Array|Boolean} value - The new value for the setting
+     * Updates specific setting and save all settings to localStorage.
+     *
+     * @param {String} key - The key for the setting
+     * @param {String|Array|Boolean} value - The new value for the setting
     */
     set: function(key, value) {
         // Modify current settings object
@@ -51,18 +51,18 @@ const state = {
     },
 
     /**
-        Gets saved grade for a subject.
-
-        @param {Number} id - Subject ID. See utils.newSubjectRow().
-        @returns {(String|Array|Number|Boolean)} The requested grade
+     * Gets saved grade for a subject.
+     *
+     * @param {Number} id - Subject ID. See utils.newSubjectRow().
+     * @returns {(String|Array|Number|Boolean)} The requested grade
     */
     getGrade: function(id) { return this.current.grades[id]; },
 
     /**
-        Sets grade for a subject.
-
-        @param {String} id - Subject ID. See utils.newSubjectRow().
-        @param {String|Number} grade - The new subject grade
+     * Sets grade for a subject.
+     *
+     * @param {String} id - Subject ID. See utils.newSubjectRow().
+     * @param {String|Number} grade - The new subject grade
     */
     setGrade: function(id, grade) {
         this.current.grades[id] = grade;
@@ -70,12 +70,12 @@ const state = {
     },
 
     /**
-        Switches grade level and save that preference.
-
-        @param {String} level - The new grade level
-        @param {Boolean} [retainGrades]
-            Whether to retain grades or not.
-            Useful when restoring saved state.
+     * Switches grade level and save that preference.
+     *
+     * @param {String} level - The new grade level
+     * @param {Boolean} [retainGrades]
+     *      Whether to retain grades or not.
+     *      Useful when restoring saved state.
     */
     switchLevel: function(level, retainGrades) {
         // Retain grades if no change in level
@@ -106,9 +106,9 @@ const state = {
     },
 
     /**
-        Sets all grades to 1.0.
-
-        @param {String} [level] - The grade level for which to reset grades
+     * Sets all grades to 1.0.
+     *
+     * @param {String} [level] - The grade level for which to reset grades
     */
     resetGrades: function(level) {
         // If no args passed, assume reset grades
@@ -125,7 +125,7 @@ const state = {
     },
 
     /**
-        Loads saved state from localStorage
+     * Loads saved state from LocalStorage.
     */
     load: function() {
         // Check if browser supports local data storage
@@ -161,10 +161,10 @@ const state = {
                     // Restore custom subject set
                     if (savedState.customSet === undefined) {
                         // No custom subject set in release <11
-                        // Define it as empty array and save in localStorage
+                        // Define it as empty array and save in LocalStorage
                         this.set("customSet", []);
                     } else {
-                        // customSet exists in localStorage
+                        // customSet exists in LocalStorage
                         subjects.setCustom(savedState.customSet);
 
                         // Show edit button if selected set is custom
@@ -200,7 +200,10 @@ const state = {
                 app.populateChooser("seven");
                 this.switchLevel("seven", false);
             }
-        } else
-            $('tr.loader td').text("Please use a newer browser.");
+        } else {
+            // LocalStorage is needed for app to work correctly.
+            let loadTitle = document.querySelector('tr.loader td');
+            loadTitle.innerText = "Please use a newer browser.";
+        }
     }
 };
