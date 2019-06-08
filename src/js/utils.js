@@ -163,57 +163,36 @@ const utils = {
     parseSubjects: function(subjEls, body) {
         let set = [], valid = true;
 
+        // Iterate over each row
         for (let i = 0; i < subjEls.length; i++) {
             let subj = subjEls[i],
-                subjNameEl = $(subj).children('td.subject-name')
-                    .children('input'),
+                subjNameEl = $(subj).children('td.subject-name').children('input'),
                 subjName = $(subjNameEl).val(),
-                subjUnitsEl = $(subj).children('td.subject-units')
-                    .children('input'),
+                subjUnitsEl = $(subj).children('td.subject-units').children('input'),
                 subjUnits = parseFloat($(subjUnitsEl).val());
 
-            // Check if entire row is empty
-            if (subjName.length === 0 && (isNaN(subjUnits) || subjUnits.length === 0)) {
-                // Check for any succeeding rows
-                if (subjEls[i+1] !== undefined) {
+            // Check if subject name is unspecified
+            if (subjName.length === 0) {
+                // Check if entire row is empty
+                if (isNaN(subjUnits) || subjUnits.length === 0) {
                     // Skip this row
                     console.warn("[utils:parseSubjects] Skipping empty row " + i);
                     continue;
+                } else {
+                    // Only the subject name is unspecified, so highlight cell
+                    console.warn("[utils:parseSubjects] Empty name in row " + i);
+                    this.highlightCustomSubjEl(subjNameEl, body);
+                    valid = false;
+                    break;
                 }
-                // Check if entire table is empty
-                else if (set[0] === undefined) {
-                    // Restore previously selected subject set
-                    let prevSet = state.get("prevSet");
-                    if (prevSet === "custom") {
-                        prevSet = "seven";
-                        state.set("prevSet", prevSet);
-                    }
-                    $('#levels select').val(prevSet);
-                    state.switchLevel(prevSet);
-
-                    // Empty saved custom set
-                    subjects.setCustom([]);
-
-                    // Quit
-                    console.warn("[utils:parseSubjects] No subjects, restoring " + prevSet);
-                    return true;
+            } else {
+                // Check if subject units is unspecified
+                if (isNaN(subjUnits) || subjUnits === undefined || subjUnits.length === 0) {
+                    console.warn("[utils:parseSubjects] Bad units in row " + i);
+                    this.highlightCustomSubjEl(subjUnitsEl, body);
+                    valid = false;
+                    break;
                 }
-            }
-
-            // Check if name is empty
-            if (subjName.length === 0) {
-                console.warn("[utils:parseSubjects] Empty name in row " + i);
-                this.highlightCustomSubjEl(subjNameEl, body);
-                valid = false;
-                break;
-            }
-
-            // Check if units is empty or invalid
-            if (isNaN(subjUnits) || subjUnits === undefined || subjUnits.length === 0) {
-                console.warn("[utils:parseSubjects] Bad units in row " + i);
-                this.highlightCustomSubjEl(subjUnitsEl, body);
-                valid = false;
-                break;
             }
 
             // Subject is assumed valid
@@ -222,6 +201,25 @@ const utils = {
                 name: subjName,
                 units: subjUnits
             });
+        }
+
+        // Check if entire table is empty
+        if (set.length <= 0) {
+            // Restore previously selected subject set
+            let prevSet = state.get("prevSet");
+            if (prevSet === "custom") {
+                prevSet = "seven";
+                state.set("prevSet", prevSet);
+            }
+            $('#levels select').val(prevSet);
+            state.switchLevel(prevSet);
+
+            // Empty saved custom set
+            subjects.setCustom([]);
+
+            // Quit
+            console.warn("[utils:parseSubjects] No subjects, restoring " + prevSet);
+            return true;
         }
 
         if (valid) {
@@ -234,6 +232,7 @@ const utils = {
             // Repopulate
             app.populateSubjects();
         }
+
         return valid;
     }
 };
