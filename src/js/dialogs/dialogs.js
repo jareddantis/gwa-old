@@ -83,7 +83,7 @@ const dialogs = {
 
                         // Parse new subject data
                         let subjs = shadowRoot.querySelectorAll('.dialog-body tbody tr');
-                        if (calc.parseSubjects(subjs, shadowRoot.querySelector('.dialog-body')))
+                        if (utils.parseSubjects(subjs, shadowRoot.querySelector('.dialog-body')))
                             dialog.dismiss();
                     }
                 }

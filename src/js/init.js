@@ -79,7 +79,7 @@ app.init = function() {
     $('#btn-edit').click(function(){
         // Show dialog after sidebar animation
         window.setTimeout(function(){
-            app.dialog.promptSubjects();
+            dialogs.customSubjects();
         }, 300);
     });
 
