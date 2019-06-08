@@ -1,4 +1,18 @@
+/**
+ * @file dialogs.js
+ * @description Implementation of Dialog for each dialog type.
+ * @author Jared Dantis (@jareddantis)
+ * @license GPLv2
+ */
+
 const dialogs = {
+    /**
+     * Private function for creating a Dialog instance based on specified options.
+     *
+     * @param opts - Options for dialog
+     * @returns {Dialog}
+     * @private
+     */
     _new: function(opts) {
         let dialog = new Dialog(),
             subtitle = opts.subtitle || undefined,
@@ -42,6 +56,9 @@ const dialogs = {
         return dialog;
     },
 
+    /**
+     * Custom subject dialog
+     */
     customSubjects: function() {
         let dialog = this._new({
             title: 'Custom subjects',
@@ -114,6 +131,13 @@ const dialogs = {
         dialog.show();
     },
 
+    /**
+     * iOS PWA install dialog. Will prompt user to load app in Safari if
+     * they are using another browser, because only Safari is allowed to
+     * bookmark websites to the home screen.
+     *
+     * @param {Boolean} isSafari - Whether current browser is Safari
+     */
     iOSinstall: function(isSafari) {
         let dialog = this._new({
             title: 'Bookmark for easier access,<br>even when offline',
@@ -129,6 +153,9 @@ const dialogs = {
         dialog.show();
     },
 
+    /**
+     * Update found dialog
+     */
     updateFound: function() {
         let dialog = this._new({
             title: 'App update found',

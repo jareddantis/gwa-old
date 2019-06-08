@@ -1,20 +1,20 @@
 /**
-    @file app.js
-    @description Responsible for handling the UI.
-    @author Jared Dantis (@jareddantis)
-    @license GPLv2
+ * @file app.js
+ * @description Responsible for handling the UI.
+ * @author Jared Dantis (@jareddantis)
+ * @license GPLv2
 */
 
 const app = {
     /**
-        Determines if screen is small enough for the sidebar to be hidden.
+     * Determines if screen is small enough for the sidebar to be hidden.
      */
     menuShouldHide: function() {
         return window.matchMedia('(max-width: 1200px)').matches;
     },
 
     /**
-        Opens sidebar on mobile.
+     * Opens sidebar on mobile.
      */
     openMenu: function() {
         if (app.menuShouldHide())
@@ -22,7 +22,7 @@ const app = {
     },
 
     /**
-        Closes sidebar on mobile.
+     * Closes sidebar on mobile.
      */
     closeMenu: function() {
         if (app.menuShouldHide())
@@ -30,9 +30,9 @@ const app = {
     },
 
     /**
-        Sets day/night mode.
-
-        @param {String} theme - new selected theme
+     * Sets day/night mode.
+     *
+     * @param {String} theme - new selected theme
     */
     setTheme: function(theme) {
     	let $span = $('#btn-theme span'), newTheme;
@@ -67,10 +67,10 @@ const app = {
     },
 
     /**
-        Determines if the sun has set based on Philippine
-        coordinates and the local computer time.
-
-        @returns {Boolean} Whether the sun has set or not
+     * Determines if the sun has set based on Philippine
+     * coordinates and the local computer time.
+     *
+     * @returns {Boolean} Whether the sun has set or not
     */
     sunHasSet: function() {
     	let now = new Date(), times = SunCalc.getTimes(now, 12, 121),
@@ -82,14 +82,19 @@ const app = {
     },
 
     /**
-        Determines if device is in dark mode based on browser API.
-
-        @returns {Boolean} Whether browser reports active system dark mode
+     * Determines if device is in dark mode based on browser API.
+     *
+     * @returns {Boolean} Whether browser reports active system dark mode
      */
     deviceInDarkMode: function() {
         return window.matchMedia("(prefers-color-scheme: dark)").matches;
     },
 
+    /**
+     * Determines if app is running on a Webkit iOS browser.
+     *
+     * @returns {boolean} Whether browser is iOS and WebKit-based
+     */
     deviceIsIOS: function() {
         let ua = window.navigator.userAgent;
         let iOS = !!ua.match(/iP(ad|hone|od|od Touch)/i);
@@ -98,11 +103,11 @@ const app = {
     },
 
     /**
-        Determines if browser is iOS Safari.
-        https://stackoverflow.com/a/29696509
-        https://www.bennadel.com/blog/1950-detecting-iphone-s-app-mode-full-screen-mode-for-web-applications.htm
-
-        @returns {Boolean} Whether browser is iOS Safari.
+     * Determines if browser is iOS Safari.
+     * https://stackoverflow.com/a/29696509
+     * https://www.bennadel.com/blog/1950-detecting-iphone-s-app-mode-full-screen-mode-for-web-applications.htm
+     *
+     * @returns {Boolean} Whether browser is iOS Safari.
      */
     deviceIsMobileSafari: function() {
         let ua = window.navigator.userAgent;
@@ -111,9 +116,9 @@ const app = {
     },
 
     /**
-        Sets/unsets cGPA calculation mode.
-
-        @param {Boolean} isGpa - Whether we are now in cGPA mode or not
+     * Sets/unsets cGPA calculation mode.
+     *
+     * @param {Boolean} isGpa - Whether we are now in cGPA mode or not
     */
     setGpa: function(isGpa) {
         // Update button text
@@ -128,18 +133,18 @@ const app = {
     },
 
     /**
-        Sets the accent colors according to grade level.
-
-        @param {String} level - The grade level on which to base accent colors
+     * Sets the accent colors according to grade level.
+     *
+     * @param {String} level - The grade level on which to base accent colors
     */
     setColors: function(level) {
         $('#app').attr('data-theme', level);
     },
 
     /**
-        Creates the options for the grade dropdown list.
-
-        @param {String} selectedSet - The grade level to select by default
+     * Creates the options for the grade dropdown list.
+     *
+     * @param {String} selectedSet - The grade level to select by default
     */
     populateChooser: function(selectedSet) {
         let $select = $('#levels select'), sets = subjects.getSets();
@@ -189,8 +194,7 @@ const app = {
     },
 
     /**
-        Fills the subject list with the subjects and the saved
-        grades for each.
+     * Fills the subject list with the subjects and the saved grades for each, if any.
     */
     populateSubjects: function() {
         let currGrades = state.get("grades"),
@@ -238,11 +242,11 @@ const app = {
     },
 
     /**
-        Asks user to manually input a grade for a specific subject.
-
-        @param {String} subjId
-            The subject ID, e.g. the index of the subject
-            in the array subjects.default.
+     * Asks user to manually input a grade for a specific subject.
+     *
+     * @param {String} subjId
+     *      The subject ID, e.g. the index of the subject
+     *      in the array subjects.default.
     */
     promptGrade: function(subjId) {
         let name = subjects.get()[subjId].name;
@@ -267,7 +271,7 @@ const app = {
     },
 
     /**
-        Calculates GWA and displays result
+     * Calculates GWA and displays result.
     */
     calculate: function() {
         let result = calc.ulate();
@@ -277,14 +281,14 @@ const app = {
     },
 
     /**
-        Shows 'Edit subjects' menu button
+     * Shows 'Edit subjects' menu button.
      */
     showEditBtn: function() {
         $('#btn-edit').slideDown();
     },
 
     /**
-        Hides 'Edit subjects' menu button
+     * Hides 'Edit subjects' menu button.
      */
     hideEditBtn: function() {
         $('#btn-edit').slideUp();

@@ -1,15 +1,15 @@
 /**
-    @file calc.js
-    @description Where the magic happens!
-    @author Jared Dantis (@jareddantis)
-    @license GPLv2
+ * @file calc.js
+ * @description Where the magic happens!
+ * @author Jared Dantis (@jareddantis)
+ * @license GPLv2
 */
 
 const calc = {
     /**
-        Calculates grade average. Get it? calc.ulate? :-(
-
-        @returns {String} The computed average, truncated to 10 decimal places
+     * Calculates grade average. Get it? calc.ulate? :-(
+     *
+     * @returns {String} The computed average, truncated to 10 decimal places
     */
     ulate: function() {
         let totalUnits = 0, total = 0, isGpa = state.get("isGpa"),
@@ -41,11 +41,10 @@ const calc = {
     },
 
     /**
-        Converts grade value to GPA equivalent.
-        Conversion is based on the following page:
-
-        @param {String} grade - The grade value
-        @returns {Number} The GPA equivalent
+     * Converts grade value to GPA equivalent.
+     *
+     * @param {String} grade - The grade value
+     * @returns {Number} The GPA equivalent
     */
     convertToGpa: function(grade) {
         let equiv;
@@ -89,12 +88,12 @@ const calc = {
     },
 
     /**
-        Checks if an user-entered grade value is a valid grade.
-
-        @param {String} value - The user-entered grade value
-        @returns {Object}
-            The result of the validation (.result) and the
-            reason for invalidation (.reason), if any.
+     * Checks if an user-entered grade value is a valid grade.
+     *
+     * @param {String} value - The user-entered grade value
+     * @returns {Object}
+     *      The result of the validation (.result) and the
+     *      reason for invalidation (.reason), if any.
     */
     isValid: function(value) {
         let grade = parseFloat(value), reason = "";

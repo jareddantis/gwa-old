@@ -1,4 +1,16 @@
+/**
+ * @file Dialog.js
+ * @description Class definition for the GWA dialog web component.
+ * @author Jared Dantis (@jareddantis)
+ * @license GPLv2
+ */
+
 class Dialog extends HTMLElement {
+    /**
+     * Constructor for the dialog instance.
+     * Attaches the shadow root and appends the dialog to a designated
+     * animatable DIV.
+     */
     constructor() {
         super();
         this.listeners = {};
@@ -9,6 +21,11 @@ class Dialog extends HTMLElement {
         this.container.appendChild(this);
     }
 
+    /**
+     * Called upon appending to DOM.
+     * Applies specified template to the shadow DOM and propagates
+     * user-specified theme to the dialog.
+     */
     connectedCallback() {
         const { shadowRoot } = this;
         const template = document.getElementById('dialog-template');
@@ -23,8 +40,11 @@ class Dialog extends HTMLElement {
         root.setAttribute('data-accent', accent);
     }
 
+    /**
+     * Called upon detachment from the DOM.
+     * Removes all button listeners.
+     */
     disconnectedCallback() {
-        // Remove all button listeners
         let buttons = this.shadowRoot.querySelectorAll('.dialog-buttons li');
         for (let i = 0; i < buttons.length; i++) {
             let button = buttons[i];
@@ -32,17 +52,34 @@ class Dialog extends HTMLElement {
         }
     }
 
+    /**
+     * Dialog header/title.
+     *
+     * @param {String} text - Dialog title
+     */
     set title(text) {
         const { shadowRoot } = this;
         shadowRoot.querySelector('.dialog-header h2').innerHTML = text;
     }
 
+    /**
+     * Dialog type. Useful for setting custom styles per dialog - see /src/less/dialogs.
+     * Will be set as the 'type' attribute on the root '.dialog-content' element.
+     *
+     * @param {String} text - Dialog type
+     */
     set type(text) {
         const { shadowRoot } = this;
         this.setAttribute('type', text);
         shadowRoot.querySelector('.dialog-content').setAttribute('type', text);
     }
 
+    /**
+     * Add button to dialog.
+     *
+     * @param {String} text - Button label
+     * @param {Function} listener - Button click listener
+     */
     addButton(text, listener) {
         const { shadowRoot } = this;
 
@@ -59,11 +96,19 @@ class Dialog extends HTMLElement {
         shadowRoot.querySelector('.dialog-buttons ul').appendChild(el);
     }
 
+    /**
+     * Appends specified HTML element to the dialog body.
+     *
+     * @param {HTMLElement} el - Element to be appended
+     */
     appendToBody(el) {
         const { shadowRoot } = this;
         shadowRoot.querySelector('.dialog-body').appendChild(el);
     }
 
+    /**
+     * Shows dialog
+     */
     show() {
         // Sometimes the animation does not play due to reflows.
         // Let's use a small delay to allow the browser some breathing time.
@@ -76,6 +121,9 @@ class Dialog extends HTMLElement {
         }, 10);
     }
 
+    /**
+     * Dismisses dialog and removes root <gwa-dialog> element from the light DOM.
+     */
     dismiss() {
         const { container } = this;
         container.classList.add('animating');

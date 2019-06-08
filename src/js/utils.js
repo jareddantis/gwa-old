@@ -135,6 +135,12 @@ const utils = {
         return row[0];
     },
 
+    /**
+     * Highlights empty or invalid cell in custom subject dialog.
+     *
+     * @param {jQuery|HTMLElement} el - Cell to be highlighted
+     * @param {jQuery|HTMLElement} body - Parent element of table
+     */
     highlightCustomSubjEl: function(el, body) {
         if (!$(el).hasClass('err')) {
             // Scroll div to element

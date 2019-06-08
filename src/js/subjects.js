@@ -1,24 +1,23 @@
 /**
-    List of all the subjects per grade level, along
-    with the corresponding grade units.
-    Also handles custom subject definitions.
-
-    @file subjects.js
-    @author Jared Dantis (@jareddantis)
-    @license GPLv2
+ * List of all the subjects per grade level, along
+ * with the corresponding grade units.
+ * Also handles custom subject definitions.
+ *
+ * @file subjects.js
+ * @author Jared Dantis (@jareddantis)
+ * @license GPLv2
 */
 
 const subjects = {
     /**
-        Default set, from which app.populateSubjects()
-        will create subject rows for.
+     * Default set, from which app.populateSubjects() will create subject rows for.
     */
     default: "seven",
 
     /**
-        Sets the default subject set.
-
-        @param {String} defaultSet - The new default set
+     * Sets the default subject set.
+     *
+     * @param {String} defaultSet - The new default set
     */
     setDefault: function(defaultSet) {
         if (this.sets.hasOwnProperty(defaultSet))
@@ -28,10 +27,10 @@ const subjects = {
     },
 
     /**
-        Retrieves a specific subject set.
-
-        @param {String} [set] - A specific subject set
-        @returns {Array} The requested subject set
+     * Retrieves a specific subject set.
+     *
+     * @param {String} set - A specific subject set
+     * @returns {Array} The requested subject set
     */
     get: function(set) {
         // If no arguments are passed, we return
@@ -41,9 +40,9 @@ const subjects = {
     },
 
     /**
-        Lists all available subject sets.
-
-        @returns {Array} All available subject sets
+     * Lists all available subject sets.
+     *
+     * @returns {Array} All available subject sets
     */
     getSets: function() {
         let sets = [],
@@ -59,10 +58,9 @@ const subjects = {
     },
 
     /**
-        Defines custom subject set from user input and
-        saves the set in localStorage.
-
-        @param {Array} customSet - The custom defined set
+     * Defines custom subject set from user input and saves the set in localStorage.
+     *
+     * @param {Array} customSet - The custom defined set
     */
     setCustom: function(customSet) {
         this.sets.custom.subjects = customSet;
@@ -72,7 +70,7 @@ const subjects = {
     },
 
     /**
-        Subject sets
+     * Subject sets
     */
     sets: {
         custom: {

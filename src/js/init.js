@@ -1,8 +1,8 @@
 /**
-    @file init.js
-    @description Responsible for initializing the UI.
-    @author Jared Dantis (@jareddantis)
-    @license GPLv2
+ * @file init.js
+ * @description Responsible for initializing the UI.
+ * @author Jared Dantis (@jareddantis)
+ * @license GPLv2
  */
 
 /**
