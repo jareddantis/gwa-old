@@ -8,9 +8,15 @@
 const app = {
     /**
      * New theme to be applied after sidebar has collapsed on mobile.
-     * See :setTheme().
+     * See :setTheme() and init().
      */
     pendingNewTheme: null,
+
+    /**
+     * Whether the custom subject prompt is due to be shown after sidebar
+     * has collapsed on mobile. See :populateChooser() and init().
+     */
+    pendingSubjectPrompt: false,
 
     /**
      * Determines if screen is small enough for the sidebar to be hidden.
@@ -188,7 +194,14 @@ const app = {
                 // don't switch level yet in case user hits Cancel
                 if (subjects.get("custom").length === 0) {
                     console.warn("[app] customSet empty, deferring switchLevel");
-                    return dialogs.customSubjects();
+
+                    // Postpone dialog to after the sidebar collapse
+                    if (app.menuShouldHide())
+                        app.pendingSubjectPrompt = true;
+                    else
+                        dialogs.customSubjects();
+
+                    return;
                 }
             } else
                 app.closeMenu();

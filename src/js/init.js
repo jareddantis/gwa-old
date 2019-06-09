@@ -111,11 +111,17 @@ app.init = function() {
             // Remove animating class on transition end
             $menu.removeClass('animating');
 
-            // Change theme after sidebar collapse
-            let pendingTheme = app.pendingNewTheme;
-            if (pendingTheme !== null) {
-                $('html').attr('data-theme', pendingTheme);
+            // Post sidebar collapse events
+            let { pendingNewTheme, pendingSubjectPrompt } = app;
+            if (pendingNewTheme !== null) {
+                // Change theme after sidebar collapse
+                // to allow the CPU some room to animate
+                $('html').attr('data-theme', pendingNewTheme);
                 app.pendingNewTheme = null;
+            }
+            if (pendingSubjectPrompt) {
+                dialogs.customSubjects();
+                app.pendingSubjectPrompt = false;
             }
         });
         $menu.children().click(function (e) {
