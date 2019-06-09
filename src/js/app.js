@@ -7,6 +7,12 @@
 
 const app = {
     /**
+     * New theme to be applied after sidebar has collapsed on mobile.
+     * See :setTheme().
+     */
+    pendingNewTheme: null,
+
+    /**
      * Determines if screen is small enough for the sidebar to be hidden.
      */
     menuShouldHide: function() {
@@ -59,8 +65,15 @@ const app = {
 	    		newTheme = theme;
     	}
 
-        // Apply new theme
-        $('html').attr('data-theme', newTheme);
+        // Is the menu sidebar normally hidden?
+        if (app.menuShouldHide()) {
+            // If so, defer theme change after sidebar has collapsed
+            // to give the CPU some breathing room to animate
+            app.pendingNewTheme = newTheme;
+        } else {
+            // If not, we can switch theme right away
+            $('html').attr('data-theme', newTheme);
+        }
 
         // Save theme preferences
         state.set("dispMode", theme);

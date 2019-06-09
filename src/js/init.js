@@ -110,6 +110,13 @@ app.init = function() {
         $('.menu').on('transitionend', function () {
             // Remove animating class on transition end
             $menu.removeClass('animating');
+
+            // Change theme after sidebar collapse
+            let pendingTheme = app.pendingNewTheme;
+            if (pendingTheme !== null) {
+                $('html').attr('data-theme', pendingTheme);
+                app.pendingNewTheme = null;
+            }
         });
         $menu.children().click(function (e) {
             // Don't bubble up click events to ancestors
