@@ -28,7 +28,7 @@ app.init = function() {
 
     // Check for updates
     window['isUpdateAvailable']
-        .then(function(isAvailable) {
+        .then(function (isAvailable) {
             console.log("[app] Update found, showing dialog");
             if (isAvailable)
                 dialogs.updateFound();
@@ -37,28 +37,32 @@ app.init = function() {
     // Swipe to open drawer
     let hammer = new Hammer(document.body);
     hammer.on('swiperight', app.openMenu);
-    hammer.on('swipeleft', function() { app.closeMenu() });
+    hammer.on('swipeleft', function () {
+        app.closeMenu()
+    });
 
     // Sidebar toggle action
     let $menu = $('#menu');
     $('#menu-toggle').click($menu.hasClass('visible') ? app.closeMenu : app.openMenu);
 
     // Collapse sidebar on background click (mobile)
-    $menu.click(function() { app.closeMenu() });
+    $menu.click(function () {
+        app.closeMenu()
+    });
 
     // Button styling & default action
-    $('.button').each(function(){
-        $(this).mousedown(function(){
+    $('.button').each(function () {
+        $(this).mousedown(function () {
             $(this).addClass('focus');
-        }).mouseup(function(){
+        }).mouseup(function () {
             $(this).removeClass('focus');
-        }).click(function() {
+        }).click(function () {
             app.closeMenu();
         });
     });
 
     // Night mode button action
-    $('#btn-theme').click(function(){
+    $('#btn-theme').click(function () {
         let newTheme;
         switch (state.get("dispMode")) {
             case "day": // day -> night
@@ -76,40 +80,42 @@ app.init = function() {
     });
 
     // Edit subjects button action
-    $('#btn-edit').click(function(){
+    $('#btn-edit').click(function () {
         // Show dialog after sidebar animation
-        window.setTimeout(function(){
+        window.setTimeout(function () {
             dialogs.customSubjects();
         }, 300);
     });
 
     // Clear grades button action
-    $('#btn-clr').click(function(){
+    $('#btn-clr').click(function () {
         state.resetGrades();
         app.populateSubjects();
     });
 
     // cGPA toggle button action
-    $('#btn-gpa').click(function(){
+    $('#btn-gpa').click(function () {
         // Flip mode
         let curr = state.get("isGpa");
         app.setGpa(!curr);
     });
 
     // <a> optimization
-    $('a').each(function(){
+    $('a').each(function () {
         $(this).attr('target', '_blank').attr('rel', 'noopener');
     });
 
-    // Animatable containers ontransitionend
-    $('.animatable-container').each(function(){
-        let _this = this;
-        $(_this).one('transitionend', function(){
-            $(_this).removeClass('animating');
-        }).children().click(function(e) {
+    // Sidebar animation setup
+    if (app.menuShouldHide()) {
+        $('.menu').on('transitionend', function () {
+            // Remove animating class on transition end
+            $menu.removeClass('animating');
+        });
+        $menu.children().click(function (e) {
+            // Don't bubble up click events to ancestors
             e.stopPropagation();
         });
-    });
+    }
 
     // iOS PWA install dialog
     // Though all browsers on iOS use the same underlying Webkit engine,
