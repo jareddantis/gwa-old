@@ -38,11 +38,17 @@ class Dialog extends HTMLElement {
             theme = document.documentElement.getAttribute('data-theme');
         root.setAttribute('data-theme', theme);
         root.setAttribute('data-accent', accent);
+
+        // Attach transition end listener
+        this.addEventListener('transitionend', this.onTransitionFinished);
+
+        // Attach click listener
+        this.addEventListener('click', Dialog.onClickListener);
     }
 
     /**
      * Called upon detachment from the DOM.
-     * Removes all button listeners.
+     * Detaches all button listeners.
      */
     disconnectedCallback() {
         let buttons = this.shadowRoot.querySelectorAll('.dialog-buttons li');
@@ -50,6 +56,12 @@ class Dialog extends HTMLElement {
             let button = buttons[i];
             button.removeEventListener('click', this.listeners[button.innerText]);
         }
+
+        // Detach transition end listener
+        this.removeEventListener('transitionend', this.onTransitionFinished);
+
+        // Detach click listener
+        this.removeEventListener('click', Dialog.onClickListener);
     }
 
     /**
@@ -131,8 +143,25 @@ class Dialog extends HTMLElement {
 
         // Remove after animation
         window.setTimeout(function() {
+            container.classList.remove('animating');
             container.removeChild(this);
         }.bind(this), 300);
+    }
+
+    /**
+     * Listener for removing 'animating' class after animation
+     */
+    onTransitionFinished() {
+        this.container.classList.remove('animating');
+    }
+
+    /**
+     * Listener for preventing event propagation to ancestors
+     *
+     * @param {Event} event - Click event
+     */
+    static onClickListener(event) {
+        event.stopPropagation();
     }
 }
 
