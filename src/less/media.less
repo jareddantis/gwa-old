@@ -21,6 +21,9 @@
   }
 
   // Hide the sidebar
+  #menu, #menu .menu {
+    pointer-events: none;
+  }
   #menu .menu {
     transform: translateX(-100%);
     will-change: transform;
@@ -29,9 +32,11 @@
   #menu.animating .menu {
     transition: transform @ease-in;
   }
+  #menu.visible, #menu.visible .menu {
+    pointer-events: auto;
+  }
   #menu.visible .menu {
     transform: none;
-    pointer-events: auto;
   }
   #menu.visible.animating .menu {
     transition: transform @ease-out;
