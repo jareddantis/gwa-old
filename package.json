@@ -18,9 +18,9 @@
   "homepage": "https://illustra.github.io/gwa",
   "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.5.0",
+    "@babel/core": "^7.5.4",
     "@babel/plugin-proposal-throw-expressions": "^7.2.0",
-    "@babel/preset-env": "^7.5.3",
+    "@babel/preset-env": "^7.5.4",
     "autoprefixer": "^9.6.0",
     "del": "4.1.1",
     "gulp": "^4.0.2",
