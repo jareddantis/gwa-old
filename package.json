@@ -18,10 +18,10 @@
   "homepage": "https://illustra.github.io/gwa",
   "dependencies": {},
   "devDependencies": {
-    "@babel/core": "^7.6.2",
+    "@babel/core": "^7.5.0",
     "@babel/plugin-proposal-throw-expressions": "^7.2.0",
-    "@babel/preset-env": "^7.6.2",
-    "autoprefixer": "^9.6.0",
+    "@babel/preset-env": "^7.5.0",
+    "autoprefixer": "^9.6.2",
     "del": "5.1.0",
     "gulp": "^4.0.2",
     "gulp-append-query-string": "^1.1.0",
