@@ -39,6 +39,6 @@
     "gulp-uglify": "^3.0.2",
     "postcss-unprefix": "^2.1.4",
     "run-sequence": "^2.2.1",
-    "workbox-build": "^4.3.1"
+    "workbox-build": "^5.1.0"
   }
 }
